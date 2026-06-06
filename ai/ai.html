@@ -82,6 +82,7 @@ select.form-input option{background:var(--bg3)}
 .day-muscles-text{font-size:0.72rem;color:var(--violet)}
 .day-body{padding:0.75rem 1rem;border-top:1px solid var(--border);display:none}
 .day-body.open{display:block}
+.scroll-hint{display:none}
 .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .ex-table{width:100%;min-width:550px;border-collapse:collapse}
 .ex-table th{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);padding:0.3rem 0.5rem;text-align:left}
@@ -174,6 +175,9 @@ select.form-input option{background:var(--bg3)}
   .sidebar.active{left:0}
   .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
   .sb-toggle:hover{background:var(--card)}
+  
+  .scroll-hint{display:flex;align-items:center;gap:0.35rem;font-size:0.68rem;color:var(--text3);margin-bottom:0.5rem;justify-content:flex-end}
+  .scroll-hint i{font-size:12px;color:var(--violet)}
   
   .topbar{padding:0 1rem;gap:0.5rem}
   .tabs{padding:0 1rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -460,6 +464,7 @@ function renderWorkoutResult(plan) {
         <i class="ti ti-chevron-down" style="color:var(--text3);font-size:14px;margin-left:0.5rem"></i>
       </div>
       <div class="day-body">
+        <div class="scroll-hint"><i class="ti ti-arrows-left-right"></i> Swipe horizontally to view full table</div>
         <div class="table-wrap">
           <table class="ex-table">
             <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr>
@@ -532,6 +537,7 @@ function renderDietResult(plan) {
         <i class="ti ti-chevron-down" style="color:var(--text3);font-size:14px;margin-left:0.5rem"></i>
       </div>
       <div class="meal-body">
+        <div class="scroll-hint"><i class="ti ti-arrows-left-right"></i> Swipe horizontally to view full table</div>
         <div class="table-wrap">
           <div class="food-row food-row-header">
             <div>Food</div><div>Qty</div><div>Unit</div><div>Cal</div><div>Protein</div><div>Carbs</div>
