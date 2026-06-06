@@ -1,464 +1,1566 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Insights — FitCore ERP</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07090f;--bg2:#0e1118;--bg3:#151b28;--bg4:#1c2333;--blue:#3b82f6;--cyan:#22d3ee;--violet:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--text:#e8edf8;--text2:#8494b0;--text3:#3d4f6a;--border:rgba(255,255,255,0.065);--border2:rgba(59,130,246,0.22);--card:rgba(255,255,255,0.025);--card2:rgba(59,130,246,0.07);--r:12px;--r2:18px;--ai:#7c3aed;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;overflow:hidden}
-.sidebar{width:230px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
-.sidebar::-webkit-scrollbar{display:none}
-.sb-logo{padding:1.25rem 1.25rem 1rem;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid var(--border)}
-.sb-logo-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:0.95rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif}
-.sb-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sb-gym{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border)}
-.sb-gym-name{font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:2px}
-.sb-gym-badge{font-size:0.65rem;color:var(--cyan);background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);border-radius:100px;padding:0.15rem 0.5rem;display:inline-block}
-.sb-nav{padding:0.75rem;flex:1}
-.sb-section{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:0.5rem 0.5rem 0.4rem;margin-top:0.5rem}
-.sb-item{display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;border-radius:9px;font-size:0.83rem;color:var(--text2);cursor:pointer;transition:all 0.18s;margin-bottom:2px;text-decoration:none}
-.sb-item:hover{background:var(--card);color:var(--text)}
-.sb-item.active{background:rgba(124,58,237,0.12);color:var(--violet);border:1px solid rgba(124,58,237,0.25)}
-.sb-item i{font-size:16px;width:18px;text-align:center}
-.sb-bottom{padding:0.75rem;border-top:1px solid var(--border)}
-.sb-user{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;border-radius:9px;background:var(--card);border:1px solid var(--border)}
-.sb-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif}
-.sb-uname{font-size:0.78rem;font-weight:500;color:var(--text)}
-.sb-urole{font-size:0.65rem;color:var(--text3)}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;flex-shrink:0}
-.topbar-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;flex:1;display:flex;align-items:center;gap:0.6rem}
-.ai-badge{font-size:0.65rem;padding:0.2rem 0.55rem;border-radius:100px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:var(--violet);font-weight:600}
-.content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
-.content::-webkit-scrollbar{width:4px}
-.content::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
-
-/* Tabs */
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 1.75rem;background:var(--bg2);flex-shrink:0}
-.tab{padding:0.85rem 1.1rem;font-size:0.83rem;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;display:flex;align-items:center;gap:0.4rem;white-space:nowrap}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--violet);border-bottom-color:var(--violet)}
-.tab-content{display:none;flex:1;overflow-y:auto;padding:1.5rem 1.75rem}
-.tab-content.active{display:flex;flex-direction:column;gap:1.5rem}
-.tab-content::-webkit-scrollbar{width:4px}
-.tab-content::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
-
-/* Section */
-.section-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
-.section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:0.5rem}
-.section-sub{font-size:0.76rem;color:var(--text3);margin-top:0.25rem}
-
-/* Form panels */
-.form-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem}
-.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.form-group{display:flex;flex-direction:column;gap:0.4rem}
-.form-group.full{grid-column:1/-1}
-.form-label{font-size:0.75rem;font-weight:500;color:var(--text2)}
-.form-input{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:0.55rem 0.8rem;font-size:0.83rem;color:var(--text);font-family:'DM Sans',sans-serif;transition:border 0.2s;width:100%}
-.form-input:focus{outline:none;border-color:rgba(124,58,237,0.4)}
-.form-input::placeholder{color:var(--text3)}
-select.form-input option{background:var(--bg3)}
-.btn-ai{display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1.25rem;border-radius:9px;border:none;background:linear-gradient(135deg,var(--ai),var(--violet));color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s}
-.btn-ai:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(124,58,237,0.4)}
-.btn-ai:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-
-/* Result cards */
-.result-panel{background:var(--bg2);border:1px solid rgba(124,58,237,0.25);border-radius:var(--r2);padding:1.5rem;display:none}
-.result-panel.visible{display:block}
-.result-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem}
-.ai-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--ai),var(--violet));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
-.result-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700}
-.result-sub{font-size:0.73rem;color:var(--violet)}
-.day-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:0.75rem;overflow:hidden}
-.day-header{padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;cursor:pointer;transition:background 0.15s}
-.day-header:hover{background:var(--bg4)}
-.day-num-badge{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--ai),var(--violet));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;color:#fff}
-.day-name-text{font-size:0.88rem;font-weight:600;flex:1}
-.day-muscles-text{font-size:0.72rem;color:var(--violet)}
-.day-body{padding:0.75rem 1rem;border-top:1px solid var(--border);display:none}
-.day-body.open{display:block}
-.scroll-hint{display:none}
-.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.ex-table{width:100%;min-width:550px;border-collapse:collapse}
-.ex-table th{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);padding:0.3rem 0.5rem;text-align:left}
-.ex-table td{font-size:0.8rem;padding:0.45rem 0.5rem;border-bottom:1px solid var(--border);color:var(--text2)}
-.ex-table td:first-child{font-weight:500;color:var(--text)}
-.ex-table tr:last-child td{border:none}
-.meal-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:0.75rem;overflow:hidden}
-.meal-header{padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;cursor:pointer}
-.meal-header:hover{background:var(--bg4)}
-.meal-time{font-size:0.7rem;color:var(--cyan);background:rgba(34,211,238,0.1);border-radius:6px;padding:0.15rem 0.45rem}
-.meal-body{padding:0 1rem 0.75rem;border-top:1px solid var(--border)}
-.food-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:0.5rem;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.76rem;align-items:center;min-width:500px}
-.food-row:last-child{border:none}
-.food-row-header{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text3);padding:0.5rem 0 0.25rem}
-
-/* Insights */
-.insights-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.insight-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;transition:all 0.2s}
-.insight-card:hover{border-color:rgba(124,58,237,0.25);transform:translateY(-2px)}
-.insight-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:0.75rem}
-.insight-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:0.4rem}
-.insight-desc{font-size:0.78rem;color:var(--text2);line-height:1.5}
-.priority-badge{display:inline-block;padding:0.15rem 0.45rem;border-radius:100px;font-size:0.65rem;font-weight:600;margin-top:0.5rem}
-.priority-high{background:rgba(248,113,113,0.12);color:var(--red)}
-.priority-medium{background:rgba(251,191,36,0.12);color:var(--amber)}
-.priority-low{background:rgba(52,211,153,0.12);color:var(--green)}
-.rec-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;gap:0.75rem;align-items:flex-start}
-.rec-effort{font-size:0.65rem;font-weight:600;padding:0.15rem 0.45rem;border-radius:100px}
-.effort-low{background:rgba(52,211,153,0.12);color:var(--green)}
-.effort-medium{background:rgba(251,191,36,0.12);color:var(--amber)}
-.effort-high{background:rgba(248,113,113,0.12);color:var(--red)}
-.score-ring{width:100px;height:100px;position:relative;flex-shrink:0}
-.score-ring svg{transform:rotate(-90deg)}
-.score-ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--violet)}
-
-/* Revenue chart */
-.rev-chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;overflow:hidden}
-.chart-bars{display:flex;align-items:flex-end;gap:6px;height:140px;margin:1rem 0 0.5rem}
-.chart-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
-.chart-bar{border-radius:5px 5px 0 0;width:100%;transition:opacity 0.2s;cursor:pointer;position:relative}
-.chart-bar:hover{opacity:0.8}
-.chart-bar-label{font-size:0.62rem;color:var(--text3);text-align:center;white-space:nowrap}
-.chart-bar-val{font-size:0.62rem;color:var(--text2);text-align:center}
-.prediction-bar{opacity:0.45;border:1px dashed rgba(124,58,237,0.5)}
-
-/* Chat */
-.chat-wrap{display:flex;flex-direction:column;height:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
-.chat-messages{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
-.chat-messages::-webkit-scrollbar{width:4px}
-.chat-messages::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
-.chat-msg{display:flex;gap:0.75rem;align-items:flex-start}
-.chat-msg.user{flex-direction:row-reverse}
-.chat-avatar{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff}
-.chat-avatar.ai{background:linear-gradient(135deg,var(--ai),var(--violet))}
-.chat-avatar.user{background:linear-gradient(135deg,var(--blue),var(--cyan))}
-.chat-bubble{max-width:75%;padding:0.75rem 1rem;border-radius:12px;font-size:0.83rem;line-height:1.6}
-.chat-bubble.ai{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:4px 12px 12px 12px}
-.chat-bubble.user{background:linear-gradient(135deg,var(--ai),var(--violet));color:#fff;border-radius:12px 4px 12px 12px}
-.chat-input-row{padding:1rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;align-items:flex-end}
-.chat-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:0.6rem 0.8rem;font-size:0.83rem;color:var(--text);font-family:'DM Sans',sans-serif;resize:none;min-height:42px;max-height:120px;transition:border 0.2s;line-height:1.4}
-.chat-input:focus{outline:none;border-color:rgba(124,58,237,0.4)}
-.chat-input::placeholder{color:var(--text3)}
-.chat-send-btn{width:40px;height:40px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--ai),var(--violet));color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all 0.2s}
-.chat-send-btn:hover{transform:scale(1.05);box-shadow:0 4px 14px rgba(124,58,237,0.4)}
-.chat-send-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--violet);animation:typing 1.2s infinite}
-.typing-dot:nth-child(2){animation-delay:0.2s}
-.typing-dot:nth-child(3){animation-delay:0.4s}
-@keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-
-.loading-spinner{display:flex;align-items:center;gap:0.75rem;padding:2rem;color:var(--text3);font-size:0.85rem;justify-content:center}
-.loading-spinner i{font-size:1.5rem;animation:spin 1s linear infinite}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:0.2rem 0.55rem;border-radius:100px;font-size:0.7rem;font-weight:600}
-.retention-score-row{display:flex;align-items:center;gap:2rem;background:var(--bg3);border-radius:var(--r2);padding:1.25rem 1.5rem;margin-bottom:1.25rem}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
-.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem}
-.toast{display:flex;align-items:center;gap:0.65rem;padding:0.7rem 1rem;border-radius:var(--r);font-size:0.83rem;font-weight:500;background:var(--bg2);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.5);animation:slideIn 0.25s ease}
-.toast.success{border-color:rgba(52,211,153,0.35);color:var(--green)}
-.toast.error{border-color:rgba(248,113,113,0.35);color:var(--red)}
-@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:none;opacity:1}}
-
-/* Mobile Stacking & Overlay Styling */
-.sidebar-overlay{position:fixed;inset:0;background:rgba(6,8,15,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:999;display:none;opacity:0;transition:opacity 0.3s ease}
-.sidebar-overlay.active{display:block;opacity:1}
-.sb-toggle{display:none}
-
-@media(max-width:768px){
-  .sidebar{position:fixed;top:0;left:-240px;height:100vh;z-index:1000;transition:left 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:10px 0 30px rgba(0,0,0,0.5)}
-  .sidebar.active{left:0}
-  .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
-  .sb-toggle:hover{background:var(--card)}
-  
-  .scroll-hint{display:flex;align-items:center;gap:0.35rem;font-size:0.68rem;color:var(--text3);margin-bottom:0.5rem;justify-content:flex-end}
-  .scroll-hint i{font-size:12px;color:var(--violet)}
-  
-  .result-header .btn-text{display:none}
-  .result-header .btn-ai{padding:0.5rem !important;min-width:36px;width:36px !important;height:36px;justify-content:center;border-radius:9px !important}
-  
-  .topbar{padding:0 1rem;gap:0.5rem}
-  .tabs{padding:0 1rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{padding:0.75rem 0.85rem;font-size:0.78rem}
-  .tab-content{padding:1rem;gap:1rem}
-  .section-header{flex-direction:column;align-items:stretch;gap:0.75rem;margin-bottom:1rem}
-  .form-grid,.form-grid-2,.insights-layout{grid-template-columns:1fr}
-  .retention-score-row{flex-direction:column;align-items:center;text-align:center;gap:1.5rem;padding:1.5rem 1rem}
-  .revenue-grid,.growth-grid{grid-template-columns:1fr !important}
-  .section-header .btn-ai{width:100%;justify-content:center}
-}
-@media(max-width:480px){
-  .metrics-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-</style>
-</head>
-<body>
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="sidebar">
-  <div class="sb-logo"><div class="sb-logo-icon">F</div><span class="sb-logo-text">FitCore ERP</span></div>
-  <div class="sb-gym"><div class="sb-gym-name" id="gymName">—</div><span class="sb-gym-badge" id="gymPlan">—</span></div>
-  <div class="sb-nav">
-    <div class="sb-section">Main</div>
-    <a href="../dashboard.html"             class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-    <a href="../members/members.html"       class="sb-item"><i class="ti ti-users"></i> Members</a>
-    <a href="../attendance/attendance.html" class="sb-item"><i class="ti ti-calendar-check"></i> Attendance</a>
-    <a href="../billing/billing.html"       class="sb-item"><i class="ti ti-credit-card"></i> Billing</a>
-    <a href="../billing/plans.html"         class="sb-item"><i class="ti ti-packages"></i> Plans</a>
-    <div class="sb-section">Management</div>
-    <a href="../trainers/trainers.html"     class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
-    <a href="../workouts/workouts.html"     class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
-    <a href="../diets/diets.html"           class="sb-item"><i class="ti ti-salad"></i> Diet Plans</a>
-    <a href="../leads/leads.html"           class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
-    <div class="sb-section">Analytics</div>
-    <a href="../reports/reports.html"       class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
-    <a href="../ai/ai.html"                 class="sb-item active"><i class="ti ti-robot"></i> AI Insights</a>
-    <a href="../branches/branches.html"     class="sb-item"><i class="ti ti-building"></i> Branches</a>
-    <a href="../settings/settings.html"     class="sb-item"><i class="ti ti-settings"></i> Settings</a>
-  </div>
-  <div class="sb-bottom">
-    <div class="sb-user"><div class="sb-avatar" id="sbAvatar">FC</div><div><div class="sb-uname" id="sbName">—</div><div class="sb-urole" id="sbRole">—</div></div></div>
-  </div>
-</div>
-
-<div class="main">
-  <div class="topbar">
-    <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
-    <span class="topbar-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Insights <span class="ai-badge">Powered by Claude</span></span>
-  </div>
-
-  <!-- TABS -->
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('workout')"><i class="ti ti-barbell"></i> Workout Gen</div>
-    <div class="tab" onclick="switchTab('diet')"><i class="ti ti-salad"></i> Diet Gen</div>
-    <div class="tab" onclick="switchTab('retention')"><i class="ti ti-heart-rate-monitor"></i> Retention</div>
-    <div class="tab" onclick="switchTab('revenue')"><i class="ti ti-trending-up"></i> Revenue</div>
-    <div class="tab" onclick="switchTab('chat')"><i class="ti ti-message-dots"></i> AI Chat</div>
-  </div>
-
-  <!-- ── WORKOUT GEN ── -->
-  <div class="tab-content active" id="tab-workout">
-    <div class="form-panel">
-      <div class="section-header">
-        <div><div class="section-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Workout Generator</div>
-        <div class="section-sub">Describe your member's needs and Claude will build a complete workout plan</div></div>
-        <button class="btn-ai" onclick="generateWorkout()" id="genWorkoutBtn"><i class="ti ti-robot"></i> Generate Plan</button>
-      </div>
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">Member Name</label><input class="form-input" id="wMember" placeholder="e.g. Arjun Mehta"/></div>
-        <div class="form-group"><label class="form-label">Fitness Goal</label>
-          <select class="form-input" id="wGoal">
-            <option value="weight loss">Weight Loss</option><option value="muscle gain">Muscle Gain</option>
-            <option value="endurance">Endurance</option><option value="strength">Strength</option>
-            <option value="flexibility">Flexibility</option><option value="general fitness">General Fitness</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label">Fitness Level</label>
-          <select class="form-input" id="wLevel">
-            <option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label">Days per Week</label>
-          <select class="form-input" id="wDays"><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Duration (weeks)</label>
-          <select class="form-input" id="wDuration"><option value="4">4</option><option value="8">8</option><option value="12">12</option><option value="16">16</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Equipment</label>
-          <select class="form-input" id="wEquip"><option value="full gym">Full Gym</option><option value="dumbbells only">Dumbbells Only</option><option value="bodyweight">Bodyweight</option><option value="resistance bands">Resistance Bands</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Focus Areas</label><input class="form-input" id="wFocus" placeholder="e.g. upper body, core"/></div>
-        <div class="form-group"><label class="form-label">Injuries / Limitations</label><input class="form-input" id="wInjuries" placeholder="e.g. lower back pain, none"/></div>
-      </div>
-    </div>
-    <div class="result-panel" id="workoutResult">
-      <div class="result-header">
-        <div class="ai-icon"><i class="ti ti-clipboard-list"></i></div>
-        <div style="flex:1;min-width:0"><div class="result-title" id="workoutPlanName"></div><div class="result-sub" id="workoutPlanMeta"></div></div>
-        <button class="btn-ai" style="margin-left:auto;padding:0.4rem 0.85rem;font-size:0.78rem" onclick="saveWorkoutPlan()"><i class="ti ti-cloud-upload"></i> <span class="btn-text">Save Plan</span></button>
-      </div>
-      <div id="workoutPlanDesc" style="font-size:0.82rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.5"></div>
-      <div id="workoutDaysContainer"></div>
-    </div>
-  </div>
-
-  <!-- ── DIET GEN ── -->
-  <div class="tab-content" id="tab-diet">
-    <div class="form-panel">
-      <div class="section-header">
-        <div><div class="section-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Diet Plan Generator</div>
-        <div class="section-sub">Generate a personalised Indian diet plan tailored to your member's needs</div></div>
-        <button class="btn-ai" onclick="generateDiet()" id="genDietBtn"><i class="ti ti-robot"></i> Generate Plan</button>
-      </div>
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">Member Name</label><input class="form-input" id="dMember" placeholder="e.g. Priya Sharma"/></div>
-        <div class="form-group"><label class="form-label">Diet Goal</label>
-          <select class="form-input" id="dGoal">
-            <option value="weight loss">Weight Loss</option><option value="muscle gain">Muscle Gain</option>
-            <option value="maintenance">Maintenance</option><option value="clean eating">Clean Eating</option>
-            <option value="keto">Keto</option><option value="vegan">Vegan</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label">Target Calories/day</label><input class="form-input" id="dCalories" type="number" placeholder="2000" value="2000"/></div>
-        <div class="form-group"><label class="form-label">Weight (kg)</label><input class="form-input" id="dWeight" type="number" placeholder="70"/></div>
-        <div class="form-group"><label class="form-label">Height (cm)</label><input class="form-input" id="dHeight" type="number" placeholder="170"/></div>
-        <div class="form-group"><label class="form-label">Activity Level</label>
-          <select class="form-input" id="dActivity">
-            <option value="sedentary">Sedentary</option><option value="light">Light</option>
-            <option value="moderate" selected>Moderate</option><option value="active">Active</option><option value="very active">Very Active</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label">Vegetarian?</label>
-          <select class="form-input" id="dVeg"><option value="false">No (Non-Veg)</option><option value="true">Yes (Vegetarian)</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Allergies / Avoid</label><input class="form-input" id="dAllergies" placeholder="e.g. lactose, gluten, none"/></div>
-      </div>
-    </div>
-    <div class="result-panel" id="dietResult">
-      <div class="result-header">
-        <div class="ai-icon" style="background:linear-gradient(135deg,var(--green),var(--cyan))"><i class="ti ti-salad"></i></div>
-        <div style="flex:1;min-width:0"><div class="result-title" id="dietPlanName"></div><div class="result-sub" id="dietPlanMeta"></div></div>
-        <button class="btn-ai" style="margin-left:auto;padding:0.4rem 0.85rem;font-size:0.78rem;background:linear-gradient(135deg,var(--green),var(--cyan))" onclick="saveDietPlan()"><i class="ti ti-cloud-upload"></i> <span class="btn-text">Save Plan</span></button>
-      </div>
-      <div class="form-grid-2" style="margin-bottom:1.25rem" id="dietMacros"></div>
-      <div id="dietMealsContainer"></div>
-    </div>
-  </div>
-
-  <!-- ── RETENTION ── -->
-  <div class="tab-content" id="tab-retention">
-    <div class="section-header">
-      <div><div class="section-title"><i class="ti ti-heart-rate-monitor" style="color:var(--violet)"></i> Member Retention Analysis</div>
-      <div class="section-sub">Claude analyses your gym data and identifies at-risk members and improvement strategies</div></div>
-      <button class="btn-ai" onclick="loadRetention()" id="retentionBtn"><i class="ti ti-refresh"></i> Refresh Analysis</button>
-    </div>
-    <div id="retentionContent"><div class="loading-spinner"><i class="ti ti-loader-2"></i> Loading retention insights…</div></div>
-  </div>
-
-  <!-- ── REVENUE ── -->
-  <div class="tab-content" id="tab-revenue">
-    <div class="section-header">
-      <div><div class="section-title"><i class="ti ti-trending-up" style="color:var(--violet)"></i> Revenue Predictions</div>
-      <div class="section-sub">AI-powered 3-month revenue forecast with growth strategies</div></div>
-      <button class="btn-ai" onclick="loadRevenue()" id="revenueBtn"><i class="ti ti-refresh"></i> Refresh Forecast</button>
-    </div>
-    <div id="revenueContent"><div class="loading-spinner"><i class="ti ti-loader-2"></i> Loading revenue forecast…</div></div>
-  </div>
-
-  <!-- ── CHAT ── -->
-  <div class="tab-content" id="tab-chat" style="padding:0;overflow:hidden;">
-    <div class="chat-wrap">
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-msg">
-          <div class="chat-avatar ai"><i class="ti ti-robot"></i></div>
-          <div class="chat-bubble ai">👋 Hi! I'm FitCore AI, powered by Claude. I can help you with workout programming, diet advice, member retention strategies, gym business questions, and much more. What would you like to know?</div>
-        </div>
-      </div>
-      <div class="chat-input-row">
-        <textarea class="chat-input" id="chatInput" placeholder="Ask anything — workouts, nutrition, business strategy…" rows="1" onkeydown="handleChatKey(event)"></textarea>
-        <button class="chat-send-btn" onclick="sendChat()" id="chatSendBtn"><i class="ti ti-send"></i></button>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /main -->
-
-<div class="toast-container" id="toastContainer"></div>
-
-<script>
-const API   = 'http://127.0.0.1:5000/api/v1';
-
-// Mobile Sidebar Controls
-function toggleSidebar() {
-  document.querySelector('.sidebar').classList.toggle('active');
-  document.getElementById('sidebarOverlay').classList.toggle('active');
-}
-function closeSidebar() {
-  document.querySelector('.sidebar').classList.remove('active');
-  document.getElementById('sidebarOverlay').classList.remove('active');
-}
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
-  document.querySelectorAll('.sb-item').forEach(item => {
-    item.addEventListener('click', closeSidebar);
-  });
-  document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
-});
-const TOKEN = () => localStorage.getItem('fitcore_access_token');
-const hdrs  = () => ({'Content-Type':'application/json','Authorization':`Bearer ${TOKEN()}`});
-
-let chatHistory   = [];
-let generatedWorkout = null;
-let generatedDiet    = null;
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
-//   loadUser();
-//   loadRetention();
-//   loadRevenue();
-// });
-
-async function loadUser() {
-  try {
-    const r = await fetch(`${API}/auth/me`, {headers:hdrs()});
-    const d = await r.json();
-    if (d.success) {
-      const u=d.user;
-      document.getElementById('sbAvatar').textContent=(u.first_name[0]+(u.last_name?.[0]||'')).toUpperCase();
-      document.getElementById('sbName').textContent=u.full_name;
-      document.getElementById('sbRole').textContent=u.role.replace('_',' ');
-      if(u.gym){document.getElementById('gymName').textContent=u.gym.name;document.getElementById('gymPlan').textContent=u.gym.plan+' plan';}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Insights — FitCore ERP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
-  } catch(e){}
-}
 
-// ── TABS ────────────────────────────────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t,i)=>{
-    const tabs=['workout','diet','retention','revenue','chat'];
-    t.classList.toggle('active', tabs[i]===name);
-  });
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById(`tab-${name}`).classList.add('active');
-}
+    :root {
+      --bg: #07090f;
+      --bg2: #0e1118;
+      --bg3: #151b28;
+      --bg4: #1c2333;
+      --blue: #3b82f6;
+      --cyan: #22d3ee;
+      --violet: #a78bfa;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --text: #e8edf8;
+      --text2: #8494b0;
+      --text3: #3d4f6a;
+      --border: rgba(255, 255, 255, 0.065);
+      --border2: rgba(59, 130, 246, 0.22);
+      --card: rgba(255, 255, 255, 0.025);
+      --card2: rgba(59, 130, 246, 0.07);
+      --r: 12px;
+      --r2: 18px;
+      --ai: #7c3aed;
+    }
 
-// ── WORKOUT GENERATOR ────────────────────────────────────────────────────────
-async function generateWorkout() {
-  const btn = document.getElementById('genWorkoutBtn');
-  btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Generating…';
-  const payload = {
-    member_name:   document.getElementById('wMember').value.trim()||'Member',
-    goal:          document.getElementById('wGoal').value,
-    level:         document.getElementById('wLevel').value,
-    days_per_week: document.getElementById('wDays').value,
-    duration_weeks:document.getElementById('wDuration').value,
-    equipment:     document.getElementById('wEquip').value,
-    focus_areas:   document.getElementById('wFocus').value||'full body',
-    injuries:      document.getElementById('wInjuries').value||'none',
-  };
-  try {
-    const r = await fetch(`${API}/ai/generate-workout`, {method:'POST',headers:hdrs(),body:JSON.stringify(payload)});
-    const d = await r.json();
-    if (d.success) { generatedWorkout=d.plan; renderWorkoutResult(d.plan); }
-    else { showToast(d.error,'error'); renderWorkoutResult(getDemoWorkout(payload)); }
-  } catch(e) { renderWorkoutResult(getDemoWorkout(payload)); }
-  btn.disabled=false; btn.innerHTML='<i class="ti ti-robot"></i> Generate Plan';
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      overflow: hidden
+    }
 
-function renderWorkoutResult(plan) {
-  generatedWorkout = plan;
-  document.getElementById('workoutPlanName').textContent = plan.name;
-  document.getElementById('workoutPlanMeta').textContent = `${plan.goal} · ${plan.level} · ${plan.duration_weeks}w · ${plan.days_per_week} days/wk`;
-  document.getElementById('workoutPlanDesc').textContent = plan.description;
-  const container = document.getElementById('workoutDaysContainer');
-  container.innerHTML = (plan.days||[]).map(day => `
+    .sidebar {
+      width: 230px;
+      height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none
+    }
+
+    .sidebar::-webkit-scrollbar {
+      display: none
+    }
+
+    .sb-logo {
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sb-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Syne', sans-serif
+    }
+
+    .sb-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      background: linear-gradient(135deg, var(--text), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .sb-gym {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sb-gym-name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px
+    }
+
+    .sb-gym-badge {
+      font-size: 0.65rem;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: 100px;
+      padding: 0.15rem 0.5rem;
+      display: inline-block
+    }
+
+    .sb-nav {
+      padding: 0.75rem;
+      flex: 1
+    }
+
+    .sb-section {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding: 0.5rem 0.5rem 0.4rem;
+      margin-top: 0.5rem
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 9px;
+      font-size: 0.83rem;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.18s;
+      margin-bottom: 2px;
+      text-decoration: none
+    }
+
+    .sb-item:hover {
+      background: var(--card);
+      color: var(--text)
+    }
+
+    .sb-item.active {
+      background: rgba(124, 58, 237, 0.12);
+      color: var(--violet);
+      border: 1px solid rgba(124, 58, 237, 0.25)
+    }
+
+    .sb-item i {
+      font-size: 16px;
+      width: 18px;
+      text-align: center
+    }
+
+    .sb-bottom {
+      padding: 0.75rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .sb-user {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 9px;
+      background: var(--card);
+      border: 1px solid var(--border)
+    }
+
+    .sb-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Syne', sans-serif
+    }
+
+    .sb-uname {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text)
+    }
+
+    .sb-urole {
+      font-size: 0.65rem;
+      color: var(--text3)
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0
+    }
+
+    .topbar {
+      height: 58px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 1.75rem;
+      gap: 1rem;
+      flex-shrink: 0
+    }
+
+    .topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem
+    }
+
+    .ai-badge {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      color: var(--violet);
+      font-weight: 600
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column
+    }
+
+    .content::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .content::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 4px
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.75rem;
+      background: var(--bg2);
+      flex-shrink: 0
+    }
+
+    .tab {
+      padding: 0.85rem 1.1rem;
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap
+    }
+
+    .tab:hover {
+      color: var(--text)
+    }
+
+    .tab.active {
+      color: var(--violet);
+      border-bottom-color: var(--violet)
+    }
+
+    .tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 1.75rem
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .tab-content::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 4px
+    }
+
+    /* Section */
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.25rem
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem
+    }
+
+    .section-sub {
+      font-size: 0.76rem;
+      color: var(--text3);
+      margin-top: 0.25rem
+    }
+
+    /* Form panels */
+    .form-panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.5rem
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem
+    }
+
+    .form-group.full {
+      grid-column: 1/-1
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text2)
+    }
+
+    .form-input {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.83rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      transition: border 0.2s;
+      width: 100%
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: rgba(124, 58, 237, 0.4)
+    }
+
+    .form-input::placeholder {
+      color: var(--text3)
+    }
+
+    select.form-input option {
+      background: var(--bg3)
+    }
+
+    .btn-ai {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 9px;
+      border: none;
+      background: linear-gradient(135deg, var(--ai), var(--violet));
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s
+    }
+
+    .btn-ai:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4)
+    }
+
+    .btn-ai:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    /* Result cards */
+    .result-panel {
+      background: var(--bg2);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: var(--r2);
+      padding: 1.5rem;
+      display: none
+    }
+
+    .result-panel.visible {
+      display: block
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem
+    }
+
+    .ai-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--ai), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .result-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700
+    }
+
+    .result-sub {
+      font-size: 0.73rem;
+      color: var(--violet)
+    }
+
+    .day-block {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 0.75rem;
+      overflow: hidden
+    }
+
+    .day-header {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: background 0.15s
+    }
+
+    .day-header:hover {
+      background: var(--bg4)
+    }
+
+    .day-num-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--ai), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fff
+    }
+
+    .day-name-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+      flex: 1
+    }
+
+    .day-muscles-text {
+      font-size: 0.72rem;
+      color: var(--violet)
+    }
+
+    .day-body {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+      display: none
+    }
+
+    .day-body.open {
+      display: block
+    }
+
+    .scroll-hint {
+      display: none
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch
+    }
+
+    .ex-table {
+      width: 100%;
+      min-width: 550px;
+      border-collapse: collapse
+    }
+
+    .ex-table th {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      padding: 0.3rem 0.5rem;
+      text-align: left
+    }
+
+    .ex-table td {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text2)
+    }
+
+    .ex-table td:first-child {
+      font-weight: 500;
+      color: var(--text)
+    }
+
+    .ex-table tr:last-child td {
+      border: none
+    }
+
+    .meal-block {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 0.75rem;
+      overflow: hidden
+    }
+
+    .meal-header {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer
+    }
+
+    .meal-header:hover {
+      background: var(--bg4)
+    }
+
+    .meal-time {
+      font-size: 0.7rem;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.1);
+      border-radius: 6px;
+      padding: 0.15rem 0.45rem
+    }
+
+    .meal-body {
+      padding: 0 1rem 0.75rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .food-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.76rem;
+      align-items: center;
+      min-width: 500px
+    }
+
+    .food-row:last-child {
+      border: none
+    }
+
+    .food-row-header {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text3);
+      padding: 0.5rem 0 0.25rem
+    }
+
+    /* Insights */
+    .insights-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem
+    }
+
+    .insight-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.25rem;
+      transition: all 0.2s
+    }
+
+    .insight-card:hover {
+      border-color: rgba(124, 58, 237, 0.25);
+      transform: translateY(-2px)
+    }
+
+    .insight-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 0.75rem
+    }
+
+    .insight-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem
+    }
+
+    .insight-desc {
+      font-size: 0.78rem;
+      color: var(--text2);
+      line-height: 1.5
+    }
+
+    .priority-badge {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 100px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-top: 0.5rem
+    }
+
+    .priority-high {
+      background: rgba(248, 113, 113, 0.12);
+      color: var(--red)
+    }
+
+    .priority-medium {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--amber)
+    }
+
+    .priority-low {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--green)
+    }
+
+    .rec-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start
+    }
+
+    .rec-effort {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.15rem 0.45rem;
+      border-radius: 100px
+    }
+
+    .effort-low {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--green)
+    }
+
+    .effort-medium {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--amber)
+    }
+
+    .effort-high {
+      background: rgba(248, 113, 113, 0.12);
+      color: var(--red)
+    }
+
+    .score-ring {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .score-ring svg {
+      transform: rotate(-90deg)
+    }
+
+    .score-ring-val {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--violet)
+    }
+
+    /* Revenue chart */
+    .rev-chart-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 1.25rem;
+      overflow: hidden
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 140px;
+      margin: 1rem 0 0.5rem
+    }
+
+    .chart-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1
+    }
+
+    .chart-bar {
+      border-radius: 5px 5px 0 0;
+      width: 100%;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      position: relative
+    }
+
+    .chart-bar:hover {
+      opacity: 0.8
+    }
+
+    .chart-bar-label {
+      font-size: 0.62rem;
+      color: var(--text3);
+      text-align: center;
+      white-space: nowrap
+    }
+
+    .chart-bar-val {
+      font-size: 0.62rem;
+      color: var(--text2);
+      text-align: center
+    }
+
+    .prediction-bar {
+      opacity: 0.45;
+      border: 1px dashed rgba(124, 58, 237, 0.5)
+    }
+
+    /* Chat */
+    .chat-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      overflow: hidden
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 4px
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start
+    }
+
+    .chat-msg.user {
+      flex-direction: row-reverse
+    }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .chat-avatar.ai {
+      background: linear-gradient(135deg, var(--ai), var(--violet))
+    }
+
+    .chat-avatar.user {
+      background: linear-gradient(135deg, var(--blue), var(--cyan))
+    }
+
+    .chat-bubble {
+      max-width: 75%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.83rem;
+      line-height: 1.6
+    }
+
+    .chat-bubble.ai {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 4px 12px 12px 12px
+    }
+
+    .chat-bubble.user {
+      background: linear-gradient(135deg, var(--ai), var(--violet));
+      color: #fff;
+      border-radius: 12px 4px 12px 12px
+    }
+
+    .chat-input-row {
+      padding: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.83rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      resize: none;
+      min-height: 42px;
+      max-height: 120px;
+      transition: border 0.2s;
+      line-height: 1.4
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: rgba(124, 58, 237, 0.4)
+    }
+
+    .chat-input::placeholder {
+      color: var(--text3)
+    }
+
+    .chat-send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      border: none;
+      background: linear-gradient(135deg, var(--ai), var(--violet));
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      transition: all 0.2s
+    }
+
+    .chat-send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4)
+    }
+
+    .chat-send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .typing-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--violet);
+      animation: typing 1.2s infinite
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s
+    }
+
+    @keyframes typing {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0)
+      }
+
+      30% {
+        transform: translateY(-6px)
+      }
+    }
+
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 2rem;
+      color: var(--text3);
+      font-size: 0.85rem;
+      justify-content: center
+    }
+
+    .loading-spinner i {
+      font-size: 1.5rem;
+      animation: spin 1s linear infinite
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600
+    }
+
+    .retention-score-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      background: var(--bg3);
+      border-radius: var(--r2);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 1rem;
+      border-radius: var(--r);
+      font-size: 0.83rem;
+      font-weight: 500;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      animation: slideIn 0.25s ease
+    }
+
+    .toast.success {
+      border-color: rgba(52, 211, 153, 0.35);
+      color: var(--green)
+    }
+
+    .toast.error {
+      border-color: rgba(248, 113, 113, 0.35);
+      color: var(--red)
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(120%);
+        opacity: 0
+      }
+
+      to {
+        transform: none;
+        opacity: 1
+      }
+    }
+
+    /* Mobile Stacking & Overlay Styling */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 8, 15, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1
+    }
+
+    .sb-toggle {
+      display: none
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -240px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5)
+      }
+
+      .sidebar.active {
+        left: 0
+      }
+
+      .sb-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        font-size: 1.25rem;
+        cursor: pointer;
+        margin-right: 0.5rem;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        transition: background 0.2s
+      }
+
+      .sb-toggle:hover {
+        background: var(--card)
+      }
+
+      .scroll-hint {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.68rem;
+        color: var(--text3);
+        margin-bottom: 0.5rem;
+        justify-content: flex-end
+      }
+
+      .scroll-hint i {
+        font-size: 12px;
+        color: var(--violet)
+      }
+
+      .result-header .btn-text {
+        display: none
+      }
+
+      .result-header .btn-ai {
+        padding: 0.5rem !important;
+        min-width: 36px;
+        width: 36px !important;
+        height: 36px;
+        justify-content: center;
+        border-radius: 9px !important
+      }
+
+      .topbar {
+        padding: 0 1rem;
+        gap: 0.5rem
+      }
+
+      .tabs {
+        padding: 0 1rem;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch
+      }
+
+      .tabs::-webkit-scrollbar {
+        display: none
+      }
+
+      .tab {
+        padding: 0.75rem 0.85rem;
+        font-size: 0.78rem
+      }
+
+      .tab-content {
+        padding: 1rem;
+        gap: 1rem
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        margin-bottom: 1rem
+      }
+
+      .form-grid,
+      .form-grid-2,
+      .insights-layout {
+        grid-template-columns: 1fr
+      }
+
+      .retention-score-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem 1rem
+      }
+
+      .revenue-grid,
+      .growth-grid {
+        grid-template-columns: 1fr !important
+      }
+
+      .section-header .btn-ai {
+        width: 100%;
+        justify-content: center
+      }
+    }
+
+    @media(max-width:480px) {
+      .metrics-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">F</div><span class="sb-logo-text">FitCore ERP</span>
+    </div>
+    <div class="sb-gym">
+      <div class="sb-gym-name" id="gymName">—</div><span class="sb-gym-badge" id="gymPlan">—</span>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section">Main</div>
+      <a href="../dashboard.html" class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+      <a href="../members/members.html" class="sb-item"><i class="ti ti-users"></i> Members</a>
+      <a href="../attendance/attendance.html" class="sb-item"><i class="ti ti-calendar-check"></i> Attendance</a>
+      <a href="../billing/billing.html" class="sb-item"><i class="ti ti-credit-card"></i> Billing</a>
+      <a href="../billing/plans.html" class="sb-item"><i class="ti ti-packages"></i> Plans</a>
+      <div class="sb-section">Management</div>
+      <a href="../trainers/trainers.html" class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
+      <a href="../workouts/workouts.html" class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
+      <a href="../diets/diets.html" class="sb-item"><i class="ti ti-salad"></i> Diet Plans</a>
+      <a href="../leads/leads.html" class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
+      <div class="sb-section">Analytics</div>
+      <a href="../reports/reports.html" class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
+      <a href="../ai/ai.html" class="sb-item active"><i class="ti ti-robot"></i> AI Insights</a>
+      <a href="../branches/branches.html" class="sb-item"><i class="ti ti-building"></i> Branches</a>
+      <a href="../settings/settings.html" class="sb-item"><i class="ti ti-settings"></i> Settings</a>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sbAvatar">FC</div>
+        <div>
+          <div class="sb-uname" id="sbName">—</div>
+          <div class="sb-urole" id="sbRole">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
+      <span class="topbar-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Insights <span
+          class="ai-badge">Powered by Claude</span></span>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('workout')"><i class="ti ti-barbell"></i> Workout Gen</div>
+      <div class="tab" onclick="switchTab('diet')"><i class="ti ti-salad"></i> Diet Gen</div>
+      <div class="tab" onclick="switchTab('retention')"><i class="ti ti-heart-rate-monitor"></i> Retention</div>
+      <div class="tab" onclick="switchTab('revenue')"><i class="ti ti-trending-up"></i> Revenue</div>
+      <div class="tab" onclick="switchTab('chat')"><i class="ti ti-message-dots"></i> AI Chat</div>
+    </div>
+
+    <!-- ── WORKOUT GEN ── -->
+    <div class="tab-content active" id="tab-workout">
+      <div class="form-panel">
+        <div class="section-header">
+          <div>
+            <div class="section-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Workout Generator
+            </div>
+            <div class="section-sub">Describe your member's needs and Claude will build a complete workout plan</div>
+          </div>
+          <button class="btn-ai" onclick="generateWorkout()" id="genWorkoutBtn"><i class="ti ti-robot"></i> Generate
+            Plan</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Member Name</label><input class="form-input" id="wMember"
+              placeholder="e.g. Arjun Mehta" /></div>
+          <div class="form-group"><label class="form-label">Fitness Goal</label>
+            <select class="form-input" id="wGoal">
+              <option value="weight loss">Weight Loss</option>
+              <option value="muscle gain">Muscle Gain</option>
+              <option value="endurance">Endurance</option>
+              <option value="strength">Strength</option>
+              <option value="flexibility">Flexibility</option>
+              <option value="general fitness">General Fitness</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Fitness Level</label>
+            <select class="form-input" id="wLevel">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Days per Week</label>
+            <select class="form-input" id="wDays">
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Duration (weeks)</label>
+            <select class="form-input" id="wDuration">
+              <option value="4">4</option>
+              <option value="8">8</option>
+              <option value="12">12</option>
+              <option value="16">16</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Equipment</label>
+            <select class="form-input" id="wEquip">
+              <option value="full gym">Full Gym</option>
+              <option value="dumbbells only">Dumbbells Only</option>
+              <option value="bodyweight">Bodyweight</option>
+              <option value="resistance bands">Resistance Bands</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Focus Areas</label><input class="form-input" id="wFocus"
+              placeholder="e.g. upper body, core" /></div>
+          <div class="form-group"><label class="form-label">Injuries / Limitations</label><input class="form-input"
+              id="wInjuries" placeholder="e.g. lower back pain, none" /></div>
+        </div>
+      </div>
+      <div class="result-panel" id="workoutResult">
+        <div class="result-header">
+          <div class="ai-icon"><i class="ti ti-clipboard-list"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="result-title" id="workoutPlanName"></div>
+            <div class="result-sub" id="workoutPlanMeta"></div>
+          </div>
+          <button class="btn-ai" style="margin-left:auto;padding:0.4rem 0.85rem;font-size:0.78rem"
+            onclick="saveWorkoutPlan()"><i class="ti ti-cloud-upload"></i> <span class="btn-text">Save
+              Plan</span></button>
+        </div>
+        <div id="workoutPlanDesc" style="font-size:0.82rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.5">
+        </div>
+        <div id="workoutDaysContainer"></div>
+      </div>
+    </div>
+
+    <!-- ── DIET GEN ── -->
+    <div class="tab-content" id="tab-diet">
+      <div class="form-panel">
+        <div class="section-header">
+          <div>
+            <div class="section-title"><i class="ti ti-sparkles" style="color:var(--violet)"></i> AI Diet Plan Generator
+            </div>
+            <div class="section-sub">Generate a personalised Indian diet plan tailored to your member's needs</div>
+          </div>
+          <button class="btn-ai" onclick="generateDiet()" id="genDietBtn"><i class="ti ti-robot"></i> Generate
+            Plan</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Member Name</label><input class="form-input" id="dMember"
+              placeholder="e.g. Priya Sharma" /></div>
+          <div class="form-group"><label class="form-label">Diet Goal</label>
+            <select class="form-input" id="dGoal">
+              <option value="weight loss">Weight Loss</option>
+              <option value="muscle gain">Muscle Gain</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="clean eating">Clean Eating</option>
+              <option value="keto">Keto</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Target Calories/day</label><input class="form-input"
+              id="dCalories" type="number" placeholder="2000" value="2000" /></div>
+          <div class="form-group"><label class="form-label">Weight (kg)</label><input class="form-input" id="dWeight"
+              type="number" placeholder="70" /></div>
+          <div class="form-group"><label class="form-label">Height (cm)</label><input class="form-input" id="dHeight"
+              type="number" placeholder="170" /></div>
+          <div class="form-group"><label class="form-label">Activity Level</label>
+            <select class="form-input" id="dActivity">
+              <option value="sedentary">Sedentary</option>
+              <option value="light">Light</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="active">Active</option>
+              <option value="very active">Very Active</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Vegetarian?</label>
+            <select class="form-input" id="dVeg">
+              <option value="false">No (Non-Veg)</option>
+              <option value="true">Yes (Vegetarian)</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Allergies / Avoid</label><input class="form-input"
+              id="dAllergies" placeholder="e.g. lactose, gluten, none" /></div>
+        </div>
+      </div>
+      <div class="result-panel" id="dietResult">
+        <div class="result-header">
+          <div class="ai-icon" style="background:linear-gradient(135deg,var(--green),var(--cyan))"><i
+              class="ti ti-salad"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="result-title" id="dietPlanName"></div>
+            <div class="result-sub" id="dietPlanMeta"></div>
+          </div>
+          <button class="btn-ai"
+            style="margin-left:auto;padding:0.4rem 0.85rem;font-size:0.78rem;background:linear-gradient(135deg,var(--green),var(--cyan))"
+            onclick="saveDietPlan()"><i class="ti ti-cloud-upload"></i> <span class="btn-text">Save Plan</span></button>
+        </div>
+        <div class="form-grid-2" style="margin-bottom:1.25rem" id="dietMacros"></div>
+        <div id="dietMealsContainer"></div>
+      </div>
+    </div>
+
+    <!-- ── RETENTION ── -->
+    <div class="tab-content" id="tab-retention">
+      <div class="section-header">
+        <div>
+          <div class="section-title"><i class="ti ti-heart-rate-monitor" style="color:var(--violet)"></i> Member
+            Retention Analysis</div>
+          <div class="section-sub">Claude analyses your gym data and identifies at-risk members and improvement
+            strategies</div>
+        </div>
+        <button class="btn-ai" onclick="loadRetention()" id="retentionBtn"><i class="ti ti-refresh"></i> Refresh
+          Analysis</button>
+      </div>
+      <div id="retentionContent">
+        <div class="loading-spinner"><i class="ti ti-loader-2"></i> Loading retention insights…</div>
+      </div>
+    </div>
+
+    <!-- ── REVENUE ── -->
+    <div class="tab-content" id="tab-revenue">
+      <div class="section-header">
+        <div>
+          <div class="section-title"><i class="ti ti-trending-up" style="color:var(--violet)"></i> Revenue Predictions
+          </div>
+          <div class="section-sub">AI-powered 3-month revenue forecast with growth strategies</div>
+        </div>
+        <button class="btn-ai" onclick="loadRevenue()" id="revenueBtn"><i class="ti ti-refresh"></i> Refresh
+          Forecast</button>
+      </div>
+      <div id="revenueContent">
+        <div class="loading-spinner"><i class="ti ti-loader-2"></i> Loading revenue forecast…</div>
+      </div>
+    </div>
+
+    <!-- ── CHAT ── -->
+    <div class="tab-content" id="tab-chat" style="padding:0;overflow:hidden;">
+      <div class="chat-wrap">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg">
+            <div class="chat-avatar ai"><i class="ti ti-robot"></i></div>
+            <div class="chat-bubble ai">👋 Hi! I'm FitCore AI, powered by Claude. I can help you with workout
+              programming, diet advice, member retention strategies, gym business questions, and much more. What would
+              you like to know?</div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chatInput"
+            placeholder="Ask anything — workouts, nutrition, business strategy…" rows="1"
+            onkeydown="handleChatKey(event)"></textarea>
+          <button class="chat-send-btn" onclick="sendChat()" id="chatSendBtn"><i class="ti ti-send"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    const API = 'http://127.0.0.1:5000/api/v1';
+
+    // Mobile Sidebar Controls
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('active');
+      document.getElementById('sidebarOverlay').classList.toggle('active');
+    }
+    function closeSidebar() {
+      document.querySelector('.sidebar').classList.remove('active');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+      document.querySelectorAll('.sb-item').forEach(item => {
+        item.addEventListener('click', closeSidebar);
+      });
+      document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
+    });
+    const TOKEN = () => localStorage.getItem('fitcore_access_token');
+    const hdrs = () => ({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN()}` });
+
+    let chatHistory = [];
+    let generatedWorkout = null;
+    let generatedDiet = null;
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+    //   loadUser();
+    //   loadRetention();
+    //   loadRevenue();
+    // });
+
+    async function loadUser() {
+      try {
+        const r = await fetch(`${API}/auth/me`, { headers: hdrs() });
+        const d = await r.json();
+        if (d.success) {
+          const u = d.user;
+          document.getElementById('sbAvatar').textContent = (u.first_name[0] + (u.last_name?.[0] || '')).toUpperCase();
+          document.getElementById('sbName').textContent = u.full_name;
+          document.getElementById('sbRole').textContent = u.role.replace('_', ' ');
+          if (u.gym) { document.getElementById('gymName').textContent = u.gym.name; document.getElementById('gymPlan').textContent = u.gym.plan + ' plan'; }
+        }
+      } catch (e) { }
+    }
+
+    // ── TABS ────────────────────────────────────────────────────────────────────
+    function switchTab(name) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        const tabs = ['workout', 'diet', 'retention', 'revenue', 'chat'];
+        t.classList.toggle('active', tabs[i] === name);
+      });
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(`tab-${name}`).classList.add('active');
+    }
+
+    // ── WORKOUT GENERATOR ────────────────────────────────────────────────────────
+    async function generateWorkout() {
+      const btn = document.getElementById('genWorkoutBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Generating…';
+      const payload = {
+        member_name: document.getElementById('wMember').value.trim() || 'Member',
+        goal: document.getElementById('wGoal').value,
+        level: document.getElementById('wLevel').value,
+        days_per_week: document.getElementById('wDays').value,
+        duration_weeks: document.getElementById('wDuration').value,
+        equipment: document.getElementById('wEquip').value,
+        focus_areas: document.getElementById('wFocus').value || 'full body',
+        injuries: document.getElementById('wInjuries').value || 'none',
+      };
+      try {
+        const r = await fetch(`${API}/ai/generate-workout`, { method: 'POST', headers: hdrs(), body: JSON.stringify(payload) });
+        const d = await r.json();
+        if (d.success) { generatedWorkout = d.plan; renderWorkoutResult(d.plan); }
+        else { showToast(d.error, 'error'); renderWorkoutResult(getDemoWorkout(payload)); }
+      } catch (e) { renderWorkoutResult(getDemoWorkout(payload)); }
+      btn.disabled = false; btn.innerHTML = '<i class="ti ti-robot"></i> Generate Plan';
+    }
+
+    function renderWorkoutResult(plan) {
+      generatedWorkout = plan;
+      document.getElementById('workoutPlanName').textContent = plan.name;
+      document.getElementById('workoutPlanMeta').textContent = `${plan.goal} · ${plan.level} · ${plan.duration_weeks}w · ${plan.days_per_week} days/wk`;
+      document.getElementById('workoutPlanDesc').textContent = plan.description;
+      const container = document.getElementById('workoutDaysContainer');
+      container.innerHTML = (plan.days || []).map(day => `
     <div class="day-block">
       <div class="day-header" onclick="this.nextElementSibling.classList.toggle('open')">
         <div class="day-num-badge">${day.day_number}</div>
@@ -471,72 +1573,72 @@ function renderWorkoutResult(plan) {
         <div class="table-wrap">
           <table class="ex-table">
             <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr>
-            ${(day.exercises||[]).map(ex=>`<tr>
+            ${(day.exercises || []).map(ex => `<tr>
               <td>${ex.name}</td><td>${ex.sets}</td><td>${ex.reps}</td>
-              <td>${ex.rest_seconds}s</td><td style="color:var(--text3)">${ex.notes||ex.weight_hint||'—'}</td>
+              <td>${ex.rest_seconds}s</td><td style="color:var(--text3)">${ex.notes || ex.weight_hint || '—'}</td>
             </tr>`).join('')}
           </table>
         </div>
       </div>
     </div>`).join('');
-  document.getElementById('workoutResult').classList.add('visible');
-  document.getElementById('workoutResult').scrollIntoView({behavior:'smooth',block:'start'});
-}
+      document.getElementById('workoutResult').classList.add('visible');
+      document.getElementById('workoutResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-async function saveWorkoutPlan() {
-  if (!generatedWorkout) return;
-  try {
-    const r = await fetch(`${API}/workouts/`, {method:'POST',headers:hdrs(),body:JSON.stringify(generatedWorkout)});
-    const d = await r.json();
-    if (d.success) showToast('Workout plan saved! 🎉');
-    else showToast(d.error,'error');
-  } catch(e) { showToast('Plan saved (demo) 🎉'); }
-}
+    async function saveWorkoutPlan() {
+      if (!generatedWorkout) return;
+      try {
+        const r = await fetch(`${API}/workouts/`, { method: 'POST', headers: hdrs(), body: JSON.stringify(generatedWorkout) });
+        const d = await r.json();
+        if (d.success) showToast('Workout plan saved! 🎉');
+        else showToast(d.error, 'error');
+      } catch (e) { showToast('Plan saved (demo) 🎉'); }
+    }
 
-// ── DIET GENERATOR ───────────────────────────────────────────────────────────
-async function generateDiet() {
-  const btn = document.getElementById('genDietBtn');
-  btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Generating…';
-  const payload = {
-    member_name:    document.getElementById('dMember').value.trim()||'Member',
-    goal:           document.getElementById('dGoal').value,
-    calories:       document.getElementById('dCalories').value||2000,
-    weight_kg:      document.getElementById('dWeight').value||70,
-    height_cm:      document.getElementById('dHeight').value||170,
-    activity_level: document.getElementById('dActivity').value,
-    vegetarian:     document.getElementById('dVeg').value==='true',
-    allergies:      document.getElementById('dAllergies').value||'none',
-  };
-  try {
-    const r = await fetch(`${API}/ai/generate-diet`, {method:'POST',headers:hdrs(),body:JSON.stringify(payload)});
-    const d = await r.json();
-    if (d.success) { generatedDiet=d.plan; renderDietResult(d.plan); }
-    else { showToast(d.error,'error'); renderDietResult(getDemoDiet(payload)); }
-  } catch(e) { renderDietResult(getDemoDiet(payload)); }
-  btn.disabled=false; btn.innerHTML='<i class="ti ti-robot"></i> Generate Plan';
-}
+    // ── DIET GENERATOR ───────────────────────────────────────────────────────────
+    async function generateDiet() {
+      const btn = document.getElementById('genDietBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Generating…';
+      const payload = {
+        member_name: document.getElementById('dMember').value.trim() || 'Member',
+        goal: document.getElementById('dGoal').value,
+        calories: document.getElementById('dCalories').value || 2000,
+        weight_kg: document.getElementById('dWeight').value || 70,
+        height_cm: document.getElementById('dHeight').value || 170,
+        activity_level: document.getElementById('dActivity').value,
+        vegetarian: document.getElementById('dVeg').value === 'true',
+        allergies: document.getElementById('dAllergies').value || 'none',
+      };
+      try {
+        const r = await fetch(`${API}/ai/generate-diet`, { method: 'POST', headers: hdrs(), body: JSON.stringify(payload) });
+        const d = await r.json();
+        if (d.success) { generatedDiet = d.plan; renderDietResult(d.plan); }
+        else { showToast(d.error, 'error'); renderDietResult(getDemoDiet(payload)); }
+      } catch (e) { renderDietResult(getDemoDiet(payload)); }
+      btn.disabled = false; btn.innerHTML = '<i class="ti ti-robot"></i> Generate Plan';
+    }
 
-function renderDietResult(plan) {
-  generatedDiet=plan;
-  document.getElementById('dietPlanName').textContent = plan.name;
-  document.getElementById('dietPlanMeta').textContent = `${plan.goal} · ${plan.calories_per_day} kcal/day · ${plan.is_vegetarian?'Vegetarian':'Non-Veg'}`;
-  const macros = document.getElementById('dietMacros');
-  macros.innerHTML = [
-    {label:'Calories',val:`${plan.calories_per_day} kcal`,color:'var(--amber)'},
-    {label:'Protein',val:`${plan.protein_g}g`,color:'var(--violet)'},
-    {label:'Carbs',val:`${plan.carbs_g}g`,color:'var(--cyan)'},
-    {label:'Fat',val:`${plan.fat_g}g`,color:'var(--green)'},
-  ].map(m=>`<div style="background:var(--bg3);border-radius:var(--r);padding:0.75rem;text-align:center">
+    function renderDietResult(plan) {
+      generatedDiet = plan;
+      document.getElementById('dietPlanName').textContent = plan.name;
+      document.getElementById('dietPlanMeta').textContent = `${plan.goal} · ${plan.calories_per_day} kcal/day · ${plan.is_vegetarian ? 'Vegetarian' : 'Non-Veg'}`;
+      const macros = document.getElementById('dietMacros');
+      macros.innerHTML = [
+        { label: 'Calories', val: `${plan.calories_per_day} kcal`, color: 'var(--amber)' },
+        { label: 'Protein', val: `${plan.protein_g}g`, color: 'var(--violet)' },
+        { label: 'Carbs', val: `${plan.carbs_g}g`, color: 'var(--cyan)' },
+        { label: 'Fat', val: `${plan.fat_g}g`, color: 'var(--green)' },
+      ].map(m => `<div style="background:var(--bg3);border-radius:var(--r);padding:0.75rem;text-align:center">
     <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:${m.color}">${m.val}</div>
     <div style="font-size:0.72rem;color:var(--text3);margin-top:3px">${m.label}</div>
   </div>`).join('');
-  const container = document.getElementById('dietMealsContainer');
-  container.innerHTML = (plan.meals||[]).map(meal=>`
+      const container = document.getElementById('dietMealsContainer');
+      container.innerHTML = (plan.meals || []).map(meal => `
     <div class="meal-block">
       <div class="meal-header" onclick="this.nextElementSibling.classList.toggle('open')">
         <i class="ti ti-bowl" style="color:var(--green)"></i>
         <div style="flex:1;font-size:0.88rem;font-weight:600">${meal.name}</div>
-        <span class="meal-time">${meal.time||''}</span>
+        <span class="meal-time">${meal.time || ''}</span>
         <i class="ti ti-chevron-down" style="color:var(--text3);font-size:14px;margin-left:0.5rem"></i>
       </div>
       <div class="meal-body">
@@ -545,49 +1647,49 @@ function renderDietResult(plan) {
           <div class="food-row food-row-header">
             <div>Food</div><div>Qty</div><div>Unit</div><div>Cal</div><div>Protein</div><div>Carbs</div>
           </div>
-          ${(meal.foods||[]).map(f=>`<div class="food-row">
+          ${(meal.foods || []).map(f => `<div class="food-row">
             <div style="font-weight:500;color:var(--text)">${f.name}</div>
             <div>${f.quantity}</div><div style="color:var(--text3)">${f.unit}</div>
-            <div style="color:var(--amber)">${f.calories||'—'}</div>
-            <div style="color:var(--violet)">${f.protein!=null?f.protein+'g':'—'}</div>
-            <div style="color:var(--cyan)">${f.carbs!=null?f.carbs+'g':'—'}</div>
+            <div style="color:var(--amber)">${f.calories || '—'}</div>
+            <div style="color:var(--violet)">${f.protein != null ? f.protein + 'g' : '—'}</div>
+            <div style="color:var(--cyan)">${f.carbs != null ? f.carbs + 'g' : '—'}</div>
           </div>`).join('')}
         </div>
       </div>
     </div>`).join('');
-  document.getElementById('dietResult').classList.add('visible');
-  document.getElementById('dietResult').scrollIntoView({behavior:'smooth',block:'start'});
-}
+      document.getElementById('dietResult').classList.add('visible');
+      document.getElementById('dietResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-async function saveDietPlan() {
-  if (!generatedDiet) return;
-  try {
-    const r = await fetch(`${API}/diets/`, {method:'POST',headers:hdrs(),body:JSON.stringify(generatedDiet)});
-    const d = await r.json();
-    if (d.success) showToast('Diet plan saved! 🎉');
-    else showToast(d.error,'error');
-  } catch(e) { showToast('Plan saved (demo) 🎉'); }
-}
+    async function saveDietPlan() {
+      if (!generatedDiet) return;
+      try {
+        const r = await fetch(`${API}/diets/`, { method: 'POST', headers: hdrs(), body: JSON.stringify(generatedDiet) });
+        const d = await r.json();
+        if (d.success) showToast('Diet plan saved! 🎉');
+        else showToast(d.error, 'error');
+      } catch (e) { showToast('Plan saved (demo) 🎉'); }
+    }
 
-// ── RETENTION ────────────────────────────────────────────────────────────────
-async function loadRetention() {
-  const btn = document.getElementById('retentionBtn');
-  if (btn) { btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Analysing…'; }
-  document.getElementById('retentionContent').innerHTML='<div class="loading-spinner"><i class="ti ti-loader-2"></i> Analysing member data with Claude…</div>';
-  try {
-    const r = await fetch(`${API}/ai/retention-insights`, {headers:hdrs()});
-    const d = await r.json();
-    if (d.success) renderRetention(d);
-    else renderRetention(getDemoRetention());
-  } catch(e) { renderRetention(getDemoRetention()); }
-  if (btn) { btn.disabled=false; btn.innerHTML='<i class="ti ti-refresh"></i> Refresh Analysis'; }
-}
+    // ── RETENTION ────────────────────────────────────────────────────────────────
+    async function loadRetention() {
+      const btn = document.getElementById('retentionBtn');
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Analysing…'; }
+      document.getElementById('retentionContent').innerHTML = '<div class="loading-spinner"><i class="ti ti-loader-2"></i> Analysing member data with Claude…</div>';
+      try {
+        const r = await fetch(`${API}/ai/retention-insights`, { headers: hdrs() });
+        const d = await r.json();
+        if (d.success) renderRetention(d);
+        else renderRetention(getDemoRetention());
+      } catch (e) { renderRetention(getDemoRetention()); }
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="ti ti-refresh"></i> Refresh Analysis'; }
+    }
 
-function renderRetention(data) {
-  const score = data.retention_score || 72;
-  const r = 38; const c = 2 * Math.PI * r;
-  const dash = (score / 100) * c;
-  const html = `
+    function renderRetention(data) {
+      const score = data.retention_score || 72;
+      const r = 38; const c = 2 * Math.PI * r;
+      const dash = (score / 100) * c;
+      const html = `
     <div class="retention-score-row">
       <div class="score-ring">
         <svg width="100" height="100" viewBox="0 0 100 100">
@@ -602,21 +1704,21 @@ function renderRetention(data) {
       </div>
       <div style="flex:1">
         <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:0.4rem">Retention Score</div>
-        <div style="font-size:0.82rem;color:var(--text2);line-height:1.5">${data.summary||''}</div>
+        <div style="font-size:0.82rem;color:var(--text2);line-height:1.5">${data.summary || ''}</div>
       </div>
       <div class="metrics-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        ${Object.entries(data.key_metrics||{}).slice(0,4).map(([k,v])=>`
+        ${Object.entries(data.key_metrics || {}).slice(0, 4).map(([k, v]) => `
           <div style="background:var(--bg3);border-radius:var(--r);padding:0.6rem 0.75rem;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--violet)">${typeof v==='number'?v+(k.includes('rate')||k.includes('conv')?'%':''):(v||'—')}</div>
-            <div style="font-size:0.65rem;color:var(--text3);margin-top:2px">${k.replace(/_/g,' ')}</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--violet)">${typeof v === 'number' ? v + (k.includes('rate') || k.includes('conv') ? '%' : '') : (v || '—')}</div>
+            <div style="font-size:0.65rem;color:var(--text3);margin-top:2px">${k.replace(/_/g, ' ')}</div>
           </div>`).join('')}
       </div>
     </div>
     <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text2)">Key Insights</div>
     <div class="insights-layout" style="margin-bottom:1.5rem">
-      ${(data.insights||[]).map(ins=>`
+      ${(data.insights || []).map(ins => `
         <div class="insight-card">
-          <div class="insight-icon" style="background:rgba(124,58,237,0.12);color:var(--violet)"><i class="ti ti-${ins.icon||'info-circle'}"></i></div>
+          <div class="insight-icon" style="background:rgba(124,58,237,0.12);color:var(--violet)"><i class="ti ti-${ins.icon || 'info-circle'}"></i></div>
           <div class="insight-title">${ins.title}</div>
           <div class="insight-desc">${ins.description}</div>
           <span class="priority-badge priority-${ins.priority}">${ins.priority} priority</span>
@@ -624,7 +1726,7 @@ function renderRetention(data) {
     </div>
     <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text2)">Recommendations</div>
     <div style="display:flex;flex-direction:column;gap:0.75rem">
-      ${(data.recommendations||[]).map(rec=>`
+      ${(data.recommendations || []).map(rec => `
         <div class="rec-card">
           <div style="flex:1">
             <div style="font-size:0.88rem;font-weight:600;margin-bottom:0.3rem">${rec.title}</div>
@@ -634,45 +1736,45 @@ function renderRetention(data) {
           <span class="rec-effort effort-${rec.effort}">${rec.effort}</span>
         </div>`).join('')}
     </div>
-    ${data.predicted_churn_30d!=null?`<div style="margin-top:1.25rem;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r);padding:0.85rem 1.1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.82rem;color:var(--red)"><i class="ti ti-alert-triangle"></i><span>Predicted churn in next 30 days: <strong>${data.predicted_churn_30d} members</strong></span></div>`:''}`;
-  document.getElementById('retentionContent').innerHTML = html;
-}
+    ${data.predicted_churn_30d != null ? `<div style="margin-top:1.25rem;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r);padding:0.85rem 1.1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.82rem;color:var(--red)"><i class="ti ti-alert-triangle"></i><span>Predicted churn in next 30 days: <strong>${data.predicted_churn_30d} members</strong></span></div>` : ''}`;
+      document.getElementById('retentionContent').innerHTML = html;
+    }
 
-// ── REVENUE ──────────────────────────────────────────────────────────────────
-async function loadRevenue() {
-  const btn = document.getElementById('revenueBtn');
-  if (btn) { btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Forecasting…'; }
-  document.getElementById('revenueContent').innerHTML='<div class="loading-spinner"><i class="ti ti-loader-2"></i> Running revenue forecast with Claude…</div>';
-  try {
-    const r = await fetch(`${API}/ai/revenue-predictions`, {headers:hdrs()});
-    const d = await r.json();
-    if (d.success) renderRevenue(d);
-    else renderRevenue(getDemoRevenue());
-  } catch(e) { renderRevenue(getDemoRevenue()); }
-  if (btn) { btn.disabled=false; btn.innerHTML='<i class="ti ti-refresh"></i> Refresh Forecast'; }
-}
+    // ── REVENUE ──────────────────────────────────────────────────────────────────
+    async function loadRevenue() {
+      const btn = document.getElementById('revenueBtn');
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Forecasting…'; }
+      document.getElementById('revenueContent').innerHTML = '<div class="loading-spinner"><i class="ti ti-loader-2"></i> Running revenue forecast with Claude…</div>';
+      try {
+        const r = await fetch(`${API}/ai/revenue-predictions`, { headers: hdrs() });
+        const d = await r.json();
+        if (d.success) renderRevenue(d);
+        else renderRevenue(getDemoRevenue());
+      } catch (e) { renderRevenue(getDemoRevenue()); }
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="ti ti-refresh"></i> Refresh Forecast'; }
+    }
 
-function renderRevenue(data) {
-  const allBars = [...(data.historical||[]), ...(data.predictions||[]).map(p=>({...p,predicted:true}))];
-  const maxVal  = Math.max(...allBars.map(b=>b.revenue||b.high||0), 1);
-  const barHtml = allBars.map(b => {
-    const val = b.revenue ?? b.mid ?? 0;
-    const pct = Math.max(4, (val/maxVal)*130);
-    const cls = b.predicted?'chart-bar prediction-bar':'chart-bar';
-    const color = b.predicted?'linear-gradient(180deg,var(--violet),rgba(124,58,237,0.3))':'linear-gradient(180deg,var(--blue),var(--cyan))';
-    return `<div class="chart-bar-wrap">
-      <div class="chart-bar-val">₹${(val/1000).toFixed(0)}k</div>
+    function renderRevenue(data) {
+      const allBars = [...(data.historical || []), ...(data.predictions || []).map(p => ({ ...p, predicted: true }))];
+      const maxVal = Math.max(...allBars.map(b => b.revenue || b.high || 0), 1);
+      const barHtml = allBars.map(b => {
+        const val = b.revenue ?? b.mid ?? 0;
+        const pct = Math.max(4, (val / maxVal) * 130);
+        const cls = b.predicted ? 'chart-bar prediction-bar' : 'chart-bar';
+        const color = b.predicted ? 'linear-gradient(180deg,var(--violet),rgba(124,58,237,0.3))' : 'linear-gradient(180deg,var(--blue),var(--cyan))';
+        return `<div class="chart-bar-wrap">
+      <div class="chart-bar-val">₹${(val / 1000).toFixed(0)}k</div>
       <div class="${cls}" style="height:${pct}px;background:${color}" title="${b.month}: ₹${val.toLocaleString('en-IN')}"></div>
-      <div class="chart-bar-label">${(b.month||'').split(' ')[0]}${b.predicted?' 🔮':''}</div>
+      <div class="chart-bar-label">${(b.month || '').split(' ')[0]}${b.predicted ? ' 🔮' : ''}</div>
     </div>`;
-  }).join('');
+      }).join('');
 
-  const html = `
+      const html = `
     <div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:var(--r2);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem">
       <i class="ti ti-robot" style="color:var(--violet);font-size:1.25rem"></i>
       <div>
-        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem">${data.summary||''}</div>
-        <div style="font-size:0.75rem;color:var(--text3)">Trend: <span style="color:var(--violet);font-weight:600">${(data.trend||'').toUpperCase()}</span></div>
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.2rem">${data.summary || ''}</div>
+        <div style="font-size:0.75rem;color:var(--text3)">Trend: <span style="color:var(--violet);font-weight:600">${(data.trend || '').toUpperCase()}</span></div>
       </div>
     </div>
     <div class="rev-chart-wrap">
@@ -680,15 +1782,15 @@ function renderRevenue(data) {
       <div class="chart-bars">${barHtml}</div>
     </div>
     <div class="revenue-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.25rem">
-      ${(data.predictions||[]).map(p=>`<div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:var(--r);padding:1rem;text-align:center">
+      ${(data.predictions || []).map(p => `<div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:var(--r);padding:1rem;text-align:center">
         <div style="font-size:0.72rem;color:var(--text3);margin-bottom:0.5rem">${p.month} 🔮</div>
-        <div style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:var(--violet)">₹${((p.mid||0)/1000).toFixed(0)}k</div>
-        <div style="font-size:0.68rem;color:var(--text3);margin-top:4px">₹${((p.low||0)/1000).toFixed(0)}k – ₹${((p.high||0)/1000).toFixed(0)}k</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:var(--violet)">₹${((p.mid || 0) / 1000).toFixed(0)}k</div>
+        <div style="font-size:0.68rem;color:var(--text3);margin-top:4px">₹${((p.low || 0) / 1000).toFixed(0)}k – ₹${((p.high || 0) / 1000).toFixed(0)}k</div>
       </div>`).join('')}
     </div>
     <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--text2)">Growth Strategies</div>
     <div class="growth-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-      ${(data.growth_strategies||[]).map(s=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem">
+      ${(data.growth_strategies || []).map(s => `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem">
         <div style="font-size:0.88rem;font-weight:600;margin-bottom:0.4rem">${s.title}</div>
         <div style="font-size:0.76rem;color:var(--text2);line-height:1.5;margin-bottom:0.5rem">${s.description}</div>
         <div style="display:flex;justify-content:space-between;font-size:0.7rem">
@@ -697,132 +1799,141 @@ function renderRevenue(data) {
         </div>
       </div>`).join('')}
     </div>
-    ${(data.revenue_leakage||[]).length ? `
+    ${(data.revenue_leakage || []).length ? `
     <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--red)">Revenue Leakage</div>
     <div style="display:flex;flex-direction:column;gap:0.6rem">
-      ${data.revenue_leakage.map(l=>`<div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:var(--r);padding:0.85rem 1rem;display:flex;gap:1rem;align-items:center">
+      ${data.revenue_leakage.map(l => `<div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:var(--r);padding:0.85rem 1rem;display:flex;gap:1rem;align-items:center">
         <i class="ti ti-alert-triangle" style="color:var(--red)"></i>
         <div style="flex:1"><div style="font-size:0.83rem;font-weight:600">${l.issue}</div><div style="font-size:0.75rem;color:var(--text2)">${l.fix}</div></div>
         <span style="color:var(--red);font-size:0.78rem;font-weight:600">${l.estimated_loss}</span>
       </div>`).join('')}
     </div>` : ''}`;
-  document.getElementById('revenueContent').innerHTML = html;
-}
-
-// ── CHAT ─────────────────────────────────────────────────────────────────────
-function handleChatKey(e) {
-  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
-}
-async function sendChat() {
-  const input = document.getElementById('chatInput');
-  const msg   = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  addChatMsg('user', msg);
-  chatHistory.push({role:'user', content: msg});
-  const typingEl = addTyping();
-  const btn = document.getElementById('chatSendBtn');
-  btn.disabled=true;
-  try {
-    const r = await fetch(`${API}/ai/chat`, {method:'POST',headers:hdrs(),body:JSON.stringify({messages:chatHistory})});
-    const d = await r.json();
-    typingEl.remove();
-    if (d.success) {
-      addChatMsg('ai', d.reply);
-      chatHistory.push({role:'assistant', content: d.reply});
-    } else {
-      addChatMsg('ai', `Sorry, I encountered an error: ${d.error}. Please try again.`);
+      document.getElementById('revenueContent').innerHTML = html;
     }
-  } catch(e) {
-    typingEl.remove();
-    const demo = getDemoChatReply(msg);
-    addChatMsg('ai', demo);
-    chatHistory.push({role:'assistant', content: demo});
-  }
-  btn.disabled=false;
-}
-function addChatMsg(role, text) {
-  const el = document.createElement('div');
-  el.className=`chat-msg ${role}`;
-  const icon = role==='ai' ? '<i class="ti ti-robot"></i>' : (document.getElementById('sbAvatar')?.textContent||'U');
-  el.innerHTML=`<div class="chat-avatar ${role}">${icon}</div><div class="chat-bubble ${role}">${text.replace(/\n/g,'<br>')}</div>`;
-  document.getElementById('chatMessages').appendChild(el);
-  el.scrollIntoView({behavior:'smooth'});
-  return el;
-}
-function addTyping() {
-  const el = document.createElement('div');
-  el.className='chat-msg';
-  el.innerHTML=`<div class="chat-avatar ai"><i class="ti ti-robot"></i></div><div class="chat-bubble ai"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
-  document.getElementById('chatMessages').appendChild(el);
-  el.scrollIntoView({behavior:'smooth'});
-  return el;
-}
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function showToast(msg,type='success') {
-  const t=document.createElement('div'); t.className=`toast ${type}`;
-  t.innerHTML=`<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
-  document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(),4000);
-}
+    // ── CHAT ─────────────────────────────────────────────────────────────────────
+    function handleChatKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+    }
+    async function sendChat() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      input.value = '';
+      addChatMsg('user', msg);
+      chatHistory.push({ role: 'user', content: msg });
+      const typingEl = addTyping();
+      const btn = document.getElementById('chatSendBtn');
+      btn.disabled = true;
+      try {
+        const r = await fetch(`${API}/ai/chat`, { method: 'POST', headers: hdrs(), body: JSON.stringify({ messages: chatHistory }) });
+        const d = await r.json();
+        typingEl.remove();
+        if (d.success) {
+          addChatMsg('ai', d.reply);
+          chatHistory.push({ role: 'assistant', content: d.reply });
+        } else {
+          addChatMsg('ai', `Sorry, I encountered an error: ${d.error}. Please try again.`);
+        }
+      } catch (e) {
+        typingEl.remove();
+        const demo = getDemoChatReply(msg);
+        addChatMsg('ai', demo);
+        chatHistory.push({ role: 'assistant', content: demo });
+      }
+      btn.disabled = false;
+    }
+    function addChatMsg(role, text) {
+      const el = document.createElement('div');
+      el.className = `chat-msg ${role}`;
+      const icon = role === 'ai' ? '<i class="ti ti-robot"></i>' : (document.getElementById('sbAvatar')?.textContent || 'U');
+      el.innerHTML = `<div class="chat-avatar ${role}">${icon}</div><div class="chat-bubble ${role}">${text.replace(/\n/g, '<br>')}</div>`;
+      document.getElementById('chatMessages').appendChild(el);
+      el.scrollIntoView({ behavior: 'smooth' });
+      return el;
+    }
+    function addTyping() {
+      const el = document.createElement('div');
+      el.className = 'chat-msg';
+      el.innerHTML = `<div class="chat-avatar ai"><i class="ti ti-robot"></i></div><div class="chat-bubble ai"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+      document.getElementById('chatMessages').appendChild(el);
+      el.scrollIntoView({ behavior: 'smooth' });
+      return el;
+    }
 
-// ── DEMO DATA ─────────────────────────────────────────────────────────────────
-function getDemoWorkout(p) {
-  return {name:`${p.days_per_week}-Day ${p.goal.replace(/_/g,' ')} Program`,description:`A ${p.level} workout plan focused on ${p.goal} over ${p.duration_weeks} weeks. Designed for ${p.equipment}.`,goal:p.goal,level:p.level,duration_weeks:p.duration_weeks,days_per_week:parseInt(p.days_per_week),days:[
-    {day_number:1,name:'Push Day',muscle_groups:'Chest, Shoulders, Triceps',exercises:[{name:'Bench Press',sets:4,reps:'8-10',rest_seconds:90,notes:'Keep shoulder blades retracted'},{name:'Overhead Press',sets:3,reps:'10-12',rest_seconds:60,notes:'Use strict form'},{name:'Incline Dumbbell Press',sets:3,reps:'12-15',rest_seconds:60,notes:''},{name:'Lateral Raises',sets:3,reps:'15-20',rest_seconds:45,notes:'Light weight'},{name:'Tricep Pushdown',sets:3,reps:'12-15',rest_seconds:45,notes:''}]},
-    {day_number:2,name:'Pull Day',muscle_groups:'Back, Biceps',exercises:[{name:'Deadlift',sets:4,reps:'5-6',rest_seconds:120,notes:'Heaviest lift of the week'},{name:'Pull-ups',sets:3,reps:'8-10',rest_seconds:90,notes:'Full range of motion'},{name:'Barbell Row',sets:3,reps:'10-12',rest_seconds:60,notes:''},{name:'Bicep Curl',sets:3,reps:'12-15',rest_seconds:45,notes:'Slow negative'}]},
-    {day_number:3,name:'Leg Day',muscle_groups:'Quads, Hamstrings, Glutes',exercises:[{name:'Squat',sets:4,reps:'8-10',rest_seconds:120,notes:'Break parallel'},{name:'Romanian Deadlift',sets:3,reps:'10-12',rest_seconds:90,notes:'Hinge at hips'},{name:'Leg Press',sets:3,reps:'12-15',rest_seconds:60,notes:''},{name:'Calf Raises',sets:4,reps:'20',rest_seconds:45,notes:'Full range'}]},
-  ]};
-}
-function getDemoDiet(p) {
-  return {name:`${p.goal.replace(/_/g,' ')} Diet Plan`,description:`A personalised ${p.calories} kcal ${p.vegetarian?'vegetarian':'mixed'} diet plan for ${p.goal}.`,goal:p.goal,calories_per_day:parseInt(p.calories)||2000,protein_g:150,carbs_g:220,fat_g:65,is_vegetarian:p.vegetarian,meals:[
-    {name:'Breakfast',time:'7:30 AM',foods:[{name:'Oats with banana',quantity:1,unit:'bowl',calories:320,protein:10,carbs:55,fat:6},{name:'Boiled eggs',quantity:2,unit:'piece',calories:140,protein:12,carbs:1,fat:10},{name:'Green tea',quantity:1,unit:'cup',calories:5,protein:0,carbs:1,fat:0}]},
-    {name:'Mid-Morning Snack',time:'10:30 AM',foods:[{name:'Mixed nuts',quantity:30,unit:'g',calories:180,protein:5,carbs:8,fat:15},{name:'Apple',quantity:1,unit:'piece',calories:80,protein:0,carbs:20,fat:0}]},
-    {name:'Lunch',time:'1:00 PM',foods:[{name:'Brown rice',quantity:1,unit:'cup',calories:220,protein:5,carbs:45,fat:2},{name:'Dal (lentil curry)',quantity:1,unit:'bowl',calories:180,protein:12,carbs:28,fat:4},{name:'Paneer / Chicken',quantity:100,unit:'g',calories:200,protein:20,carbs:2,fat:12}]},
-    {name:'Pre-Workout',time:'5:00 PM',foods:[{name:'Banana',quantity:1,unit:'piece',calories:90,protein:1,carbs:23,fat:0},{name:'Whey protein shake',quantity:1,unit:'serving',calories:130,protein:25,carbs:5,fat:2}]},
-    {name:'Dinner',time:'8:00 PM',foods:[{name:'Chapati',quantity:2,unit:'piece',calories:180,protein:6,carbs:34,fat:4},{name:'Sabzi (vegetable curry)',quantity:1,unit:'bowl',calories:120,protein:4,carbs:18,fat:5},{name:'Curd',quantity:1,unit:'cup',calories:100,protein:8,carbs:10,fat:3}]},
-  ]};
-}
-function getDemoRetention() {
-  return {summary:"Your gym shows a strong 82% retention rate but 18 members are at risk of churning due to low attendance. Focus on re-engagement campaigns to stabilise growth.",retention_score:74,key_metrics:{retention_rate:82,avg_visits_per_member:8,at_risk_members:18,lead_conversion_rate:12.8,revenue_trend:'up'},insights:[
-    {title:'Low Attendance Members',description:'18 members visited ≤2 times in the last 30 days. These members are prime churn risk. Immediate re-engagement via WhatsApp or call is recommended.',priority:'high',icon:'alert-triangle'},
-    {title:'Strong Weekend Attendance',description:'Weekend slots are 40% more popular than weekday mornings. Consider adding weekend group classes to boost engagement.',priority:'medium',icon:'calendar'},
-    {title:'Good Lead Pipeline',description:'12.8% lead conversion rate is above industry average of 8-10%. Your sales process is working well.',priority:'low',icon:'trending-up'},
-    {title:'Membership Renewal Gap',description:'22% of members due for renewal this month have not been contacted yet. Proactive outreach could save significant revenue.',priority:'high',icon:'clock'},
-  ],recommendations:[
-    {title:'Launch Win-back WhatsApp Campaign',description:'Send personalised WhatsApp messages to all at-risk members with a special re-engagement offer or free PT session.',expected_impact:'Recover 5-8 members / save ₹30,000+ MRR',effort:'low'},
-    {title:'Add Morning Batch (6-7 AM)',description:'Data shows strong demand for early morning slots. Adding a 6 AM batch could add 15-20 new members.',expected_impact:'₹15,000-25,000 additional revenue/month',effort:'medium'},
-    {title:'Introduce Referral Programme',description:'Existing members who refer a friend get 1 free month. Referrals convert 3x better than cold leads.',expected_impact:'5-10 new members/month organically',effort:'medium'},
-    {title:'Automate Renewal Reminders',description:'Set up Celery tasks to auto-send reminders 7, 3, and 1 day before membership expiry.',expected_impact:'Reduce renewal churn by ~30%',effort:'low'},
-  ],predicted_churn_30d:7};
-}
-function getDemoRevenue() {
-  return {summary:"Revenue has grown 18% over the past 6 months with strong Q4 performance. Predictions suggest continued growth if retention improves.",trend:'growing',historical:[
-    {month:'January 2026',revenue:88000},{month:'February 2026',revenue:95000},{month:'March 2026',revenue:102000},
-    {month:'April 2026',revenue:112000},{month:'May 2026',revenue:118000},{month:'June 2026',revenue:125000},
-  ],predictions:[
-    {month:'July 2026',low:118000,mid:130000,high:145000},
-    {month:'August 2026',low:122000,mid:136000,high:152000},
-    {month:'September 2026',low:128000,mid:142000,high:160000},
-  ],growth_strategies:[
-    {title:'Launch Corporate Membership Packages',description:'Target nearby offices with group corporate memberships at a 20% discount. Corporate deals provide stable recurring revenue.',potential_increase:'₹20,000 - ₹40,000 per month',timeline:'60'},
-    {title:'Add Premium PT Sessions',description:'Introduce 1:1 personal training packages at ₹2,500-5,000 per session. Even 10 sessions/week adds significant revenue.',potential_increase:'₹25,000 - ₹50,000 per month',timeline:'30'},
-    {title:'Introduce Nutrition Consulting',description:'Partner with a registered dietician or use AI-generated plans sold as premium add-ons at ₹500-1,500/month.',potential_increase:'₹10,000 - ₹20,000 per month',timeline:'45'},
-    {title:'Seasonal Membership Drive',description:'Run a New Year / monsoon fitness challenge promotion with discounted 3-month plans to attract price-sensitive leads.',potential_increase:'₹30,000 - ₹60,000 one-time',timeline:'30'},
-  ],revenue_leakage:[
-    {issue:'Pending Invoices',estimated_loss:'₹15,000/month',fix:'Enable auto-reminder Celery task for overdue invoices'},
-    {issue:'Expired Memberships Not Renewed',estimated_loss:'₹22,000/month',fix:'7-day WhatsApp renewal reminder automation'},
-  ]};
-}
-function getDemoChatReply(msg) {
-  const replies = [
-    "Great question! For weight loss at a gym, the most effective approach combines compound lifting (3 days/week) with moderate cardio (2 days). Compound exercises like squats, deadlifts, and bench press burn more calories than isolation work because they engage multiple muscle groups simultaneously.",
-    "For Indian members looking to build muscle, I'd recommend a high-protein diet around 1.6-2g/kg body weight. Great protein sources include: paneer, chicken, eggs, dal, soya chunks, and Greek yoghurt (dahi). Combine with a progressive overload strength programme.",
-    "To improve gym retention, focus on: (1) personal progress tracking — members who see results stay, (2) community building via group classes, (3) proactive check-ins when attendance drops, (4) milestone celebrations at 30/90/180 days.",
-    "For a beginner just starting at the gym, I recommend starting with 3 full-body sessions per week. Focus on learning proper form for squat, deadlift, bench press, and overhead press. Don't skip rest days — that's when muscles actually grow!",
-  ];
-  return replies[Math.floor(Math.random()*replies.length)];
-}
-</script>
+    // ── HELPERS ──────────────────────────────────────────────────────────────────
+    function showToast(msg, type = 'success') {
+      const t = document.createElement('div'); t.className = `toast ${type}`;
+      t.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span><span>${msg}</span>`;
+      document.getElementById('toastContainer').appendChild(t); setTimeout(() => t.remove(), 4000);
+    }
+
+    // ── DEMO DATA ─────────────────────────────────────────────────────────────────
+    function getDemoWorkout(p) {
+      return {
+        name: `${p.days_per_week}-Day ${p.goal.replace(/_/g, ' ')} Program`, description: `A ${p.level} workout plan focused on ${p.goal} over ${p.duration_weeks} weeks. Designed for ${p.equipment}.`, goal: p.goal, level: p.level, duration_weeks: p.duration_weeks, days_per_week: parseInt(p.days_per_week), days: [
+          { day_number: 1, name: 'Push Day', muscle_groups: 'Chest, Shoulders, Triceps', exercises: [{ name: 'Bench Press', sets: 4, reps: '8-10', rest_seconds: 90, notes: 'Keep shoulder blades retracted' }, { name: 'Overhead Press', sets: 3, reps: '10-12', rest_seconds: 60, notes: 'Use strict form' }, { name: 'Incline Dumbbell Press', sets: 3, reps: '12-15', rest_seconds: 60, notes: '' }, { name: 'Lateral Raises', sets: 3, reps: '15-20', rest_seconds: 45, notes: 'Light weight' }, { name: 'Tricep Pushdown', sets: 3, reps: '12-15', rest_seconds: 45, notes: '' }] },
+          { day_number: 2, name: 'Pull Day', muscle_groups: 'Back, Biceps', exercises: [{ name: 'Deadlift', sets: 4, reps: '5-6', rest_seconds: 120, notes: 'Heaviest lift of the week' }, { name: 'Pull-ups', sets: 3, reps: '8-10', rest_seconds: 90, notes: 'Full range of motion' }, { name: 'Barbell Row', sets: 3, reps: '10-12', rest_seconds: 60, notes: '' }, { name: 'Bicep Curl', sets: 3, reps: '12-15', rest_seconds: 45, notes: 'Slow negative' }] },
+          { day_number: 3, name: 'Leg Day', muscle_groups: 'Quads, Hamstrings, Glutes', exercises: [{ name: 'Squat', sets: 4, reps: '8-10', rest_seconds: 120, notes: 'Break parallel' }, { name: 'Romanian Deadlift', sets: 3, reps: '10-12', rest_seconds: 90, notes: 'Hinge at hips' }, { name: 'Leg Press', sets: 3, reps: '12-15', rest_seconds: 60, notes: '' }, { name: 'Calf Raises', sets: 4, reps: '20', rest_seconds: 45, notes: 'Full range' }] },
+        ]
+      };
+    }
+    function getDemoDiet(p) {
+      return {
+        name: `${p.goal.replace(/_/g, ' ')} Diet Plan`, description: `A personalised ${p.calories} kcal ${p.vegetarian ? 'vegetarian' : 'mixed'} diet plan for ${p.goal}.`, goal: p.goal, calories_per_day: parseInt(p.calories) || 2000, protein_g: 150, carbs_g: 220, fat_g: 65, is_vegetarian: p.vegetarian, meals: [
+          { name: 'Breakfast', time: '7:30 AM', foods: [{ name: 'Oats with banana', quantity: 1, unit: 'bowl', calories: 320, protein: 10, carbs: 55, fat: 6 }, { name: 'Boiled eggs', quantity: 2, unit: 'piece', calories: 140, protein: 12, carbs: 1, fat: 10 }, { name: 'Green tea', quantity: 1, unit: 'cup', calories: 5, protein: 0, carbs: 1, fat: 0 }] },
+          { name: 'Mid-Morning Snack', time: '10:30 AM', foods: [{ name: 'Mixed nuts', quantity: 30, unit: 'g', calories: 180, protein: 5, carbs: 8, fat: 15 }, { name: 'Apple', quantity: 1, unit: 'piece', calories: 80, protein: 0, carbs: 20, fat: 0 }] },
+          { name: 'Lunch', time: '1:00 PM', foods: [{ name: 'Brown rice', quantity: 1, unit: 'cup', calories: 220, protein: 5, carbs: 45, fat: 2 }, { name: 'Dal (lentil curry)', quantity: 1, unit: 'bowl', calories: 180, protein: 12, carbs: 28, fat: 4 }, { name: 'Paneer / Chicken', quantity: 100, unit: 'g', calories: 200, protein: 20, carbs: 2, fat: 12 }] },
+          { name: 'Pre-Workout', time: '5:00 PM', foods: [{ name: 'Banana', quantity: 1, unit: 'piece', calories: 90, protein: 1, carbs: 23, fat: 0 }, { name: 'Whey protein shake', quantity: 1, unit: 'serving', calories: 130, protein: 25, carbs: 5, fat: 2 }] },
+          { name: 'Dinner', time: '8:00 PM', foods: [{ name: 'Chapati', quantity: 2, unit: 'piece', calories: 180, protein: 6, carbs: 34, fat: 4 }, { name: 'Sabzi (vegetable curry)', quantity: 1, unit: 'bowl', calories: 120, protein: 4, carbs: 18, fat: 5 }, { name: 'Curd', quantity: 1, unit: 'cup', calories: 100, protein: 8, carbs: 10, fat: 3 }] },
+        ]
+      };
+    }
+    function getDemoRetention() {
+      return {
+        summary: "Your gym shows a strong 82% retention rate but 18 members are at risk of churning due to low attendance. Focus on re-engagement campaigns to stabilise growth.", retention_score: 74, key_metrics: { retention_rate: 82, avg_visits_per_member: 8, at_risk_members: 18, lead_conversion_rate: 12.8, revenue_trend: 'up' }, insights: [
+          { title: 'Low Attendance Members', description: '18 members visited ≤2 times in the last 30 days. These members are prime churn risk. Immediate re-engagement via WhatsApp or call is recommended.', priority: 'high', icon: 'alert-triangle' },
+          { title: 'Strong Weekend Attendance', description: 'Weekend slots are 40% more popular than weekday mornings. Consider adding weekend group classes to boost engagement.', priority: 'medium', icon: 'calendar' },
+          { title: 'Good Lead Pipeline', description: '12.8% lead conversion rate is above industry average of 8-10%. Your sales process is working well.', priority: 'low', icon: 'trending-up' },
+          { title: 'Membership Renewal Gap', description: '22% of members due for renewal this month have not been contacted yet. Proactive outreach could save significant revenue.', priority: 'high', icon: 'clock' },
+        ], recommendations: [
+          { title: 'Launch Win-back WhatsApp Campaign', description: 'Send personalised WhatsApp messages to all at-risk members with a special re-engagement offer or free PT session.', expected_impact: 'Recover 5-8 members / save ₹30,000+ MRR', effort: 'low' },
+          { title: 'Add Morning Batch (6-7 AM)', description: 'Data shows strong demand for early morning slots. Adding a 6 AM batch could add 15-20 new members.', expected_impact: '₹15,000-25,000 additional revenue/month', effort: 'medium' },
+          { title: 'Introduce Referral Programme', description: 'Existing members who refer a friend get 1 free month. Referrals convert 3x better than cold leads.', expected_impact: '5-10 new members/month organically', effort: 'medium' },
+          { title: 'Automate Renewal Reminders', description: 'Set up Celery tasks to auto-send reminders 7, 3, and 1 day before membership expiry.', expected_impact: 'Reduce renewal churn by ~30%', effort: 'low' },
+        ], predicted_churn_30d: 7
+      };
+    }
+    function getDemoRevenue() {
+      return {
+        summary: "Revenue has grown 18% over the past 6 months with strong Q4 performance. Predictions suggest continued growth if retention improves.", trend: 'growing', historical: [
+          { month: 'January 2026', revenue: 88000 }, { month: 'February 2026', revenue: 95000 }, { month: 'March 2026', revenue: 102000 },
+          { month: 'April 2026', revenue: 112000 }, { month: 'May 2026', revenue: 118000 }, { month: 'June 2026', revenue: 125000 },
+        ], predictions: [
+          { month: 'July 2026', low: 118000, mid: 130000, high: 145000 },
+          { month: 'August 2026', low: 122000, mid: 136000, high: 152000 },
+          { month: 'September 2026', low: 128000, mid: 142000, high: 160000 },
+        ], growth_strategies: [
+          { title: 'Launch Corporate Membership Packages', description: 'Target nearby offices with group corporate memberships at a 20% discount. Corporate deals provide stable recurring revenue.', potential_increase: '₹20,000 - ₹40,000 per month', timeline: '60' },
+          { title: 'Add Premium PT Sessions', description: 'Introduce 1:1 personal training packages at ₹2,500-5,000 per session. Even 10 sessions/week adds significant revenue.', potential_increase: '₹25,000 - ₹50,000 per month', timeline: '30' },
+          { title: 'Introduce Nutrition Consulting', description: 'Partner with a registered dietician or use AI-generated plans sold as premium add-ons at ₹500-1,500/month.', potential_increase: '₹10,000 - ₹20,000 per month', timeline: '45' },
+          { title: 'Seasonal Membership Drive', description: 'Run a New Year / monsoon fitness challenge promotion with discounted 3-month plans to attract price-sensitive leads.', potential_increase: '₹30,000 - ₹60,000 one-time', timeline: '30' },
+        ], revenue_leakage: [
+          { issue: 'Pending Invoices', estimated_loss: '₹15,000/month', fix: 'Enable auto-reminder Celery task for overdue invoices' },
+          { issue: 'Expired Memberships Not Renewed', estimated_loss: '₹22,000/month', fix: '7-day WhatsApp renewal reminder automation' },
+        ]
+      };
+    }
+    function getDemoChatReply(msg) {
+      const replies = [
+        "Great question! For weight loss at a gym, the most effective approach combines compound lifting (3 days/week) with moderate cardio (2 days). Compound exercises like squats, deadlifts, and bench press burn more calories than isolation work because they engage multiple muscle groups simultaneously.",
+        "For Indian members looking to build muscle, I'd recommend a high-protein diet around 1.6-2g/kg body weight. Great protein sources include: paneer, chicken, eggs, dal, soya chunks, and Greek yoghurt (dahi). Combine with a progressive overload strength programme.",
+        "To improve gym retention, focus on: (1) personal progress tracking — members who see results stay, (2) community building via group classes, (3) proactive check-ins when attendance drops, (4) milestone celebrations at 30/90/180 days.",
+        "For a beginner just starting at the gym, I recommend starting with 3 full-body sessions per week. Focus on learning proper form for squat, deadlift, bench press, and overhead press. Don't skip rest days — that's when muscles actually grow!",
+      ];
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
+  </script>
 </body>
+
 </html>
