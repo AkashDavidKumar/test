@@ -37,13 +37,13 @@ body{
   padding:2.5rem;
   position:relative;
   overflow-y:auto;
+  overflow-x:hidden;
   height:100vh;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
-/* Custom Scrollbar */
-.left-panel::-webkit-scrollbar{width:6px}
-.left-panel::-webkit-scrollbar-track{background:var(--bg2)}
-.left-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-.left-panel::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+/* Hide Scrollbar */
+.left-panel::-webkit-scrollbar{display:none}
 .left-panel::before{
   content:'';
   position:absolute;
