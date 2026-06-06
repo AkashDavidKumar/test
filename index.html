@@ -3412,8 +3412,7 @@
     const signinSuccess = document.getElementById('signinSuccess');
     
     function openSignInModal() {
-      signInModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      window.location.href = 'auth/login.html';
     }
     
     function closeSignInModal() {
