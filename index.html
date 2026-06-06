@@ -1,0 +1,3528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitCore ERP — Run Your Gym Smarter with AI</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="FitCore ERP is the ultimate AI-powered gym management software. Automate renewals, track attendance, manage payments, and grow your fitness business." />
+  <meta name="keywords" content="gym management software, gym erp, fitness software, attendance tracker, automatic whatsapp reminders, gym billing software, biometric check-in" />
+  <meta name="author" content="FitCore ERP" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fitcore-erp.com/" />
+  <meta property="og:title" content="FitCore ERP — Run Your Gym Smarter with AI" />
+  <meta property="og:description" content="Automate renewals, track attendance, manage payments, and grow your fitness business with our premium AI-powered ERP platform." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://fitcore-erp.com/" />
+  <meta property="twitter:title" content="FitCore ERP — Run Your Gym Smarter with AI" />
+  <meta property="twitter:description" content="Automate renewals, track attendance, manage payments, and grow your fitness business with our premium AI-powered ERP platform." />
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FitCore ERP",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "1999",
+      "priceCurrency": "INR"
+    },
+    "description": "AI-Powered Gym Management ERP to automate attendance, renewals, WhatsApp alerts, and payment collections."
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* HSL Palette for dynamic opacity overlays */
+      --bg-h: 228;
+      --bg-s: 43%;
+      --bg-l: 4%;
+      --bg: hsl(var(--bg-h), var(--bg-s), var(--bg-l));
+      
+      --bg2-h: 228;
+      --bg2-s: 45%;
+      --bg2-l: 9%;
+      --bg2: hsl(var(--bg2-h), var(--bg2-s), var(--bg2-l));
+      
+      --bg3: #111827;
+      --bg4: #1a2235;
+      
+      --blue-h: 217;
+      --blue-s: 91%;
+      --blue-l: 60%;
+      --blue: hsl(var(--blue-h), var(--blue-s), var(--blue-l));
+      
+      --cyan-h: 188;
+      --cyan-s: 86%;
+      --cyan-l: 53%;
+      --cyan: hsl(var(--cyan-h), var(--cyan-s), var(--cyan-l));
+      
+      --violet-h: 258;
+      --violet-s: 90%;
+      --violet-l: 66%;
+      --violet: hsl(var(--violet-h), var(--violet-s), var(--violet-l));
+      
+      --blue-glow: hsla(var(--blue-h), var(--blue-s), var(--blue-l), 0.35);
+      --cyan-glow: hsla(var(--cyan-h), var(--cyan-s), var(--cyan-l), 0.25);
+      
+      --text: #f0f4ff;
+      --text2: #94a3b8;
+      --text3: #475569;
+      
+      --border: rgba(255, 255, 255, 0.06);
+      --border2: rgba(59, 130, 246, 0.2);
+      --card: rgba(255, 255, 255, 0.02);
+      --card2: rgba(59, 130, 246, 0.06);
+      --radius: 14px;
+      --radius2: 20px;
+
+      /* Glassmorphism Styles */
+      --glass-bg: rgba(12, 16, 32, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Syne', sans-serif;
+      line-height: 1.15;
+    }
+
+    /* PRELOADER */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-content {
+      text-align: center;
+    }
+    .loader-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .loader-logo span {
+      color: var(--blue);
+    }
+    .loader-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.05);
+      border-top: 3px solid var(--blue);
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* SCROLL PROGRESS BAR */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--blue), var(--cyan), var(--violet));
+      z-index: 10000;
+      width: 0%;
+      transition: width 0.1s ease-out;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 clamp(1.5rem, 4vw, 3rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      background: rgba(6, 8, 15, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.2rem, 3vw, 1.45rem);
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .logo span {
+      color: var(--blue);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text2);
+      font-size: 0.925rem;
+      font-weight: 500;
+      transition: color 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 1.5px;
+      bottom: -4px;
+      left: 0;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+    .nav-links a:hover {
+      color: var(--text);
+    }
+    
+    .nav-cta {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    
+    /* BUTTONS */
+    .btn-ghost {
+      padding: 0.6rem 1.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-ghost:hover {
+      background: var(--card2);
+      border-color: var(--blue);
+      transform: translateY(-1px);
+    }
+    
+    .btn-primary {
+      padding: 0.6rem 1.4rem;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--blue-glow);
+    }
+    .btn-lg {
+      padding: 0.95rem 2.2rem;
+      font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+      border-radius: 12px;
+    }
+
+    /* HAMBURGER & MOBILE MENU */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 110;
+    }
+    .hamburger-line {
+      width: 100%;
+      height: 2px;
+      background-color: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .menu-toggle.active .line1 {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .menu-toggle.active .line2 {
+      opacity: 0;
+    }
+    .menu-toggle.active .line3 {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 105;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .mobile-nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .mobile-nav-links {
+      list-style: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+      margin-top: 1rem;
+    }
+    .mobile-nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+    .mobile-nav-links a:hover {
+      color: var(--cyan);
+    }
+    .mobile-nav-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    .mobile-nav-cta button {
+      width: 100%;
+      padding: 0.9rem;
+    }
+
+    /* SECTIONS & CONTAINERS */
+    section {
+      padding: clamp(4rem, 8vw, 8rem) 0;
+      position: relative;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 4vw, 3rem);
+    }
+    .section-label {
+      font-size: 0.825rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      line-height: 1.15;
+    }
+    .section-sub {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text2);
+      max-width: 620px;
+      line-height: 1.7;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .section-sub.center {
+      margin: 0 auto;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* STICKY BOTTOM MOBILE CTA BAR */
+    .mobile-sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(12, 16, 32, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      z-index: 90;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-sticky-cta.visible {
+      transform: translateY(0);
+    }
+
+    /* SCROLL REVEAL CLASSSES */
+    .reveal-on-scroll {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(25px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateX(-30px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateX(30px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-right.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      filter: blur(6px);
+      transform: scale(0.97);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-scale.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+    .reveal-top {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(-30px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-top.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+    .reveal-bottom {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(30px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-bottom.revealed {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+
+    /* MOUSE SPOTLIGHT CARDS */
+    .spotlight-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+        rgba(59, 130, 246, 0.15),
+        transparent 80%
+      );
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+    .spotlight-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+    .hero {
+      padding-top: clamp(8rem, 15vh, 12rem);
+      padding-bottom: clamp(4rem, 10vh, 7rem);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-orb1 {
+      position: absolute;
+      width: clamp(400px, 50vw, 800px);
+      height: clamp(400px, 50vw, 800px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, transparent 70%);
+      top: -200px;
+      left: -200px;
+      animation: pulse-orb 8s ease-in-out infinite;
+    }
+    .hero-orb2 {
+      position: absolute;
+      width: clamp(300px, 40vw, 600px);
+      height: clamp(300px, 40vw, 600px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+      bottom: -100px;
+      right: -100px;
+      animation: pulse-orb 10s ease-in-out infinite 2s;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+    }
+    @keyframes pulse-orb {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1rem;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: var(--card2);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--cyan);
+      margin-bottom: 1.8rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s;
+    }
+    .hero-badge:hover {
+      border-color: var(--blue);
+      transform: translateY(-1px);
+    }
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+      word-wrap: break-word;
+    }
+    /* Typing Cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 0.8em;
+      background-color: var(--cyan);
+      margin-left: 4px;
+      animation: cursor-blink 0.8s infinite;
+      vertical-align: middle;
+    }
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      color: var(--text2);
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+      max-width: 540px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      margin-top: 3.5rem;
+      padding-top: 2.2rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stats > div {
+      flex: 1;
+      min-width: clamp(100px, 12vw, 150px);
+    }
+    .hero-stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-variant-numeric: tabular-nums;
+      padding-right: 0.12em;
+    }
+    .hero-stat-label {
+      font-size: 0.825rem;
+      color: var(--text3);
+      margin-top: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* DASHBOARD MOCKUP */
+    .dashboard-preview {
+      position: relative;
+    }
+    .dash-frame {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.65), 0 0 0 1px var(--border);
+      animation: float 5s ease-in-out infinite;
+      transition: all 0.3s;
+    }
+    .dash-frame:hover {
+      border-color: rgba(59, 130, 246, 0.45);
+      box-shadow: 0 45px 130px rgba(59, 130, 246, 0.15);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .dash-header {
+      background: var(--bg3);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dash-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dash-body {
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .dash-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .dash-card {
+      background: var(--bg3);
+      border-radius: var(--radius);
+      padding: 1rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .dash-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+    .dash-card-label {
+      font-size: 0.725rem;
+      color: var(--text3);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .dash-card-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .dash-card-change {
+      font-size: 0.725rem;
+      color: #22c55e;
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+    .dash-chart {
+      background: var(--bg3);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .chart-label {
+      font-size: 0.725rem;
+      color: var(--text3);
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .chart-bars {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 70px;
+    }
+    .bar {
+      border-radius: 4px 4px 0 0;
+      flex: 1;
+      height: 0;
+      animation: grow-bar 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: bottom;
+    }
+    @keyframes grow-bar {
+      to { height: var(--h); }
+    }
+    .dash-activity {
+      background: var(--bg3);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text2);
+    }
+    .activity-item:last-child {
+      border: none;
+    }
+    .a-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .dash-col-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+    }
+
+    /* TRUST */
+    .trust-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 4.5rem 0;
+      position: relative;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(1.5rem, 3vw, 3rem);
+      text-align: center;
+    }
+    .trust-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-variant-numeric: tabular-nums;
+      padding-right: 0.12em;
+    }
+    .trust-label {
+      font-size: 0.95rem;
+      color: var(--text3);
+      margin-top: 0.6rem;
+      font-weight: 500;
+    }
+
+    /* PROBLEMS */
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 2rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .problem-card:hover::before {
+      opacity: 1;
+    }
+    .problem-card:hover {
+      border-color: rgba(239, 68, 68, 0.28);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.04);
+    }
+    .prob-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 1.25rem;
+    }
+    .problem-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.65rem;
+    }
+    .problem-card p {
+      font-size: 0.925rem;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+    .feat-card {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      padding: 1.75rem;
+    }
+    .feat-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
+    }
+    .feat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--card2), rgba(6, 182, 212, 0.08));
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .feat-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .feat-card p {
+      font-size: 0.85rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .feat-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 100px;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* DASH PREVIEW SECTION */
+    .preview-wrapper {
+      margin-top: 3.5rem;
+      position: relative;
+    }
+    .preview-frame {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      box-shadow: 0 60px 160px rgba(0,0,0,0.75);
+      transition: border-color 0.4s;
+    }
+    .preview-frame:hover {
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+    .preview-topbar {
+      background: var(--bg3);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 1.5rem;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 480px;
+    }
+    .preview-sidebar {
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+    }
+    .sidebar-item {
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      color: var(--text2);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: all 0.25s;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .sidebar-item.active, .sidebar-item:hover {
+      background: var(--card2);
+      color: var(--text);
+    }
+    .sidebar-item.active {
+      border: 1px solid var(--border2);
+    }
+    .preview-main {
+      padding: 1.8rem;
+      display: grid;
+      gap: 1.25rem;
+      align-content: start;
+    }
+    .preview-stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .pstat {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: all 0.3s;
+    }
+    .pstat:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+    .pstat-label {
+      font-size: 0.725rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .pstat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin: 0.4rem 0;
+    }
+    .pstat-change {
+      font-size: 0.725rem;
+      font-weight: 500;
+    }
+    .up { color: #22c55e; }
+    .down { color: #ef4444; }
+    
+    .preview-charts {
+      display: grid;
+      grid-template-columns: 2fr 1.15fr;
+      gap: 1rem;
+    }
+    .pchart {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .pchart-title {
+      font-size: 0.825rem;
+      color: var(--text2);
+      margin-bottom: 1.25rem;
+      font-weight: 600;
+    }
+    .bar-chart {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 90px;
+    }
+    .pbar {
+      border-radius: 4px 4px 0 0;
+      flex: 1;
+      height: 0;
+      background: linear-gradient(to top, var(--blue), var(--cyan));
+      transition: height 1s ease-out;
+    }
+    .donut-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 110px;
+    }
+    .donut-svg {
+      width: 100px;
+      height: 100px;
+      animation: rotate-svg 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes rotate-svg {
+      from { transform: rotate(-180deg); opacity: 0; }
+      to { transform: rotate(-90deg); opacity: 1; }
+    }
+
+    /* MOBILE SECTION */
+    .mobile-section {
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      border-top: 1px solid var(--border);
+    }
+    .mobile-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .phones-wrap {
+      position: relative;
+      height: 520px;
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .phone-mockup {
+      position: absolute;
+      width: 220px;
+      border-radius: 36px;
+      border: 3px solid var(--border2);
+      background: var(--bg3);
+      overflow: hidden;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+      transition: all 0.3s;
+    }
+    .phone-mockup:hover {
+      border-color: var(--blue);
+      transform: scale(1.02);
+    }
+    .phone1 {
+      left: 0;
+      top: 0;
+      animation: float-phone1 6s ease-in-out infinite;
+    }
+    .phone2 {
+      right: 0;
+      top: 70px;
+      animation: float-phone2 6s ease-in-out infinite 1.5s;
+    }
+    @keyframes float-phone1 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes float-phone2 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .phone-notch {
+      width: 90px;
+      height: 22px;
+      background: var(--bg);
+      border-radius: 0 0 14px 14px;
+      margin: 0 auto;
+    }
+    .phone-screen {
+      padding: 1rem;
+    }
+    .phone-header {
+      font-size: 0.725rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      margin-bottom: 0.95rem;
+      color: var(--text);
+    }
+    .phone-stat {
+      background: var(--bg2);
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+    .phone-badge {
+      font-size: 0.6rem;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-weight: 600;
+    }
+    .qr-box {
+      background: var(--bg2);
+      border-radius: 10px;
+      padding: 0.95rem;
+      text-align: center;
+      margin-top: 0.75rem;
+      border: 1px solid var(--border);
+    }
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+      width: 65px;
+      margin: 0 auto;
+    }
+    .qr-cell {
+      height: 10px;
+      border-radius: 2px;
+    }
+    .feature-list {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2.2rem;
+    }
+    .feat-li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+    .feat-li-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .feat-li h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .feat-li p {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* WHY CHOOSE US */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .why-card {
+      background: linear-gradient(135deg, var(--card), var(--card2));
+      border: 1px solid var(--border2);
+      border-radius: var(--radius2);
+      padding: 2.2rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .why-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--blue);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.08);
+    }
+    .why-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      padding-right: 0.12em;
+    }
+    .why-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .why-card p {
+      font-size: 0.925rem;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    /* TESTIMONIALS SLIDER */
+    .testi-carousel-container {
+      position: relative;
+      overflow: hidden;
+      margin-top: 3.5rem;
+      width: 100%;
+      cursor: grab;
+    }
+    .testi-carousel-container:active {
+      cursor: grabbing;
+    }
+    .testi-carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+    .testi-card-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      padding: 0.5rem;
+      box-sizing: border-box;
+    }
+    .testi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: clamp(2rem, 5vw, 3rem);
+      transition: all 0.3s;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+    .testi-card:hover {
+      border-color: var(--border2);
+    }
+    .stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 1.25rem;
+    }
+    .star {
+      color: #f59e0b;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    }
+    .testi-text {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 1.8rem;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .testi-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .testi-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .testi-role {
+      font-size: 0.8rem;
+      color: var(--text3);
+      margin-top: 1px;
+    }
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.2rem;
+    }
+    .carousel-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text);
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .carousel-btn:hover {
+      background: var(--card2);
+      border-color: var(--blue);
+      transform: scale(1.05);
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .carousel-dot.active {
+      background: var(--cyan);
+      width: 20px;
+      border-radius: 100px;
+    }
+
+    /* FAQ ACCORDION SECTION */
+    .faq-grid {
+      max-width: 860px;
+      margin: 3.5rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .faq-item:hover {
+      border-color: var(--border2);
+    }
+    .faq-trigger {
+      width: 100%;
+      padding: 1.25rem 1.8rem;
+      background: transparent;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .faq-trigger:hover {
+      color: var(--cyan);
+    }
+    .faq-icon-svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item.active .faq-icon-svg {
+      transform: rotate(180deg);
+    }
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-content-inner {
+      padding: 0 1.8rem 1.5rem;
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .price-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border2);
+    }
+    .price-card.popular {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.07), rgba(6, 182, 212, 0.04));
+      border-color: var(--border2);
+      box-shadow: 0 0 60px rgba(59, 130, 246, 0.1);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 1.25rem;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+    .plan-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+      margin: 1.5rem 0;
+    }
+    .price-currency {
+      font-size: 1.35rem;
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .price-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .price-period {
+      font-size: 0.875rem;
+      color: var(--text3);
+      font-weight: 500;
+    }
+    .plan-desc {
+      font-size: 0.9rem;
+      color: var(--text2);
+      margin-bottom: 1.8rem;
+      line-height: 1.6;
+    }
+    .plan-features {
+      list-style: none;
+      display: grid;
+      gap: 0.85rem;
+      margin-bottom: 2.2rem;
+      margin-top: auto;
+    }
+    .plan-feat {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      color: var(--text2);
+    }
+    .feat-check {
+      color: #22c55e;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .plan-cta {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .plan-cta.primary {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #fff;
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+    .plan-cta.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--blue-glow);
+    }
+    .plan-cta.outline {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text);
+    }
+    .plan-cta.outline:hover {
+      background: var(--card2);
+      border-color: var(--blue);
+    }
+
+    /* FINAL CTA */
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(59, 130, 246, 0.12), transparent);
+    }
+    .cta-inner {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-inner h2 {
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .cta-inner p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text2);
+      margin-bottom: 2.8rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 5rem 0 2.5rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1.15fr);
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand .logo {
+      font-size: 1.5rem;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: var(--text3);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      max-width: 320px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 0.85rem;
+    }
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: var(--text2);
+    }
+    .social-btn:hover {
+      border-color: var(--border2);
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+    .footer-col h5 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+      letter-spacing: 0.03em;
+    }
+    .footer-links {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .footer-links a {
+      font-size: 0.875rem;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2.2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--text3);
+    }
+
+    /* MODAL OVERLAYS (GLASSMORPHISM) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 8, 15, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius2);
+      width: 100%;
+      max-width: 480px;
+      padding: clamp(2rem, 5vw, 3rem);
+      position: relative;
+      box-shadow: var(--glass-shadow);
+      transform: scale(0.96) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      color: var(--text);
+    }
+    
+    .modal-content h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .modal-sub {
+      font-size: 0.9rem;
+      color: var(--text2);
+      margin-bottom: 2rem;
+    }
+
+    /* FORMS & INPUTS */
+    .input-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text2);
+    }
+    .input-group input, .input-group select {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    }
+    .password-wrapper {
+      position: relative;
+      display: flex;
+    }
+    .password-wrapper input {
+      flex: 1;
+      padding-right: 3rem;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .toggle-password:hover {
+      color: var(--text);
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text2);
+      cursor: pointer;
+    }
+    .remember-me input {
+      accent-color: var(--blue);
+    }
+    .forgot-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .forgot-link:hover {
+      color: var(--cyan);
+    }
+    .w-full {
+      width: 100%;
+    }
+
+    /* OAUTH */
+    .oauth-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn-oauth {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem;
+      color: var(--text);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+    .btn-oauth:hover {
+      background: var(--card2);
+      border-color: var(--border2);
+      transform: translateY(-1px);
+    }
+    .btn-oauth svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .divider {
+      text-align: center;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .divider span {
+      background: #0d1222;
+      padding: 0 1rem;
+      font-size: 0.8rem;
+      color: var(--text3);
+      position: relative;
+      z-index: 2;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* SUCCESS & MULTI-STEP FLOWS */
+    .success-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.15);
+      border: 2px solid #22c55e;
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .animate-success {
+      animation: pop-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes pop-in {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+
+    /* Step Indicators */
+    .modal-steps-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.2rem;
+    }
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+    .step-dot.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 12px var(--blue-glow);
+    }
+    .step-dot.completed {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: #fff;
+    }
+    .step-line {
+      height: 1px;
+      background: var(--border);
+      width: 40px;
+      transition: background 0.3s;
+    }
+    .step-line.active {
+      background: var(--blue);
+    }
+    
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .button-row {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background: var(--bg3);
+      border-radius: 100px;
+      height: 8px;
+      overflow: hidden;
+      margin: 1.5rem 0 0.5rem;
+      border: 1px solid var(--border);
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--blue), var(--cyan));
+      border-radius: 100px;
+      transition: width 0.1s linear;
+    }
+    .loading-status-text {
+      font-size: 0.8rem;
+      color: var(--text3);
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 900px) {
+      .hero-inner, .mobile-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-sub, .hero-badge {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-btns, .hero-stats {
+        justify-content: center;
+      }
+      .dashboard-preview {
+        display: none;
+      }
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pricing-grid, .testi-grid, .why-grid, .problems-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links, .nav-cta {
+        display: none;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      .preview-body {
+        grid-template-columns: 1fr;
+      }
+      .preview-sidebar {
+        display: none;
+      }
+      .preview-stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      section {
+        padding: 4.5rem 0;
+      }
+      .hero {
+        padding-top: 8rem;
+      }
+      .hero h1 {
+        font-size: clamp(1.7rem, 6vw, 2.5rem);
+      }
+      .phones-wrap {
+        transform: scale(0.9);
+        height: 480px;
+        margin: 0 auto 2rem;
+      }
+      body {
+        padding-bottom: 76px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid, .trust-grid, .preview-stat-row, .preview-charts {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-brand {
+        text-align: center;
+      }
+      .footer-tagline {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .footer-socials {
+        justify-content: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      .input-row, .button-row {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: clamp(1.5rem, 8vw, 2.1rem);
+      }
+      .hero-badge {
+        font-size: 0.725rem;
+        padding: 0.35rem 0.75rem;
+      }
+      .hero-sub {
+        font-size: 0.95rem;
+      }
+      .phones-wrap {
+        transform: scale(0.72) translateY(-40px);
+        height: 350px;
+        margin: 0 auto -2rem;
+      }
+      body {
+        padding-bottom: 76px;
+      }
+    }
+
+    /* DUMBBELL LIFT FLOATING CARD ANIMATION */
+    @keyframes dumbbell-lift {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-8px);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+      90% {
+        transform: translateY(0);
+      }
+    }
+
+    .problem-card, .feat-card, .why-card {
+      animation: dumbbell-lift 6s ease-in-out infinite;
+    }
+
+    /* Staggered offsets for natural gym lifter breathing rhythm */
+    .problems-grid > *:nth-child(1) { animation-delay: 0s; }
+    .problems-grid > *:nth-child(2) { animation-delay: 0.8s; }
+    .problems-grid > *:nth-child(3) { animation-delay: 1.6s; }
+    .problems-grid > *:nth-child(4) { animation-delay: 2.4s; }
+    .problems-grid > *:nth-child(5) { animation-delay: 3.2s; }
+    .problems-grid > *:nth-child(6) { animation-delay: 4s; }
+
+    .features-grid > *:nth-child(4n+1) { animation-delay: 0.2s; }
+    .features-grid > *:nth-child(4n+2) { animation-delay: 1s; }
+    .features-grid > *:nth-child(4n+3) { animation-delay: 1.8s; }
+    .features-grid > *:nth-child(4n+4) { animation-delay: 2.6s; }
+    
+    .why-grid > *:nth-child(1) { animation-delay: 0.4s; }
+    .why-grid > *:nth-child(2) { animation-delay: 1.2s; }
+    .why-grid > *:nth-child(3) { animation-delay: 2s; }
+    .why-grid > *:nth-child(4) { animation-delay: 2.8s; }
+    .why-grid > *:nth-child(5) { animation-delay: 3.6s; }
+    .why-grid > *:nth-child(6) { animation-delay: 4.4s; }
+
+    /* Hover states with transition over animation */
+    .problem-card:hover {
+      animation: none !important;
+      transform: translateY(-10px) scale(1.02) !important;
+      border-color: rgba(239, 68, 68, 0.28) !important;
+      box-shadow: 0 12px 35px rgba(239, 68, 68, 0.08) !important;
+    }
+    .feat-card:hover {
+      animation: none !important;
+      transform: translateY(-10px) scale(1.02) !important;
+      border-color: var(--border2) !important;
+      box-shadow: 0 22px 65px rgba(59, 130, 246, 0.15) !important;
+    }
+    .why-card:hover {
+      animation: none !important;
+      transform: translateY(-10px) scale(1.02) !important;
+      border-color: var(--blue) !important;
+      box-shadow: 0 18px 45px rgba(59, 130, 246, 0.12) !important;
+    }
+
+    /* Mobile Nav CTA Sizing & Alignment */
+    .nav-cta-mobile {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+    .btn-signin-mobile {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem;
+      transition: color 0.3s;
+    }
+    .btn-signin-mobile:hover {
+      color: var(--cyan);
+    }
+    .btn-trial-mobile {
+      font-size: 0.75rem !important;
+      padding: 0.45rem 0.85rem !important;
+      border-radius: 8px !important;
+      font-weight: 700 !important;
+    }
+    @media (max-width: 900px) {
+      .nav-cta-mobile {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="loader-content">
+      <div class="loader-logo">FitCore<span>.</span></div>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">FitCore<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#problems">Challenge</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#mobile">Mobile</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="btn-ghost" onclick="openSignInModal()">Sign In</button>
+      <button class="btn-primary" onclick="openTrialModal()">Start Free Trial</button>
+    </div>
+    <div class="nav-cta-mobile">
+      <button class="btn-signin-mobile" onclick="openSignInModal()" aria-label="Sign In">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+      <span class="hamburger-line line1"></span>
+      <span class="hamburger-line line2"></span>
+      <span class="hamburger-line line3"></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE NAVIGATION OVERLAY -->
+  <div class="mobile-nav-overlay" id="mobileNav">
+    <ul class="mobile-nav-links">
+      <li><a href="#problems" onclick="toggleMobileMenu()">Challenge</a></li>
+      <li><a href="#features" onclick="toggleMobileMenu()">Features</a></li>
+      <li><a href="#dashboard" onclick="toggleMobileMenu()">Dashboard</a></li>
+      <li><a href="#mobile" onclick="toggleMobileMenu()">Mobile</a></li>
+      <li><a href="#pricing" onclick="toggleMobileMenu()">Pricing</a></li>
+      <li><a href="#testimonials" onclick="toggleMobileMenu()">Reviews</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <button class="btn-ghost" onclick="toggleMobileMenu(); openSignInModal()">Sign In</button>
+      <button class="btn-primary" onclick="toggleMobileMenu(); openTrialModal()">Start Free Trial</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb1"></div>
+      <div class="hero-orb2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="reveal-left">
+          <div class="hero-badge"><span class="hero-badge-dot"></span> New — AI-Powered Insights Now Live</div>
+          <h1>Run Your Gym <span class="gradient-text"><span id="typedText">Smarter</span><span class="typing-cursor"></span></span> with AI-Powered ERP</h1>
+          <p class="hero-sub">Automate renewals, track attendance, manage payments, and grow your fitness business — all from one beautiful platform built for modern gym owners.</p>
+          <div class="hero-btns">
+            <button class="btn-primary btn-lg" onclick="openTrialModal()">🚀 Start Free Trial</button>
+            <button class="btn-ghost btn-lg" onclick="scrollToSection('pricing')">📅 Book Demo</button>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-val" data-target="2400">0+</div>
+              <div class="hero-stat-label">Active Gyms</div>
+            </div>
+            <div>
+              <div class="hero-stat-val" data-target="480000">0+</div>
+              <div class="hero-stat-label">Members Managed</div>
+            </div>
+            <div>
+              <div class="hero-stat-val" data-target="98">0%</div>
+              <div class="hero-stat-label">% Satisfaction</div>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-preview reveal-right">
+          <div class="dash-frame">
+            <div class="dash-header">
+              <div class="dash-dot" style="background:#ff5f57"></div>
+              <div class="dash-dot" style="background:#febc2e"></div>
+              <div class="dash-dot" style="background:#28c840"></div>
+              <span style="font-size:0.75rem;color:var(--text3);margin-left:0.5rem;font-weight:600">FitCore ERP — Dashboard</span>
+            </div>
+            <div class="dash-body">
+              <div class="dash-row">
+                <div class="dash-card"><div class="dash-card-label">Revenue</div><div class="dash-card-val">₹4.8L</div><div class="dash-card-change">↑ 12.4%</div></div>
+                <div class="dash-card"><div class="dash-card-label">Members</div><div class="dash-card-val">1,284</div><div class="dash-card-change">↑ 8.1%</div></div>
+                <div class="dash-card"><div class="dash-card-label">Renewals Due</div><div class="dash-card-val">47</div><div class="dash-card-change" style="color:#f59e0b">⚠ Today</div></div>
+              </div>
+              <div class="dash-chart">
+                <div class="chart-label">Monthly Revenue Trend</div>
+                <div class="chart-bars">
+                  <div class="bar" style="--h:40%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:55%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:48%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:72%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:60%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:85%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:78%;background:linear-gradient(to top,#3b82f6,#06b6d4)"></div>
+                  <div class="bar" style="--h:92%;background:linear-gradient(to top,#8b5cf6,#06b6d4)"></div>
+                </div>
+              </div>
+              <div class="dash-col-2">
+                <div class="dash-activity">
+                  <div class="chart-label">Recent Activity</div>
+                  <div class="activity-item"><div class="a-dot" style="background:rgba(34,197,94,0.1);color:#22c55e">✓</div>Ravi K. checked in — 9:02 AM</div>
+                  <div class="activity-item"><div class="a-dot" style="background:rgba(59,130,246,0.1);color:#3b82f6">₹</div>Priya M. renewed — ₹3,500</div>
+                  <div class="activity-item"><div class="a-dot" style="background:rgba(245,158,11,0.1);color:#f59e0b">!</div>Lead follow-up due — Arjun</div>
+                </div>
+                <div class="dash-card" style="align-self:start"><div class="dash-card-label">Attendance Today</div><div class="dash-card-val">143</div><div class="dash-card-change">↑ vs yesterday</div><div style="margin-top:0.5rem;background:var(--bg2);border-radius:6px;height:6px"><div style="width:72%;height:6px;border-radius:6px;background:linear-gradient(to right,#3b82f6,#06b6d4)"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <div class="trust-section">
+    <div class="container">
+      <div class="trust-grid reveal-scale">
+        <div><div class="trust-num" data-target="2400">0+</div><div class="trust-label">Gyms Trust FitCore</div></div>
+        <div><div class="trust-num" data-target="480000">0+</div><div class="trust-label">Members Managed</div></div>
+        <div><div class="trust-num" data-target="95">0%</div><div class="trust-label">Renewal Rate Achieved</div></div>
+        <div><div class="trust-num" data-target="120">0Cr</div><div class="trust-label">Revenue Tracked</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEMS -->
+  <section id="problems">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">The Problem</div>
+        <h2 class="section-title">Running a gym shouldn't feel like <span class="gradient-text">controlled chaos</span></h2>
+        <p class="section-sub center">Every day, gym owners like you lose time and money to problems that technology could solve in seconds.</p>
+      </div>
+      <div class="problems-grid">
+        <div class="problem-card reveal-left"><div class="prob-icon">📅</div><h4>Missed Renewals</h4><p>Members lapse silently. No alerts, no follow-up, no system — just revenue walking out the door.</p></div>
+        <div class="problem-card reveal-top"><div class="prob-icon">📋</div><h4>Manual Attendance</h4><p>Paper registers, Excel chaos, and zero visibility into who's actually showing up to your gym.</p></div>
+        <div class="problem-card reveal-right"><div class="prob-icon">💸</div><h4>Payment Confusion</h4><p>UPI screenshots, cash memory, and WhatsApp confirmations don't count as accounting.</p></div>
+        <div class="problem-card reveal-left"><div class="prob-icon">📱</div><h4>WhatsApp Overload</h4><p>Manually sending renewal reminders to 500 members every month is costing your trainer hours.</p></div>
+        <div class="problem-card reveal-bottom"><div class="prob-icon">🎯</div><h4>Poor Lead Follow-up</h4><p>Enquiries fall through the cracks. No pipeline, no reminders, no conversion tracking.</p></div>
+        <div class="problem-card reveal-right"><div class="prob-icon">📊</div><h4>Zero Analytics</h4><p>You have no idea which trainer is performing, which plan is profitable, or where revenue is leaking.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">Platform Features</div>
+        <h2 class="section-title">Everything your gym needs, <span class="gradient-text">in one place</span></h2>
+        <p class="section-sub center">12 powerful modules designed to automate, accelerate, and amplify your fitness business.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feat-card spotlight-card reveal-left"><div class="feat-icon">👥</div><div class="feat-badge">Core</div><h4>Member Management</h4><p>Complete member profiles, history, plans, and lifecycle in one click.</p></div>
+        <div class="feat-card spotlight-card reveal-top"><div class="feat-icon">📍</div><div class="feat-badge">Core</div><h4>Attendance Tracking</h4><p>Real-time biometric, QR, and manual check-ins with instant reports.</p></div>
+        <div class="feat-card spotlight-card reveal-bottom"><div class="feat-icon">📲</div><div class="feat-badge">Smart</div><h4>QR Check-ins</h4><p>Members scan on entry. Zero friction, zero manual logging, maximum speed.</p></div>
+        <div class="feat-card spotlight-card reveal-right"><div class="feat-icon">💳</div><div class="feat-badge">Core</div><h4>Payment Automation</h4><p>Collect dues, send invoices, and reconcile automatically via Razorpay & Stripe.</p></div>
+        <div class="feat-card spotlight-card reveal-left"><div class="feat-icon">💬</div><div class="feat-badge">AI</div><h4>WhatsApp Reminders</h4><p>Automated renewal, birthday, and milestone messages — sent without touching your phone.</p></div>
+        <div class="feat-card spotlight-card reveal-top"><div class="feat-icon">🏋️</div><div class="feat-badge">Core</div><h4>Trainer Management</h4><p>Assign trainers, track performance, manage schedules and commissions.</p></div>
+        <div class="feat-card spotlight-card reveal-bottom"><div class="feat-icon">📝</div><div class="feat-badge">Pro</div><h4>Workout Plans</h4><p>Create and assign custom workout programs with exercise library and progress tracking.</p></div>
+        <div class="feat-card spotlight-card reveal-right"><div class="feat-icon">🥗</div><div class="feat-badge">Pro</div><h4>Diet Tracking</h4><p>Nutrition plans, calorie tracking, and dietary goals linked to each member's profile.</p></div>
+        <div class="feat-card spotlight-card reveal-left"><div class="feat-icon">🎯</div><div class="feat-badge">Smart</div><h4>Lead CRM</h4><p>Capture, nurture, and convert leads with pipeline management and auto-follow-ups.</p></div>
+        <div class="feat-card spotlight-card reveal-top"><div class="feat-icon">📊</div><div class="feat-badge">AI</div><h4>Analytics Dashboard</h4><p>Revenue trends, member retention, attendance heatmaps, and churn prediction.</p></div>
+        <div class="feat-card spotlight-card reveal-bottom"><div class="feat-icon">🏢</div><div class="feat-badge">Enterprise</div><h4>Multi-Branch Management</h4><p>Manage all your gym branches from one unified dashboard with branch-level reporting.</p></div>
+        <div class="feat-card spotlight-card reveal-right"><div class="feat-icon">🤖</div><div class="feat-badge">AI</div><h4>AI Insights</h4><p>Smart alerts, churn risk flags, revenue forecasts, and member engagement scoring.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD PREVIEW -->
+  <section id="dashboard">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">Live Preview</div>
+        <h2 class="section-title">A dashboard that feels like <span class="gradient-text">Mission Control</span></h2>
+      </div>
+      <div class="preview-wrapper reveal-on-scroll">
+        <div class="preview-frame">
+          <div class="preview-topbar">
+            <div class="dash-dot" style="background:#ff5f57"></div>
+            <div class="dash-dot" style="background:#febc2e"></div>
+            <div class="dash-dot" style="background:#28c840"></div>
+            <span style="font-size:0.75rem;color:var(--text3);margin-left:0.75rem;font-family:'Syne',sans-serif;font-weight:600">FitCore ERP — Analytics Overview</span>
+          </div>
+          <div class="preview-body">
+            <div class="preview-sidebar">
+              <div style="font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;font-weight:700">Navigation</div>
+              <div class="sidebar-item active">📊 Dashboard</div>
+              <div class="sidebar-item">👥 Members</div>
+              <div class="sidebar-item">📍 Attendance</div>
+              <div class="sidebar-item">💳 Payments</div>
+              <div class="sidebar-item">🏋️ Trainers</div>
+              <div class="sidebar-item">🎯 Leads</div>
+              <div class="sidebar-item">📝 Workout Plans</div>
+              <div class="sidebar-item">📊 Reports</div>
+              <div class="sidebar-item">⚙️ Settings</div>
+            </div>
+            <div class="preview-main">
+              <div class="preview-stat-row">
+                <div class="pstat"><div class="pstat-label">Total Revenue</div><div class="pstat-val">₹4,82,000</div><div class="pstat-change up">↑ 12.4% this month</div></div>
+                <div class="pstat"><div class="pstat-label">Active Members</div><div class="pstat-val">1,284</div><div class="pstat-change up">↑ 84 new this month</div></div>
+                <div class="pstat"><div class="pstat-label">Renewals Due</div><div class="pstat-val">47</div><div class="pstat-change down">⚠ In next 7 days</div></div>
+                <div class="pstat"><div class="pstat-label">Attendance Today</div><div class="pstat-val">143</div><div class="pstat-change up">↑ vs 118 yesterday</div></div>
+              </div>
+              <div class="preview-charts">
+                <div class="pchart">
+                  <div class="pchart-title">Revenue — Last 8 Months</div>
+                  <div class="bar-chart">
+                    <div class="pbar animate-chart-bar" style="--h:45%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:60%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:52%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:78%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:65%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:88%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:72%"></div>
+                    <div class="pbar animate-chart-bar" style="--h:95%;background:linear-gradient(to top,#8b5cf6,#06b6d4)"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-top:0.75rem;padding: 0 4px">
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Sep</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Oct</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Nov</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Dec</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Jan</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Feb</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Mar</span>
+                    <span style="font-size:0.7rem;color:var(--text3);font-weight:600">Apr</span>
+                  </div>
+                </div>
+                <div class="pchart">
+                  <div class="pchart-title">Membership Split</div>
+                  <div class="donut-wrapper">
+                    <svg class="donut-svg" viewBox="0 0 90 90">
+                      <circle cx="45" cy="45" r="35" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+                      <circle cx="45" cy="45" r="35" fill="none" stroke="#3b82f6" stroke-width="10" stroke-dasharray="132 88" stroke-dashoffset="0" transform="rotate(-90 45 45)"/>
+                      <circle cx="45" cy="45" r="35" fill="none" stroke="#06b6d4" stroke-width="10" stroke-dasharray="66 154" stroke-dashoffset="-132" transform="rotate(-90 45 45)"/>
+                      <circle cx="45" cy="45" r="35" fill="none" stroke="#8b5cf6" stroke-width="10" stroke-dasharray="22 198" stroke-dashoffset="-198" transform="rotate(-90 45 45)"/>
+                      <text x="45" y="48" text-anchor="middle" fill="#f0f4ff" font-size="10" font-family="Syne,sans-serif" font-weight="700">1,284</text>
+                    </svg>
+                  </div>
+                  <div style="display:grid;gap:0.45rem;margin-top:0.75rem">
+                    <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;color:var(--text2)"><span style="display:flex;align-items:center;gap:0.5rem"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block"></span>Annual</span><strong>60%</strong></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;color:var(--text2)"><span style="display:flex;align-items:center;gap:0.5rem"><span style="width:8px;height:8px;border-radius:50%;background:#06b6d4;display:inline-block"></span>Monthly</span><strong>30%</strong></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;color:var(--text2)"><span style="display:flex;align-items:center;gap:0.5rem"><span style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;display:inline-block"></span>Quarterly</span><strong>10%</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE -->
+  <section id="mobile" class="mobile-section">
+    <div class="container">
+      <div class="mobile-inner">
+        <div class="phones-wrap reveal-left">
+          <div class="phone-mockup phone1">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-header">📱 Member App</div>
+              <div class="phone-stat"><span>QR Check-in</span><span class="phone-badge">✓ Active</span></div>
+              <div class="phone-stat"><span>Today's Workout</span><span style="color:var(--cyan);font-size:0.6rem;font-weight:600">View →</span></div>
+              <div class="phone-stat"><span>Plan Expires</span><span style="color:var(--text3);font-size:0.6rem;font-weight:600">28 days</span></div>
+              <div class="qr-box">
+                <div style="font-size:0.65rem;color:var(--text3);margin-bottom:0.5rem;font-weight:600">Scan to check in</div>
+                <div class="qr-grid">
+                  <div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:transparent"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:transparent"></div>
+                  <div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:transparent"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:#fff"></div>
+                  <div class="qr-cell" style="background:transparent"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:#fff"></div><div class="qr-cell" style="background:transparent"></div><div class="qr-cell" style="background:#fff"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-mockup phone2">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-header">🏋️ Trainer App</div>
+              <div class="phone-stat"><span>My Members</span><span style="color:var(--cyan);font-size:0.6rem;font-weight:600">34</span></div>
+              <div class="phone-stat"><span>Sessions Today</span><span class="phone-badge">6</span></div>
+              <div class="phone-stat"><span>Earnings (MTD)</span><span style="color:var(--text);font-size:0.6rem;font-weight:600">₹18,400</span></div>
+              <div style="background:var(--bg2);border-radius:8px;padding:0.6rem;margin-top:0.5rem;border:1px solid var(--border)">
+                <div style="font-size:0.6rem;color:var(--text3);margin-bottom:0.35rem;font-weight:600">Next Session</div>
+                <div style="font-size:0.7rem;font-weight:700">Priya Mehta — 10:30 AM</div>
+                <div style="font-size:0.6rem;color:var(--cyan);font-weight:600">Strength Training</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-right">
+          <div class="section-label">Mobile Apps</div>
+          <h2 class="section-title">Your gym in every <span class="gradient-text">pocket</span></h2>
+          <p class="section-sub">Native apps for members and trainers. QR check-ins, workout plans, notifications — all seamlessly connected.</p>
+          <div class="feature-list">
+            <div class="feat-li">
+              <div class="feat-li-icon">📲</div>
+              <div>
+                <h4>Instant QR Check-in</h4>
+                <p>Members check in by scanning their phone. Attendance logs instantly.</p>
+              </div>
+            </div>
+            <div class="feat-li">
+              <div class="feat-li-icon">📝</div>
+              <div>
+                <h4>Digital Workout Plans</h4>
+                <p>Trainers assign, members follow. Video guides and progress tracking built in.</p>
+              </div>
+            </div>
+            <div class="feat-li">
+              <div class="feat-li-icon">🔔</div>
+              <div>
+                <h4>Smart Push Notifications</h4>
+                <p>Renewal reminders, class schedules, and motivational nudges, automated.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">Why FitCore</div>
+        <h2 class="section-title">The numbers that <span class="gradient-text">speak for themselves</span></h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal-left">
+          <div class="why-num">10x</div>
+          <h4>Faster Renewals</h4>
+          <p>Automated WhatsApp reminders recover dues before they become losses. No manual chasing.</p>
+        </div>
+        <div class="why-card reveal-top">
+          <div class="why-num">3hrs</div>
+          <h4>Saved Daily</h4>
+          <p>Automation handles the admin. Your team focuses on training, not paperwork.</p>
+        </div>
+        <div class="why-card reveal-right">
+          <div class="why-num">94%</div>
+          <h4>Retention Rate</h4>
+          <p>Gyms on FitCore retain far more members than industry average. Data-driven engagement works.</p>
+        </div>
+        <div class="why-card reveal-left">
+          <div class="why-num">∞</div>
+          <h4>Scalability</h4>
+          <p>From 1 gym to 50 branches — the same platform scales with you. No migration needed.</p>
+        </div>
+        <div class="why-card reveal-bottom">
+          <div class="why-num">0</div>
+          <h4>Missed Payments</h4>
+          <p>Smart payment tracking means every rupee is accounted for. No more UPI screenshot archaeology.</p>
+        </div>
+        <div class="why-card reveal-right">
+          <div class="why-num">24/7</div>
+          <h4>AI Monitoring</h4>
+          <p>Churn risk alerts, anomaly detection, and revenue forecasting running while you sleep.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (CAROUSEL SLIDER) -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">Social Proof</div>
+        <h2 class="section-title">Gym owners who <span class="gradient-text">made the switch</span></h2>
+      </div>
+      
+      <div class="testi-carousel-container reveal-on-scroll" id="carouselContainer">
+        <div class="testi-carousel-track" id="testiTrack">
+          <!-- Slide 1 -->
+          <div class="testi-card-slide">
+            <div class="testi-card">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="testi-text">"FitCore completely transformed how I run my gym. Renewals used to be a monthly nightmare — now WhatsApp messages go out automatically and members pay without reminders."</p>
+              <div class="testi-author">
+                <div class="testi-avatar" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">RK</div>
+                <div>
+                  <div class="testi-name">Rakesh Kumar</div>
+                  <div class="testi-role">Owner, IronZone Fitness — Mumbai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="testi-card-slide">
+            <div class="testi-card">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="testi-text">"The analytics dashboard is incredible. I can finally see which trainer is performing, which plans are profitable, and where I'm losing revenue. It's like having a CFO for ₹3000/month."</p>
+              <div class="testi-author">
+                <div class="testi-avatar" style="background:linear-gradient(135deg,#06b6d4,#22c55e)">PS</div>
+                <div>
+                  <div class="testi-name">Priya Sharma</div>
+                  <div class="testi-role">Founder, PulseX Gym — Bangalore</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="testi-card-slide">
+            <div class="testi-card">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="testi-text">"We have 3 branches and managing everything was chaos. FitCore gave us one dashboard for all locations. QR check-ins work flawlessly and members love the app."</p>
+              <div class="testi-author">
+                <div class="testi-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">AM</div>
+                <div>
+                  <div class="testi-name">Arun Menon</div>
+                  <div class="testi-role">Director, FlexCore Chain — Chennai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="carouselPrev" aria-label="Previous testimonial">←</button>
+          <div class="carousel-dots" id="carouselDots"></div>
+          <button class="carousel-btn" id="carouselNext" aria-label="Next testimonial">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">Simple Pricing</div>
+        <h2 class="section-title">Plans that grow <span class="gradient-text">with your gym</span></h2>
+        <p class="section-sub center">No hidden fees. No annual lock-in. Cancel anytime.</p>
+      </div>
+      <div class="pricing-grid reveal-on-scroll">
+        <!-- Starter -->
+        <div class="price-card">
+          <div class="plan-name">⚡ Starter</div>
+          <p class="plan-desc">Perfect for single-location gyms getting started with smart management.</p>
+          <div class="plan-price"><span class="price-currency">₹</span><span class="price-amount">1,999</span><span class="price-period">/mo</span></div>
+          <ul class="plan-features">
+            <li class="plan-feat"><span class="feat-check">✓</span> Up to 200 Members</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Member Management</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Attendance Tracking</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Basic Payment Collection</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> WhatsApp Reminders (500/mo)</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Mobile App Access</li>
+            <li class="plan-feat" style="color:var(--text3)"><span style="margin-right:0.4rem">✗</span> AI Insights</li>
+            <li class="plan-feat" style="color:var(--text3)"><span style="margin-right:0.4rem">✗</span> Multi-Branch</li>
+          </ul>
+          <button class="plan-cta outline" onclick="openTrialModal('Starter')">Get Started Free</button>
+        </div>
+        <!-- Growth -->
+        <div class="price-card popular">
+          <div class="popular-badge">✨ Most Popular</div>
+          <div class="plan-name">🚀 Growth</div>
+          <p class="plan-desc">For growing gyms that want full automation and analytics power.</p>
+          <div class="plan-price"><span class="price-currency">₹</span><span class="price-amount">3,999</span><span class="price-period">/mo</span></div>
+          <ul class="plan-features">
+            <li class="plan-feat"><span class="feat-check">✓</span> Unlimited Members</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Full Member Management</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> QR Check-ins</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Payment Automation</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Unlimited WhatsApp Reminders</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Lead CRM</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> AI Insights & Analytics</li>
+            <li class="plan-feat" style="color:var(--text3)"><span style="margin-right:0.4rem">✗</span> Multi-Branch (up to 2)</li>
+          </ul>
+          <button class="plan-cta primary" onclick="openTrialModal('Growth')">Start Free Trial</button>
+        </div>
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="plan-name">🏢 Enterprise</div>
+          <p class="plan-desc">For gym chains, franchises, and multi-location fitness businesses.</p>
+          <div class="plan-price"><span class="price-currency">₹</span><span class="price-amount">8,999</span><span class="price-period">/mo</span></div>
+          <ul class="plan-features">
+            <li class="plan-feat"><span class="feat-check">✓</span> Unlimited Everything</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Multi-Branch Management</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Custom Branding</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Dedicated Account Manager</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Priority 24/7 Support</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> API Access</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> Custom AI Models</li>
+            <li class="plan-feat"><span class="feat-check">✓</span> On-premise option</li>
+          </ul>
+          <button class="plan-cta outline" onclick="openTrialModal('Enterprise')">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq">
+    <div class="container">
+      <div class="text-center reveal-on-scroll">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+        <p class="section-sub center">Find quick answers to common questions about setting up and running FitCore ERP.</p>
+      </div>
+      
+      <div class="faq-grid reveal-on-scroll">
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>What is the setup process like?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              It takes less than 15 minutes to get fully set up. We import your member data from Excel or Google Sheets, set up your gym branding, configure check-in parameters, and connect your payment gateways for free.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Is there a contract or long-term commitment?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              No. All our plans are completely month-to-month. You can upgrade, downgrade, or cancel your subscription at any time with no cancellation fees or lock-ins.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How do automated WhatsApp reminders work?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              FitCore integrates directly with high-speed official WhatsApp APIs. The system automatically triggers personalized renewal notices, UPI billing links, and birthday wishes directly to your members without staff having to type or send them manually.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Can we manage multiple branches under one account?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              Yes! Our Enterprise tier features a unified multi-location dashboard. Owners can monitor real-time check-ins, compare trainer performance, run centralized billing reports, and track overall analytics across all branches in one portal.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How secure is our member and payment data?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              Security is our highest priority. FitCore uses industry-standard 256-bit SSL encryption. All credit card and payment processing is processed securely by our PCI-DSS compliant partners (Razorpay and Stripe). Your database is backed up hourly.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Do members have to download the mobile app?</span>
+            <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              While not strictly mandatory, it is highly recommended. Members use the app to check in contactlessly via QR, track workouts and calorie diets set by trainers, receive invoice receipts, and get push notifications instantly.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="container">
+      <div class="cta-inner reveal-scale">
+        <div class="section-label" style="display:inline-block">Get Started Today</div>
+        <h2>Transform Your Gym <span class="gradient-text">Operations Today</span></h2>
+        <p>Join 2,400+ gym owners who switched to smarter management. Setup takes 15 minutes. Results are immediate.</p>
+        <div class="cta-btns">
+          <button class="btn-primary btn-lg" onclick="openTrialModal()">🚀 Start Free Trial — No Credit Card</button>
+          <button class="btn-ghost btn-lg" onclick="scrollToSection('pricing')">📅 Book a Live Demo</button>
+        </div>
+        <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--text3)">14-day free trial · No setup fee · Cancel anytime · Onboarding support included</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">FitCore<span>.</span></a>
+          <p class="footer-tagline">The AI-powered ERP for modern fitness businesses. Automate, grow, and retain — all from one platform.</p>
+          <div class="footer-socials">
+            <a class="social-btn" title="Twitter" href="#">𝕏</a>
+            <a class="social-btn" title="LinkedIn" href="#">in</a>
+            <a class="social-btn" title="Instagram" href="#">📸</a>
+            <a class="social-btn" title="YouTube" href="#">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#mobile">Mobile App</a></li>
+            <li><a href="#">API Docs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Features</h5>
+          <ul class="footer-links">
+            <li><a href="#features">Member Management</a></li>
+            <li><a href="#features">Attendance</a></li>
+            <li><a href="#features">Payments</a></li>
+            <li><a href="#features">WhatsApp CRM</a></li>
+            <li><a href="#features">AI Insights</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press Kit</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Status Page</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 FitCore ERP. Built for gym owners who think bigger.</span>
+        <span class="footer-copy">🇮🇳 Made with love in India</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE STICKY CTA BAR -->
+  <div class="mobile-sticky-cta" id="mobileStickyCta">
+    <button class="btn-primary" onclick="openTrialModal()">🚀 Start Trial</button>
+    <button class="btn-ghost" onclick="scrollToSection('pricing')">📅 Book Demo</button>
+  </div>
+
+  <!-- SIGN IN MODAL -->
+  <div class="modal-overlay" id="signInModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeSignInModal()" aria-label="Close modal">&times;</button>
+      <div id="signinMain">
+        <h3>Welcome back</h3>
+        <p class="modal-sub">Sign in to your FitCore workspace</p>
+        <form id="signInForm" onsubmit="handleSignIn(event)">
+          <div class="oauth-buttons">
+            <button type="button" class="btn-oauth">
+              <svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.5 5.5 0 0 1 8.5 13a5.5 5.5 0 0 1 5.49-5.514c2.203 0 3.943 1.258 4.793 2.925l3.52-2.148C20.61 5.372 17.65 3.5 13.99 3.5c-5.244 0-9.5 4.256-9.5 9.5s4.256 9.5 9.5 9.5c5.38 0 9.27-3.79 9.27-9.27 0-.585-.05-1.127-.14-1.643h-10.88z"/></svg>
+              Google
+            </button>
+            <button type="button" class="btn-oauth">
+              <svg viewBox="0 0 23 23"><path fill="#F25022" d="M0 0h11v11H0z"/><path fill="#7FBA00" d="M12 0h11v11H12z"/><path fill="#00A4EF" d="M0 12h11v11H0z"/><path fill="#FFB900" d="M12 12h11v11H12z"/></svg>
+              Microsoft
+            </button>
+          </div>
+          <div class="divider"><span>or email</span></div>
+          <div class="input-group">
+            <label for="signinEmail">Email Address</label>
+            <input type="email" id="signinEmail" required placeholder="owner@ironzone.com" />
+          </div>
+          <div class="input-group">
+            <label for="signinPassword">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="signinPassword" required placeholder="••••••••" />
+              <button type="button" class="toggle-password" id="togglePasswordBtn" onclick="togglePasswordVisibility('signinPassword', 'togglePasswordBtn')">Show</button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <label class="remember-me"><input type="checkbox" /> Remember me</label>
+            <a href="#" class="forgot-link" onclick="alert('Password reset link sent to your email!')">Forgot?</a>
+          </div>
+          <button type="submit" class="btn-primary w-full">Sign In to Dashboard</button>
+        </form>
+      </div>
+      <div id="signinSuccess" class="success-state hidden">
+        <div class="success-icon animate-success">✓</div>
+        <h3>Signed in successfully!</h3>
+        <p class="modal-sub">Redirecting to your gym workspace mission control...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- START FREE TRIAL MODAL (MULTI-STEP ONBOARDING) -->
+  <div class="modal-overlay" id="trialModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeTrialModal()" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-steps-indicator" id="stepIndicator">
+        <span class="step-dot active" id="dot1">1</span>
+        <span class="step-line" id="line1"></span>
+        <span class="step-dot" id="dot2">2</span>
+        <span class="step-line" id="line2"></span>
+        <span class="step-dot" id="dot3">3</span>
+      </div>
+
+      <!-- Step 1: Personal Details -->
+      <div class="step-pane" id="stepPane1">
+        <h3>Create Your Account</h3>
+        <p class="modal-sub">First, let's set up your owner profile details.</p>
+        <form onsubmit="goToStep2(event)">
+          <div class="input-group">
+            <label for="trialName">Full Name</label>
+            <input type="text" id="trialName" required placeholder="Arjun Kumar" />
+          </div>
+          <div class="input-group">
+            <label for="trialEmail">Work Email</label>
+            <input type="email" id="trialEmail" required placeholder="arjun@mygym.com" />
+          </div>
+          <div class="input-group">
+            <label for="trialPhone">Phone Number</label>
+            <input type="tel" id="trialPhone" required placeholder="+91 98765 43210" pattern="[0-9\s\+\-\(\)]{10,20}" title="Please enter a valid phone number" />
+          </div>
+          <button type="submit" class="btn-primary w-full" style="margin-top:0.75rem">Continue to Gym Info →</button>
+        </form>
+      </div>
+
+      <!-- Step 2: Gym Information -->
+      <div class="step-pane hidden" id="stepPane2">
+        <h3>About Your Gym</h3>
+        <p class="modal-sub">Help us configure your workspace modules.</p>
+        <form onsubmit="submitTrialForm(event)">
+          <div class="input-group">
+            <label for="trialGymName">Gym / Business Name</label>
+            <input type="text" id="trialGymName" required placeholder="IronZone Fitness Studio" />
+          </div>
+          <div class="input-group">
+            <label for="trialCity">City</label>
+            <input type="text" id="trialCity" required placeholder="Mumbai" />
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="trialMembers">Member Size</label>
+              <select id="trialMembers" required>
+                <option value="">Select range...</option>
+                <option value="1-100">1 - 100</option>
+                <option value="101-300">101 - 300</option>
+                <option value="301-1000">301 - 1000</option>
+                <option value="1000+">1000+</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="trialPlan">Selected Plan</label>
+              <select id="trialPlan" required>
+                <option value="Starter">Starter (₹1,999/mo)</option>
+                <option value="Growth" selected>Growth (₹3,999/mo)</option>
+                <option value="Enterprise">Enterprise (₹8,999/mo)</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-row">
+            <button type="button" class="btn-ghost" onclick="goBackToStep1()">Back</button>
+            <button type="submit" class="btn-primary">Create Gym Dashboard</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 3: Success Provisions -->
+      <div class="step-pane hidden" id="stepPane3">
+        <div class="success-state">
+          <div class="success-icon animate-success" id="successCheckMark" style="display:none">✓</div>
+          <div class="loader-spinner" id="setupSpinner" style="width:50px;height:50px;margin-bottom:1.5rem"></div>
+          <h3 id="setupTitle">Provisioning Database...</h3>
+          <p class="modal-sub" id="setupDesc">We are spinning up your dedicated dashboard nodes and configuring modules.</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="setupProgressFill"></div>
+          </div>
+          <div class="loading-status-text" id="setupStatusText">Initializing database schemas...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // PAGE PRELOADER
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.classList.add('fade-out');
+    });
+
+    // SCROLL PROGRESS BAR
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scrollProgress').style.width = scrolled + '%';
+    });
+
+    // MOBILE HAMBURGER MENU
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    
+    menuToggle.addEventListener('click', toggleMobileMenu);
+
+    function toggleMobileMenu() {
+      menuToggle.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+    }
+
+    // MOBILE STICKY CTA BAR
+    const stickyCta = document.getElementById('mobileStickyCta');
+    window.addEventListener('scroll', () => {
+      if (window.innerWidth <= 768) {
+        const hero = document.querySelector('.hero');
+        const heroHeight = hero.offsetHeight;
+        if (window.scrollY > heroHeight) {
+          stickyCta.classList.add('visible');
+        } else {
+          stickyCta.classList.remove('visible');
+        }
+      } else {
+        stickyCta.classList.remove('visible');
+      }
+    });
+
+    // SCROLL TO SECTION UTILITY
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // SCROLL REVEAL ANIMATIONS (IntersectionObserver)
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal-on-scroll, .reveal-left, .reveal-right, .reveal-scale, .reveal-top, .reveal-bottom').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // DYNAMIC STAT COUNTERS
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          const originalText = el.textContent || '';
+          
+          let suffix = '';
+          if (originalText.includes('%')) suffix = '%';
+          else if (originalText.includes('Cr')) suffix = 'Cr';
+          else if (target >= 100000) suffix = 'K+';
+          else if (originalText.includes('+')) suffix = '+';
+
+          animateCounter(el, target, suffix);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+
+    function animateCounter(el, target, suffix) {
+      const duration = 1800;
+      const start = performance.now();
+      
+      const update = (time) => {
+        const progress = Math.min((time - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+        const currentVal = Math.floor(ease * target);
+        
+        if (suffix === '%') {
+          el.textContent = currentVal + '%';
+        } else if (suffix === 'Cr') {
+          el.textContent = currentVal + 'Cr';
+        } else if (suffix === 'K+') {
+          el.textContent = (currentVal / 1000).toFixed(0) + 'K+';
+        } else if (suffix === '+') {
+          el.textContent = currentVal.toLocaleString('en-IN') + '+';
+        } else {
+          el.textContent = currentVal.toLocaleString('en-IN');
+        }
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          // Lock to actual final value at completion
+          if (suffix === '%') el.textContent = target + '%';
+          else if (suffix === 'Cr') el.textContent = target + 'Cr';
+          else if (suffix === 'K+') el.textContent = (target / 1000).toFixed(0) + 'K+';
+          else if (suffix === '+') el.textContent = target.toLocaleString('en-IN') + '+';
+          else el.textContent = target.toLocaleString('en-IN');
+        }
+      };
+      
+      requestAnimationFrame(update);
+    }
+
+    // TYPING ENGINE FOR HERO HEADLINE
+    const words = ["Smarter", "Faster", "Better", "Automated", "Effortlessly"];
+    let wordIdx = 0;
+    let charIdx = words[0].length;
+    let isDeleting = false;
+    const typedTextEl = document.getElementById('typedText');
+    const typeSpeed = 120;
+    const eraseSpeed = 60;
+    const delayBetweenWords = 2200;
+
+    function typeEffect() {
+      const currentWord = words[wordIdx];
+      
+      if (isDeleting) {
+        charIdx--;
+      } else {
+        charIdx++;
+      }
+      
+      typedTextEl.textContent = currentWord.substring(0, charIdx);
+      
+      let currentSpeed = isDeleting ? eraseSpeed : typeSpeed;
+      
+      if (!isDeleting && charIdx === currentWord.length) {
+        isDeleting = true;
+        currentSpeed = delayBetweenWords;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        currentSpeed = 400; // Pause before typing the next word
+      }
+      
+      setTimeout(typeEffect, currentSpeed);
+    }
+    
+    // Start typing effect after preloader finishes
+    setTimeout(typeEffect, 1200);
+
+    // SPOTLIGHT CARDS HOVER EFFECT
+    document.querySelectorAll('.spotlight-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // TESTIMONIAL SLIDER CAROUSEL (Touch & Mouse Drag)
+    const track = document.getElementById('testiTrack');
+    const container = document.getElementById('carouselContainer');
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    const dotsContainer = document.getElementById('carouselDots');
+    let currentSlide = 0;
+    let startX = 0;
+    let isDragging = false;
+    let autoPlayInterval;
+
+    // Create pagination dots
+    slides.forEach((_, index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('carousel-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        updateCarousel();
+        resetAutoPlay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+    
+    const dots = Array.from(dotsContainer.children);
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function slideNext() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      updateCarousel();
+    }
+
+    function slidePrev() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      updateCarousel();
+    }
+
+    nextBtn.addEventListener('click', () => {
+      slideNext();
+      resetAutoPlay();
+    });
+    prevBtn.addEventListener('click', () => {
+      slidePrev();
+      resetAutoPlay();
+    });
+
+    // Auto Play Engine
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(slideNext, 6000);
+    }
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      startAutoPlay();
+    }
+    
+    startAutoPlay();
+
+    // Drag and Swipe Handlers
+    container.addEventListener('mousedown', dragStart);
+    container.addEventListener('touchstart', dragStart);
+    container.addEventListener('mouseup', dragEnd);
+    container.addEventListener('touchend', dragEnd);
+    container.addEventListener('mousemove', dragMove);
+    container.addEventListener('touchmove', dragMove);
+    container.addEventListener('mouseleave', dragEnd);
+
+    function dragStart(e) {
+      isDragging = true;
+      startX = getDragPositionX(e);
+      clearInterval(autoPlayInterval);
+    }
+
+    function dragMove(e) {
+      if (!isDragging) return;
+      const currentX = getDragPositionX(e);
+      const diffX = currentX - startX;
+      
+      if (Math.abs(diffX) > 60) {
+        if (diffX > 0) {
+          slidePrev();
+        } else {
+          slideNext();
+        }
+        isDragging = false;
+        resetAutoPlay();
+      }
+    }
+
+    // FAQ ACCORDION ENGINE
+    document.querySelectorAll('.faq-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.parentNode;
+        const isActive = item.classList.contains('active');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-item').forEach(el => {
+          el.classList.remove('active');
+          el.querySelector('.faq-content').style.maxHeight = null;
+        });
+
+        if (!isActive) {
+          item.classList.add('active');
+          const content = item.querySelector('.faq-content');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // SIGN IN MODAL CONTROL
+    const signInModal = document.getElementById('signInModal');
+    const signinMain = document.getElementById('signinMain');
+    const signinSuccess = document.getElementById('signinSuccess');
+    
+    function openSignInModal() {
+      signInModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSignInModal() {
+      signInModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Reset form states
+      setTimeout(() => {
+        signinMain.classList.remove('hidden');
+        signinSuccess.classList.add('hidden');
+        document.getElementById('signInForm').reset();
+      }, 400);
+    }
+    
+    function togglePasswordVisibility(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn = document.getElementById(btnId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'Show';
+      }
+    }
+
+    function handleSignIn(e) {
+      e.preventDefault();
+      // Animate transition to success
+      signinMain.classList.add('hidden');
+      signinSuccess.classList.remove('hidden');
+      
+      setTimeout(() => {
+        closeSignInModal();
+      }, 2500);
+    }
+
+    // START FREE TRIAL MODAL (MULTI-STEP) CONTROL
+    const trialModal = document.getElementById('trialModal');
+    const step1 = document.getElementById('stepPane1');
+    const step2 = document.getElementById('stepPane2');
+    const step3 = document.getElementById('stepPane3');
+    
+    const dot1 = document.getElementById('dot1');
+    const dot2 = document.getElementById('dot2');
+    const dot3 = document.getElementById('dot3');
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+
+    function openTrialModal(planName = 'Growth') {
+      trialModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Automatically pre-populate plan selection
+      const planDropdown = document.getElementById('trialPlan');
+      if (planDropdown && planName) {
+        planDropdown.value = planName;
+      }
+    }
+
+    function closeTrialModal() {
+      trialModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Reset flow to Step 1
+      setTimeout(() => {
+        step1.classList.remove('hidden');
+        step2.classList.add('hidden');
+        step3.classList.add('hidden');
+        
+        dot1.className = 'step-dot active';
+        dot2.className = 'step-dot';
+        dot3.className = 'step-dot';
+        line1.className = 'step-line';
+        line2.className = 'step-line';
+        
+        document.getElementById('successCheckMark').style.display = 'none';
+        document.getElementById('setupSpinner').style.display = 'block';
+        document.getElementById('setupProgressFill').style.width = '0%';
+        
+        document.getElementById('trialName').value = '';
+        document.getElementById('trialEmail').value = '';
+        document.getElementById('trialPhone').value = '';
+        document.getElementById('trialGymName').value = '';
+        document.getElementById('trialCity').value = '';
+        document.getElementById('trialMembers').value = '';
+      }, 400);
+    }
+
+    function goToStep2(e) {
+      e.preventDefault();
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+      
+      dot1.className = 'step-dot completed';
+      line1.className = 'step-line active';
+      dot2.className = 'step-dot active';
+    }
+
+    function goBackToStep1() {
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+      
+      dot1.className = 'step-dot active';
+      line1.className = 'step-line';
+      dot2.className = 'step-dot';
+    }
+
+    function submitTrialForm(e) {
+      e.preventDefault();
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+      
+      dot2.className = 'step-dot completed';
+      line2.className = 'step-line active';
+      dot3.className = 'step-dot active';
+      
+      runProvisioningLoader();
+    }
+
+    function runProvisioningLoader() {
+      const progressBar = document.getElementById('setupProgressFill');
+      const statusText = document.getElementById('setupStatusText');
+      const title = document.getElementById('setupTitle');
+      const desc = document.getElementById('setupDesc');
+      const spinner = document.getElementById('setupSpinner');
+      const checkMark = document.getElementById('successCheckMark');
+
+      const states = [
+        { progress: 20, status: "Initializing databases..." },
+        { progress: 40, status: "Creating custom billing schemas..." },
+        { progress: 65, status: "Connecting WhatsApp API gateways..." },
+        { progress: 85, status: "Provisioning your CRM portal..." },
+        { progress: 100, status: "System ready!" }
+      ];
+      
+      let stepIdx = 0;
+      
+      function advanceProgress() {
+        if (stepIdx < states.length) {
+          const currentState = states[stepIdx];
+          progressBar.style.width = currentState.progress + '%';
+          statusText.textContent = currentState.status;
+          stepIdx++;
+          
+          let duration = 500 + Math.random() * 600;
+          if (stepIdx === states.length) {
+            duration = 1000; // Final pause for completeness
+          }
+          setTimeout(advanceProgress, duration);
+        } else {
+          // Provisioning complete
+          spinner.style.display = 'none';
+          checkMark.style.display = 'flex';
+          dot3.className = 'step-dot completed';
+          title.textContent = "Workspace Activated!";
+          desc.textContent = "Your FitCore ERP workspace is set up and active. Check your email for login credentials!";
+          statusText.textContent = "Redirecting you to dashboard...";
+          
+          setTimeout(() => {
+            closeTrialModal();
+          }, 3500);
+        }
+      }
+      
+      setTimeout(advanceProgress, 300);
+    }
+  </script>
+</body>
+</html>
