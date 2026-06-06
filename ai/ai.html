@@ -82,7 +82,8 @@ select.form-input option{background:var(--bg3)}
 .day-muscles-text{font-size:0.72rem;color:var(--violet)}
 .day-body{padding:0.75rem 1rem;border-top:1px solid var(--border);display:none}
 .day-body.open{display:block}
-.ex-table{width:100%;border-collapse:collapse}
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ex-table{width:100%;min-width:550px;border-collapse:collapse}
 .ex-table th{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);padding:0.3rem 0.5rem;text-align:left}
 .ex-table td{font-size:0.8rem;padding:0.45rem 0.5rem;border-bottom:1px solid var(--border);color:var(--text2)}
 .ex-table td:first-child{font-weight:500;color:var(--text)}
@@ -92,7 +93,7 @@ select.form-input option{background:var(--bg3)}
 .meal-header:hover{background:var(--bg4)}
 .meal-time{font-size:0.7rem;color:var(--cyan);background:rgba(34,211,238,0.1);border-radius:6px;padding:0.15rem 0.45rem}
 .meal-body{padding:0 1rem 0.75rem;border-top:1px solid var(--border)}
-.food-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:0.5rem;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.76rem;align-items:center}
+.food-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:0.5rem;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.76rem;align-items:center;min-width:500px}
 .food-row:last-child{border:none}
 .food-row-header{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text3);padding:0.5rem 0 0.25rem}
 
@@ -459,13 +460,15 @@ function renderWorkoutResult(plan) {
         <i class="ti ti-chevron-down" style="color:var(--text3);font-size:14px;margin-left:0.5rem"></i>
       </div>
       <div class="day-body">
-        <table class="ex-table">
-          <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr>
-          ${(day.exercises||[]).map(ex=>`<tr>
-            <td>${ex.name}</td><td>${ex.sets}</td><td>${ex.reps}</td>
-            <td>${ex.rest_seconds}s</td><td style="color:var(--text3)">${ex.notes||ex.weight_hint||'—'}</td>
-          </tr>`).join('')}
-        </table>
+        <div class="table-wrap">
+          <table class="ex-table">
+            <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr>
+            ${(day.exercises||[]).map(ex=>`<tr>
+              <td>${ex.name}</td><td>${ex.sets}</td><td>${ex.reps}</td>
+              <td>${ex.rest_seconds}s</td><td style="color:var(--text3)">${ex.notes||ex.weight_hint||'—'}</td>
+            </tr>`).join('')}
+          </table>
+        </div>
       </div>
     </div>`).join('');
   document.getElementById('workoutResult').classList.add('visible');
@@ -529,16 +532,18 @@ function renderDietResult(plan) {
         <i class="ti ti-chevron-down" style="color:var(--text3);font-size:14px;margin-left:0.5rem"></i>
       </div>
       <div class="meal-body">
-        <div class="food-row food-row-header">
-          <div>Food</div><div>Qty</div><div>Unit</div><div>Cal</div><div>Protein</div><div>Carbs</div>
+        <div class="table-wrap">
+          <div class="food-row food-row-header">
+            <div>Food</div><div>Qty</div><div>Unit</div><div>Cal</div><div>Protein</div><div>Carbs</div>
+          </div>
+          ${(meal.foods||[]).map(f=>`<div class="food-row">
+            <div style="font-weight:500;color:var(--text)">${f.name}</div>
+            <div>${f.quantity}</div><div style="color:var(--text3)">${f.unit}</div>
+            <div style="color:var(--amber)">${f.calories||'—'}</div>
+            <div style="color:var(--violet)">${f.protein!=null?f.protein+'g':'—'}</div>
+            <div style="color:var(--cyan)">${f.carbs!=null?f.carbs+'g':'—'}</div>
+          </div>`).join('')}
         </div>
-        ${(meal.foods||[]).map(f=>`<div class="food-row">
-          <div style="font-weight:500;color:var(--text)">${f.name}</div>
-          <div>${f.quantity}</div><div style="color:var(--text3)">${f.unit}</div>
-          <div style="color:var(--amber)">${f.calories||'—'}</div>
-          <div style="color:var(--violet)">${f.protein!=null?f.protein+'g':'—'}</div>
-          <div style="color:var(--cyan)">${f.carbs!=null?f.carbs+'g':'—'}</div>
-        </div>`).join('')}
       </div>
     </div>`).join('');
   document.getElementById('dietResult').classList.add('visible');
