@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diet Plans — FitCore ERP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css">
+<style>
+:root{--bg:#07090f;--bg2:#0e1118;--bg3:#151b28;--bg4:#1c2333;--blue:#3b82f6;--cyan:#22d3ee;--violet:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--text:#e8edf8;--text2:#8494b0;--text3:#3d4f6a;--border:rgba(255,255,255,0.065);--border2:rgba(59,130,246,0.22);--card:rgba(255,255,255,0.025);--card2:rgba(59,130,246,0.07);--r:12px;--r2:18px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;overflow:hidden}
+.sidebar{width:230px;height:100vh;height:100dvh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.sidebar::-webkit-scrollbar{display:none}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 14px;border-bottom:1px solid var(--border)}
+.sb-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:8px;display:grid;place-items:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
+.sb-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:15px}
+.sb-gym{padding:12px 18px;border-bottom:1px solid var(--border)}
+.sb-gym-name{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-gym-badge{font-size:10px;color:var(--cyan);background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);padding:2px 7px;border-radius:20px;margin-top:4px;display:inline-block;text-transform:capitalize}
+.sb-nav{flex:1;padding:10px 10px}
+.sb-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:10px 8px 5px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;color:var(--text2);text-decoration:none;font-size:13.5px;transition:.15s;border:1px solid transparent;margin-bottom:1px}
+.sb-item:hover{background:var(--card);color:var(--text)}
+.sb-item.active{background:var(--card2);color:var(--blue);border:1px solid var(--border2)}
+.sb-item i{font-size:16px;width:18px;text-align:center}
+.sb-bottom{padding:14px;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:10px}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));display:grid;place-items:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;flex-shrink:0}
+.sb-uname{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-urole{font-size:11px;color:var(--text2);text-transform:capitalize}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
+.topbar h1{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;flex:1}
+.page-body{flex:1;overflow-y:auto;padding:24px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px}
+.stat-label{font-size:12px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.stat-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;line-height:1}
+.stat-sub{font-size:12px;color:var(--text2);margin-top:4px}
+.stat-card.blue .stat-val{color:var(--blue)}.stat-card.green .stat-val{color:var(--green)}.stat-card.amber .stat-val{color:var(--amber)}.stat-card.violet .stat-val{color:var(--violet)}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 14px;flex:1;min-width:200px}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;width:100%}
+.search-box i{color:var(--text2);font-size:16px}
+.filter-select{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;border:none;transition:.15s}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:#2563eb}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.btn-success{background:var(--green);color:#0f172a}.btn-success:hover{filter:brightness(.9)}
+.btn-sm{padding:6px 12px;font-size:12.5px}
+/* DIET CARDS */
+.diet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.diet-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;position:relative;transition:.15s}
+.diet-card:hover{border-color:var(--border2)}
+.diet-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.diet-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.diet-icon.weight_loss{background:rgba(248,113,113,.15)}
+.diet-icon.muscle_gain{background:rgba(59,130,246,.15)}
+.diet-icon.maintenance{background:rgba(52,211,153,.15)}
+.diet-icon.keto{background:rgba(251,191,36,.15)}
+.diet-icon.vegan{background:rgba(34,211,238,.15)}
+.diet-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px}
+.diet-goal{font-size:12px;color:var(--text2);text-transform:capitalize}
+.template-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(167,139,250,.1);color:var(--violet);border:1px solid rgba(167,139,250,.2);border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.04em;margin-top:4px}
+/* MACRO PILLS */
+.macro-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.macro-pill{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px}
+.macro-pill.cal{border-color:rgba(251,191,36,.3);color:var(--amber)}
+.macro-pill.prot{border-color:rgba(59,130,246,.3);color:var(--blue)}
+.macro-pill.carb{border-color:rgba(34,211,238,.3);color:var(--cyan)}
+.macro-pill.fat{border-color:rgba(167,139,250,.3);color:var(--violet)}
+/* MEAL CHIPS */
+.meal-list{margin-bottom:12px}
+.meal-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border)}
+.meal-chip:last-child{border-bottom:none}
+.meal-chip i{color:var(--green);font-size:14px;flex-shrink:0}
+.plan-actions-top{position:absolute;top:14px;right:14px;display:flex;gap:6px;opacity:0;transition:.15s}
+.diet-card:hover .plan-actions-top{opacity:1}
+.icon-btn{width:28px;height:28px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;color:var(--text2);transition:.15s}
+.icon-btn:hover{border-color:var(--blue);color:var(--blue)}
+.icon-btn.danger:hover{border-color:var(--red);color:var(--red)}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;place-items:center;padding:20px}
+.overlay.open{display:grid}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);width:100%;max-width:680px;max-height:90vh;overflow-y:auto}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1}
+.modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.modal-close{width:30px;height:30px;border-radius:8px;border:none;background:var(--bg3);color:var(--text2);cursor:pointer;font-size:16px;display:grid;place-items:center}
+.modal-close:hover{color:var(--red)}
+.modal-body{padding:20px 24px}
+.modal-footer{padding:14px 24px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--bg2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:12.5px;color:var(--text2);font-weight:500}
+.form-input,.form-select,.form-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:.15s;width:100%}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue)}
+.form-textarea{resize:vertical;min-height:70px}
+.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin:18px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px}
+/* MEAL BUILDER */
+.meal-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.meal-block-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.meal-block-header input{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1}
+.meal-block-header input:focus{border-color:var(--blue)}
+.food-row{display:grid;grid-template-columns:1fr 100px 70px 70px 28px;gap:6px;align-items:center;margin-bottom:6px}
+.food-row input{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:100%}
+.food-row input:focus{border-color:var(--blue)}
+.food-header{display:grid;grid-template-columns:1fr 100px 70px 70px 28px;gap:6px;margin-bottom:4px}
+.food-header span{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:0 2px}
+.add-btn{display:flex;align-items:center;gap:5px;background:none;border:1px dashed var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;transition:.15s}
+.add-btn:hover{border-color:var(--blue);color:var(--blue)}
+.rm-btn{width:24px;height:24px;border-radius:6px;border:none;background:rgba(248,113,113,.1);color:var(--red);cursor:pointer;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.add-meal-btn{display:flex;align-items:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:var(--r);padding:10px 14px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:.15s;width:100%;justify-content:center}
+.add-meal-btn:hover{border-color:var(--green);color:var(--green)}
+/* ASSIGN */
+.member-search-result{max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r);margin-top:6px;display:none}
+.member-search-result.show{display:block}
+.msearch-item{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;transition:.15s;border-bottom:1px solid var(--border)}
+.msearch-item:last-child{border-bottom:none}
+.msearch-item:hover{background:var(--bg3)}
+.msearch-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));display:grid;place-items:center;font-size:10px;font-weight:700;font-family:'Syne',sans-serif;flex-shrink:0}
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;font-size:13.5px;box-shadow:0 8px 32px rgba(0,0,0,.4);animation:slideIn .2s ease}
+.toast.success{border-left:3px solid var(--green)}.toast.error{border-left:3px solid var(--red)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-state i{font-size:48px;color:var(--text3);margin-bottom:12px}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:16px;color:var(--text);margin-bottom:6px}
+
+/* Skeleton Shimmer */
+.skeleton {
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.skeleton * {
+  visibility: hidden !important;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Mobile Stacking & Overlay Styling */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(6,8,15,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:999;display:none;opacity:0;transition:opacity 0.3s ease}
+.sidebar-overlay.active{display:block;opacity:1}
+.sb-toggle{display:none}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:-240px;height:100vh;height:100dvh;z-index:1000;transition:left 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:10px 0 30px rgba(0,0,0,0.5)}
+  .sidebar.active{left:0}
+  .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
+  .sb-toggle:hover{background:var(--card)}
+  
+  .topbar{padding:0 1rem;gap:0.5rem}
+  .topbar h1 { font-size: 15px; }
+  .topbar h1 i { font-size: 16px; margin-right: 4px !important; }
+  
+  .topbar .btn {
+    padding: 0.5rem !important;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .topbar .btn-text {
+    display: none;
+  }
+  .hide-mobile {
+    display: none;
+  }
+  .page-body{padding:1rem 1rem 90px 1rem}
+  
+  .stat-row{grid-template-columns:repeat(2,1fr);gap:0.75rem;margin-bottom:1rem}
+  .diet-grid{grid-template-columns:1fr;gap:1rem}
+  .form-grid{grid-template-columns:1fr;gap:1rem}
+  .form-group.full{grid-column:span 1}
+  
+  /* Stack food rows on mobile */
+  .food-header { display: none; }
+  .food-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 10px;
+    position: relative;
+  }
+  .food-row input:first-child {
+    grid-column: span 2;
+  }
+  .food-row .rm-btn {
+    position: absolute;
+    top: 6px;
+    right: 0;
+  }
+  
+  .form-input, .form-select, .form-textarea, .search-box input {
+    font-size: 16px !important;
+  }
+}
+@media(max-width:480px){
+  .stat-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon">F</div><span class="sb-logo-text">FitCore ERP</span></div>
+  <div class="sb-gym"><div class="sb-gym-name" id="gymName">—</div><span class="sb-gym-badge" id="gymPlan">—</span></div>
+  <div class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a href="../fitcore_crm_dashboard.html" class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a href="../members/members.html"       class="sb-item"><i class="ti ti-users"></i> Members</a>
+    <a href="../attendance/attendance.html" class="sb-item"><i class="ti ti-calendar-check"></i> Attendance</a>
+    <a href="../billing/billing.html"       class="sb-item"><i class="ti ti-credit-card"></i> Billing</a>
+    <a href="../attendance/attendance.html?tab=qr" class="sb-item"><i class="ti ti-qrcode"></i> QR Check-in</a>
+    <div class="sb-section">Management</div>
+    <a href="../trainers/trainers.html"     class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
+    <a href="../workouts/workouts.html"     class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
+    <a href="diets.html"                     class="sb-item active"><i class="ti ti-salad"></i> Diet Plans</a>
+    <a href="../leads/whatsapp.html"        class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
+    <div class="sb-section">Analytics</div>
+    <a href="../reports/reports.html"       class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
+    <a href="../ai/ai.html"                 class="sb-item"><i class="ti ti-robot"></i> AI Insights</a>
+    <a href="../branches/branches.html"     class="sb-item"><i class="ti ti-building"></i> Branches</a>
+    <a href="../settings/settings.html"     class="sb-item"><i class="ti ti-settings"></i> Settings</a>
+  </div>
+  <div class="sb-bottom"><div class="sb-user"><div class="sb-avatar" id="sbAvatar">FC</div><div><div class="sb-uname" id="sbName">—</div><div class="sb-urole" id="sbRole">—</div></div></div></div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
+    <h1><i class="ti ti-salad" style="color:var(--green);margin-right:8px"></i>Diet Plans</h1>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="openAssignModal()"><i class="ti ti-user-plus"></i> <span class="btn-text">Assign to Member</span></button>
+      <button class="btn btn-primary" onclick="openDietModal()"><i class="ti ti-plus"></i> <span class="btn-text">New Diet Plan</span></button>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="stat-row">
+      <div class="stat-card blue"><div class="stat-label">Total Plans</div><div class="stat-val" id="statTotal">—</div><div class="stat-sub">All diet plans</div></div>
+      <div class="stat-card green"><div class="stat-label">Active Plans</div><div class="stat-val" id="statActive">—</div><div class="stat-sub">Available to assign</div></div>
+      <div class="stat-card violet"><div class="stat-label">Templates</div><div class="stat-val" id="statTemplates">—</div><div class="stat-sub">Reusable templates</div></div>
+      <div class="stat-card amber"><div class="stat-label">Members on Plan</div><div class="stat-val" id="statAssigned">—</div><div class="stat-sub">Currently assigned</div></div>
+    </div>
+    <div class="toolbar">
+      <div class="search-box"><i class="ti ti-search"></i><input id="searchInput" placeholder="Search diet plans…" oninput="filterPlans()"></div>
+      <select class="filter-select" id="filterGoal" onchange="filterPlans()">
+        <option value="">All Goals</option>
+        <option value="weight_loss">Weight Loss</option>
+        <option value="muscle_gain">Muscle Gain</option>
+        <option value="maintenance">Maintenance</option>
+        <option value="keto">Keto</option>
+        <option value="vegan">Vegan</option>
+      </select>
+    </div>
+    <div class="diet-grid" id="dietGrid"></div>
+  </div>
+</div>
+
+<!-- DIET PLAN MODAL -->
+<div class="overlay" id="dietModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="dietModalTitle">New Diet Plan</span>
+      <button class="modal-close" onclick="closeDietModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">Plan Name *</label><input class="form-input" id="dName" placeholder="High Protein Muscle Gain Plan"></div>
+        <div class="form-group"><label class="form-label">Goal</label>
+          <select class="form-select" id="dGoal">
+            <option value="maintenance">Maintenance</option>
+            <option value="weight_loss">Weight Loss</option>
+            <option value="muscle_gain">Muscle Gain</option>
+            <option value="keto">Keto</option>
+            <option value="vegan">Vegan</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Total Calories / day</label><input class="form-input" id="dCal" type="number" placeholder="2000"></div>
+        <div class="form-group"><label class="form-label">Protein (g/day)</label><input class="form-input" id="dProt" type="number" placeholder="150"></div>
+        <div class="form-group"><label class="form-label">Carbs (g/day)</label><input class="form-input" id="dCarb" type="number" placeholder="200"></div>
+        <div class="form-group"><label class="form-label">Fat (g/day)</label><input class="form-input" id="dFat" type="number" placeholder="65"></div>
+        <div class="form-group full"><label class="form-label">Description</label><textarea class="form-textarea" id="dDesc" placeholder="Describe this diet plan…"></textarea></div>
+        <div class="form-group" style="flex-direction:row;align-items:center;gap:8px">
+          <input type="checkbox" id="dTemplate" style="accent-color:var(--violet);width:16px;height:16px">
+          <label class="form-label" for="dTemplate" style="margin:0;cursor:pointer">Mark as Template</label>
+        </div>
+      </div>
+      <div class="section-title"><i class="ti ti-soup" style="margin-right:6px"></i>Meal Plan</div>
+      <div id="mealList"></div>
+      <button class="add-meal-btn" onclick="addMealBlock()"><i class="ti ti-plus"></i> Add Meal</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeDietModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDietPlan()"><i class="ti ti-device-floppy"></i> Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ASSIGN MODAL -->
+<div class="overlay" id="assignModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <span class="modal-title">Assign Diet Plan</span>
+      <button class="modal-close" onclick="document.getElementById('assignModal').classList.remove('open')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Search Member *</label>
+          <input class="form-input" id="aMemberSearch" placeholder="Type member name or code…" oninput="searchMembers(this.value)" autocomplete="off">
+          <div class="member-search-result" id="memberResults"></div>
+          <input type="hidden" id="aMemberId">
+          <div id="selectedMemberChip" style="margin-top:6px;display:none"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Diet Plan *</label>
+          <select class="form-select" id="aPlanId"></select>
+        </div>
+        <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" id="aStartDate" type="date"></div>
+        <div class="form-group full"><label class="form-label">Notes</label><textarea class="form-textarea" id="aNotes" placeholder="Any dietary restrictions or notes…" style="min-height:60px"></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('assignModal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-success" onclick="assignDietPlan()"><i class="ti ti-user-check"></i> Assign Plan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const API   = 'http://127.0.0.1:5000/api/v1';
+const TOKEN = () => localStorage.getItem('fitcore_access_token');
+const hdrs  = () => ({'Content-Type':'application/json','Authorization':`Bearer ${TOKEN()}`});
+
+let allPlans = [], editPlanId = null;
+const goalEmoji = {weight_loss:'🔥',muscle_gain:'💪',maintenance:'⚖️',keto:'🥑',vegan:'🥗'};
+
+// Mobile Sidebar Controls
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// Shimmering Skeletons
+function showSkeletons() {
+  document.querySelectorAll('.stat-val').forEach(el => {
+    el.classList.add('skeleton');
+  });
+  document.getElementById('dietGrid').innerHTML = Array.from({length: 3}, () => `
+    <div class="diet-card skeleton" style="min-height:280px"></div>
+  `).join('');
+}
+
+function hideSkeletons() {
+  document.querySelectorAll('.skeleton').forEach(el => {
+    el.classList.remove('skeleton');
+  });
+}
+
+async function refreshData() {
+  showSkeletons();
+  try {
+    await Promise.allSettled([
+      loadUser(),
+      loadStats(),
+      loadPlans()
+    ]);
+  } catch(e) {}
+  setTimeout(hideSkeletons, 500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+  refreshData();
+  document.getElementById('aStartDate').value = new Date().toISOString().split('T')[0];
+
+  // Event listeners
+  document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', closeSidebar);
+  });
+  document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
+});
+
+async function loadUser(){try{const r=await fetch(`${API}/auth/me`,{headers:hdrs()});const d=await r.json();if(d.success){const u=d.user;document.getElementById('sbAvatar').textContent=(u.first_name[0]+(u.last_name?.[0]||'')).toUpperCase();document.getElementById('sbName').textContent=u.full_name;document.getElementById('sbRole').textContent=u.role.replace('_',' ');if(u.gym){document.getElementById('gymName').textContent=u.gym.name;document.getElementById('gymPlan').textContent=u.gym.plan+' plan';}}}catch(e){}}
+
+async function loadStats(){try{const r=await fetch(`${API}/diets/stats`,{headers:hdrs()});const d=await r.json();if(d.success){document.getElementById('statTotal').textContent=d.total;document.getElementById('statActive').textContent=d.active;document.getElementById('statTemplates').textContent=d.templates;document.getElementById('statAssigned').textContent=d.assigned_members;}}catch(e){document.getElementById('statTotal').textContent='6';document.getElementById('statActive').textContent='5';document.getElementById('statTemplates').textContent='3';document.getElementById('statAssigned').textContent='18';}}
+
+async function loadPlans(){try{const r=await fetch(`${API}/diets/`,{headers:hdrs()});const d=await r.json();if(d.success){allPlans=d.plans;}else throw new Error();}catch(e){allPlans=getDemoPlans();}filterPlans();populateAssignSelect();}
+
+function getDemoPlans(){return[
+  {id:'d1',name:'High Protein Muscle Builder',goal:'muscle_gain',calories_per_day:2800,protein_g:180,carbs_g:300,fat_g:80,description:'High-calorie, protein-rich plan for maximum muscle growth.',meals:[{name:'Breakfast 7am',items:[{food:'Oats with banana',qty:'100g',calories:350,protein:12},{food:'Boiled eggs',qty:'3 eggs',calories:210,protein:18}]},{name:'Lunch 1pm',items:[{food:'Grilled chicken breast',qty:'200g',calories:330,protein:62},{food:'Brown rice',qty:'150g',calories:195,protein:5}]},{name:'Dinner 8pm',items:[{food:'Salmon fillet',qty:'180g',calories:360,protein:40},{food:'Steamed broccoli',qty:'200g',calories:70,protein:6}]}],is_template:true,is_active:true},
+  {id:'d2',name:'1200 Cal Weight Loss',goal:'weight_loss',calories_per_day:1200,protein_g:100,carbs_g:120,fat_g:40,description:'Calorie-deficit plan for steady fat loss without muscle loss.',meals:[{name:'Breakfast',items:[{food:'Greek yogurt',qty:'200g',calories:130,protein:17},{food:'Berries mix',qty:'100g',calories:50,protein:1}]},{name:'Lunch',items:[{food:'Grilled tofu salad',qty:'300g',calories:200,protein:15}]},{name:'Dinner',items:[{food:'Grilled fish',qty:'150g',calories:200,protein:32},{food:'Vegetables',qty:'250g',calories:90,protein:5}]}],is_template:true,is_active:true},
+  {id:'d3',name:'Keto 2000',goal:'keto',calories_per_day:2000,protein_g:120,carbs_g:25,fat_g:160,description:'Ultra-low carb ketogenic plan for fat adaptation.',meals:[{name:'Breakfast',items:[{food:'Avocado & eggs',qty:'2 eggs + 1 avocado',calories:450,protein:16}]},{name:'Lunch',items:[{food:'Bacon & cheese salad',qty:'1 bowl',calories:550,protein:30}]},{name:'Dinner',items:[{food:'Ribeye steak',qty:'200g',calories:600,protein:50},{food:'Buttered vegetables',qty:'150g',calories:180,protein:4}]}],is_template:true,is_active:true},
+  {id:'d4',name:'Balanced Maintenance',goal:'maintenance',calories_per_day:2200,protein_g:110,carbs_g:250,fat_g:75,description:'Balanced macros for maintaining current weight and health.',meals:[{name:'Breakfast',items:[{food:'Whole wheat toast with peanut butter',qty:'2 slices',calories:320,protein:14}]},{name:'Lunch',items:[{food:'Dal rice with salad',qty:'1 thali',calories:550,protein:20}]},{name:'Dinner',items:[{food:'Roti with sabzi',qty:'3 rotis',calories:480,protein:18}]}],is_template:false,is_active:true},
+  {id:'d5',name:'Plant Power Vegan',goal:'vegan',calories_per_day:2000,protein_g:90,carbs_g:280,fat_g:60,description:'100% plant-based plan with complete amino acid profiles.',meals:[{name:'Breakfast',items:[{food:'Smoothie bowl',qty:'1 bowl',calories:380,protein:18}]},{name:'Lunch',items:[{food:'Lentil curry & quinoa',qty:'1 plate',calories:520,protein:28}]},{name:'Dinner',items:[{food:'Tempeh stir-fry',qty:'200g',calories:350,protein:25}]}],is_template:true,is_active:true},
+];}
+
+function filterPlans(){const q=document.getElementById('searchInput').value.toLowerCase();const goal=document.getElementById('filterGoal').value;const filtered=allPlans.filter(p=>(!q||p.name.toLowerCase().includes(q)||p.goal.includes(q))&&(!goal||p.goal===goal));renderGrid(filtered);}
+
+function renderGrid(plans){
+  const grid=document.getElementById('dietGrid');
+  if(!plans.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="ti ti-salad"></i><h3>No diet plans found</h3><p>Create your first diet plan to get started.</p></div>`;return;}
+  grid.innerHTML=plans.map(p=>{
+    const meals=p.meals||[];
+    const macros=`<div class="macro-row">${p.calories_per_day?`<div class="macro-pill cal"><i class="ti ti-flame"></i>${p.calories_per_day} kcal</div>`:''}${p.protein_g?`<div class="macro-pill prot"><i class="ti ti-fish"></i>${p.protein_g}g protein</div>`:''}${p.carbs_g?`<div class="macro-pill carb"><i class="ti ti-wheat"></i>${p.carbs_g}g carbs</div>`:''}${p.fat_g?`<div class="macro-pill fat"><i class="ti ti-droplet"></i>${p.fat_g}g fat</div>`:''}</div>`;
+    const mealList=meals.length?`<div class="meal-list">${meals.slice(0,3).map(m=>`<div class="meal-chip"><i class="ti ti-soup"></i><span>${m.name} — ${(m.items||[]).length} items</span></div>`).join('')}${meals.length>3?`<div style="font-size:11px;color:var(--text3);padding:4px 0">+${meals.length-3} more meals</div>`:''}</div>`:'';
+    return `<div class="diet-card"><div class="plan-actions-top"><div class="icon-btn" onclick="openEditDietModal('${p.id}')"><i class="ti ti-edit"></i></div><div class="icon-btn danger" onclick="deletePlan('${p.id}','${p.name.replace(/'/g,"\\'")}')"><i class="ti ti-trash"></i></div></div>
+    <div class="diet-card-top"><div class="diet-icon ${p.goal}">${goalEmoji[p.goal]||'🥗'}</div><div><div class="diet-name">${p.name}</div><div class="diet-goal">${p.goal.replace('_',' ')}</div>${p.is_template?'<span class="template-tag">TEMPLATE</span>':''}</div></div>
+    ${macros}${mealList}${p.description?`<div style="font-size:12.5px;color:var(--text2);margin-bottom:12px;line-height:1.5">${p.description}</div>`:''}
+    <div style="display:flex;gap:6px"><button class="btn btn-success btn-sm" style="flex:1" onclick="quickAssign('${p.id}')"><i class="ti ti-user-plus"></i> Assign</button><button class="btn btn-ghost btn-sm" onclick="openEditDietModal('${p.id}')"><i class="ti ti-edit"></i> Edit</button></div>
+    </div>`;
+  }).join('');
+}
+
+// ── MEAL BUILDER ───────────────────────────────────────────────────────────
+let mealCount=0;
+function addMealBlock(name='',items=[]){
+  mealCount++;
+  const mid='meal_'+mealCount;
+  const block=document.createElement('div');
+  block.className='meal-block';block.id=mid;
+  block.innerHTML=`<div class="meal-block-header"><input placeholder="Meal name (e.g. Breakfast 7am)" value="${name}"><button class="rm-btn" onclick="document.getElementById('${mid}').remove()"><i class="ti ti-x"></i></button></div>
+  <div class="food-header"><span>Food Item</span><span>Quantity</span><span>Calories</span><span>Protein (g)</span><span></span></div>
+  <div class="food-list" id="foods_${mid}"></div>
+  <button class="add-btn" onclick="addFoodRow('foods_${mid}')"><i class="ti ti-plus"></i> Add Food</button>`;
+  document.getElementById('mealList').appendChild(block);
+  items.forEach(item=>addFoodRow('foods_'+mid,item.food,item.qty,item.calories,item.protein));
+  if(!items.length)addFoodRow('foods_'+mid);
+}
+
+function addFoodRow(listId,food='',qty='',calories='',protein=''){
+  const id='food_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  const row=document.createElement('div');row.className='food-row';row.id=id;
+  row.innerHTML=`<input placeholder="e.g. Grilled chicken" value="${food}"><input placeholder="200g" value="${qty}"><input type="number" placeholder="330" value="${calories}"><input type="number" placeholder="30" value="${protein}"><button class="rm-btn" onclick="document.getElementById('${id}').remove()"><i class="ti ti-x"></i></button>`;
+  document.getElementById(listId).appendChild(row);
+}
+
+function getMeals(){
+  return [...document.querySelectorAll('#mealList .meal-block')].map(block=>{
+    const nameInput=block.querySelector('.meal-block-header input');
+    const foods=[...block.querySelectorAll('.food-row')].map(row=>{
+      const inputs=row.querySelectorAll('input');
+      return{food:inputs[0].value.trim(),qty:inputs[1].value.trim(),calories:parseInt(inputs[2].value)||0,protein:parseInt(inputs[3].value)||0};
+    }).filter(f=>f.food);
+    return{name:nameInput.value.trim()||'Meal',items:foods};
+  }).filter(m=>m.items.length||m.name!=='Meal');
+}
+
+// ── MODAL OPEN/CLOSE ───────────────────────────────────────────────────────
+function openDietModal(){editPlanId=null;document.getElementById('dietModalTitle').textContent='New Diet Plan';['dName','dDesc'].forEach(id=>document.getElementById(id).value='');['dCal','dProt','dCarb','dFat'].forEach(id=>document.getElementById(id).value='');document.getElementById('dGoal').value='maintenance';document.getElementById('dTemplate').checked=false;document.getElementById('mealList').innerHTML='';mealCount=0;addMealBlock('Breakfast');addMealBlock('Lunch');addMealBlock('Dinner');document.getElementById('dietModal').classList.add('open');}
+function openEditDietModal(id){const p=allPlans.find(x=>x.id===id);if(!p)return;editPlanId=id;document.getElementById('dietModalTitle').textContent='Edit Diet Plan';document.getElementById('dName').value=p.name||'';document.getElementById('dDesc').value=p.description||'';document.getElementById('dGoal').value=p.goal||'maintenance';document.getElementById('dCal').value=p.calories_per_day||'';document.getElementById('dProt').value=p.protein_g||'';document.getElementById('dCarb').value=p.carbs_g||'';document.getElementById('dFat').value=p.fat_g||'';document.getElementById('dTemplate').checked=!!p.is_template;document.getElementById('mealList').innerHTML='';mealCount=0;(p.meals||[]).forEach(m=>addMealBlock(m.name,m.items||[]));if(!(p.meals||[]).length)addMealBlock();document.getElementById('dietModal').classList.add('open');}
+function closeDietModal(){document.getElementById('dietModal').classList.remove('open');}
+
+async function saveDietPlan(){
+  const body={name:document.getElementById('dName').value.trim(),description:document.getElementById('dDesc').value.trim(),goal:document.getElementById('dGoal').value,calories_per_day:parseInt(document.getElementById('dCal').value)||null,protein_g:parseFloat(document.getElementById('dProt').value)||null,carbs_g:parseFloat(document.getElementById('dCarb').value)||null,fat_g:parseFloat(document.getElementById('dFat').value)||null,is_template:document.getElementById('dTemplate').checked,meals:getMeals()};
+  if(!body.name){showToast('Plan name is required','error');return;}
+  try{const url=editPlanId?`${API}/diets/${editPlanId}`:`${API}/diets/`;const r=await fetch(url,{method:editPlanId?'PUT':'POST',headers:hdrs(),body:JSON.stringify(body)});const d=await r.json();if(d.success){showToast(editPlanId?'Plan updated':'Plan created');closeDietModal();refreshData();}else showToast(d.error||'Failed','error');}
+  catch(e){if(editPlanId){const idx=allPlans.findIndex(x=>x.id===editPlanId);if(idx>-1)allPlans[idx]={...allPlans[idx],...body};}else allPlans.push({id:'d'+Date.now(),...body,is_active:true});closeDietModal();refreshData();showToast('Saved (demo mode)');}
+}
+
+async function deletePlan(id,name){if(!confirm(`Delete diet plan "${name}"?`))return;try{const r=await fetch(`${API}/diets/${id}`,{method:'DELETE',headers:hdrs()});const d=await r.json();if(d.success){showToast('Plan deleted');refreshData();}else showToast(d.error||'Failed','error');}catch(e){allPlans=allPlans.filter(x=>x.id!==id);refreshData();showToast('Deleted (demo mode)');}}
+
+// ── ASSIGN ─────────────────────────────────────────────────────────────────
+function populateAssignSelect(){const sel=document.getElementById('aPlanId');sel.innerHTML=allPlans.filter(p=>p.is_active).map(p=>`<option value="${p.id}">${p.name}</option>`).join('');}
+function openAssignModal(){document.getElementById('aMemberSearch').value='';document.getElementById('aMemberId').value='';document.getElementById('memberResults').classList.remove('show');document.getElementById('selectedMemberChip').style.display='none';document.getElementById('aNotes').value='';populateAssignSelect();document.getElementById('assignModal').classList.add('open');}
+function quickAssign(planId){openAssignModal();document.getElementById('aPlanId').value=planId;}
+
+let searchTimeout;
+function searchMembers(q){clearTimeout(searchTimeout);if(q.length<2){document.getElementById('memberResults').classList.remove('show');return;}searchTimeout=setTimeout(async()=>{try{const r=await fetch(`${API}/members/?search=${encodeURIComponent(q)}&limit=8`,{headers:hdrs()});const d=await r.json();if(d.success)renderMemberResults(d.members||[]);}catch(e){renderMemberResults([{id:'m1',full_name:'Arun Patel',member_code:'IZ-001'},{id:'m2',full_name:'Sneha Rao',member_code:'IZ-002'},{id:'m3',full_name:'Ravi Kumar',member_code:'IZ-003'}].filter(m=>m.full_name.toLowerCase().includes(q.toLowerCase())));}},250);}
+function renderMemberResults(members){const el=document.getElementById('memberResults');if(!members.length){el.innerHTML='<div style="padding:10px 12px;color:var(--text2);font-size:13px">No members found</div>';el.classList.add('show');return;}el.innerHTML=members.map(m=>`<div class="msearch-item" onclick="selectMember('${m.id}','${m.full_name.replace(/'/g,"\\'")}','${m.member_code}')"><div class="msearch-avatar">${m.full_name[0]}</div><div><div style="font-size:13px;font-weight:500">${m.full_name}</div><div style="font-size:11px;color:var(--text2)">${m.member_code}</div></div></div>`).join('');el.classList.add('show');}
+function selectMember(id,name,code){document.getElementById('aMemberId').value=id;document.getElementById('aMemberSearch').value='';document.getElementById('memberResults').classList.remove('show');const chip=document.getElementById('selectedMemberChip');chip.innerHTML=`<div style="display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:7px 12px"><div class="msearch-avatar">${name[0]}</div><div style="font-size:13px;font-weight:500;flex:1">${name} <span style="color:var(--text2);font-size:11px">${code}</span></div><button onclick="clearMember()" style="background:none;border:none;color:var(--text2);cursor:pointer"><i class="ti ti-x"></i></button></div>`;chip.style.display='block';}
+function clearMember(){document.getElementById('aMemberId').value='';document.getElementById('selectedMemberChip').style.display='none';}
+
+async function assignDietPlan(){const memberId=document.getElementById('aMemberId').value;const planId=document.getElementById('aPlanId').value;const startDate=document.getElementById('aStartDate').value;const notes=document.getElementById('aNotes').value.trim();if(!memberId){showToast('Please select a member','error');return;}if(!planId){showToast('Please select a plan','error');return;}try{const r=await fetch(`${API}/diets/assign`,{method:'POST',headers:hdrs(),body:JSON.stringify({member_id:memberId,plan_id:planId,start_date:startDate,notes})});const d=await r.json();if(d.success){showToast('Diet plan assigned!');document.getElementById('assignModal').classList.remove('open');refreshData();}else showToast(d.error||'Failed','error');}catch(e){showToast('Assigned (demo mode)');document.getElementById('assignModal').classList.remove('open');refreshData();}}
+
+function showToast(msg,type='success'){const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;document.getElementById('toastContainer').appendChild(t);setTimeout(()=>t.remove(),4000);}
+</script>
+</body>
+</html>
