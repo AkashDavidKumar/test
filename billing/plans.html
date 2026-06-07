@@ -207,6 +207,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   .sb-toggle:hover{background:var(--card)}
   
   .topbar{padding:0 1rem;gap:0.5rem}
+  .topbar .btn-primary, .topbar .btn-ghost {
+    padding: 0.5rem !important;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .topbar .btn-text {
+    display: none;
+  }
+  .hide-mobile {
+    display: none;
+  }
   .content{padding:1rem 1rem 90px 1rem;gap:1rem}
   
   .plans-grid{grid-template-columns:1fr;gap:1rem}
@@ -254,9 +267,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
     <div class="topbar-title">Membership Plans</div>
     <div class="toggle-wrap">
       <label class="toggle"><input type="checkbox" id="showInactive" onchange="loadPlans()"/><span class="toggle-slider"></span></label>
-      <span class="toggle-label">Show inactive</span>
+      <span class="toggle-label"><span class="hide-mobile">Show </span>inactive</span>
     </div>
-    <button class="btn-primary" onclick="openAddModal()"><i class="ti ti-plus"></i> New Plan</button>
+    <button class="btn-primary" onclick="openAddModal()"><i class="ti ti-plus"></i> <span class="btn-text">New Plan</span></button>
   </div>
 
   <div class="content">

@@ -380,6 +380,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   .sb-toggle:hover{background:var(--card)}
   
   .topbar{padding:0 1rem;gap:0.5rem}
+  .topbar .btn-primary, .topbar .btn-ghost {
+    padding: 0.5rem !important;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .topbar .btn-text {
+    display: none;
+  }
+  .hide-mobile {
+    display: none;
+  }
   .content{padding:1rem 1rem 90px 1rem;gap:1rem}
   
   .stat-row{grid-template-columns:repeat(2,1fr);gap:0.75rem}
@@ -439,8 +452,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   <div class="topbar">
     <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
     <div class="topbar-title">Attendance</div>
-    <div class="refresh-badge"><div class="refresh-dot"></div> Live · auto-refreshes every 30s</div>
-    <button class="btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i> Export</button>
+    <div class="refresh-badge"><div class="refresh-dot"></div> Live<span class="hide-mobile"> · auto-refreshes every 30s</span></div>
+    <button class="btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i> <span class="btn-text">Export</span></button>
   </div>
 
   <div class="content">

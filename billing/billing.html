@@ -204,6 +204,19 @@ tbody td{padding:0.75rem 1rem;font-size:0.82rem;color:var(--text2);vertical-alig
   .sb-toggle:hover{background:var(--card)}
   
   .topbar{padding:0 1rem;gap:0.5rem}
+  .topbar .btn-primary, .topbar .btn-ghost {
+    padding: 0.5rem !important;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .topbar .btn-text {
+    display: none;
+  }
+  .hide-mobile {
+    display: none;
+  }
   .content{padding:1rem 1rem 90px 1rem;gap:1rem}
   
   .stat-row{grid-template-columns:repeat(2,1fr);gap:0.75rem}
@@ -253,9 +266,9 @@ tbody td{padding:0.75rem 1rem;font-size:0.82rem;color:var(--text2);vertical-alig
   <div class="topbar">
     <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
     <div class="topbar-title">Billing & Revenue</div>
-    <button class="btn-ghost" onclick="exportInvoicesCSV()"><i class="ti ti-download"></i> Export</button>
-    <a href="plans.html" class="btn-ghost"><i class="ti ti-packages"></i> Manage Plans</a>
-    <button class="btn-primary" onclick="openCreateInvoice()"><i class="ti ti-plus"></i> New Invoice</button>
+    <button class="btn-ghost" onclick="exportInvoicesCSV()"><i class="ti ti-download"></i> <span class="btn-text">Export</span></button>
+    <a href="plans.html" class="btn-ghost"><i class="ti ti-packages"></i> <span class="btn-text">Manage Plans</span></a>
+    <button class="btn-primary" onclick="openCreateInvoice()"><i class="ti ti-plus"></i> <span class="btn-text">New Invoice</span></button>
   </div>
   <div class="content">
 
