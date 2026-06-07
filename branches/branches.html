@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Branches — FitCore ERP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07090f;--bg2:#0e1118;--bg3:#151b28;--bg4:#1c2333;--blue:#3b82f6;--cyan:#22d3ee;--violet:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--text:#e8edf8;--text2:#8494b0;--text3:#3d4f6a;--border:rgba(255,255,255,0.065);--border2:rgba(59,130,246,0.22);--card:rgba(255,255,255,0.025);--card2:rgba(59,130,246,0.07);--r:12px;--r2:18px;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;overflow:hidden}
+.sidebar{width:230px;height:100vh;height:100dvh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.sidebar::-webkit-scrollbar{display:none}
+.sb-logo{padding:1.25rem 1.25rem 1rem;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid var(--border)}
+.sb-logo-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:0.95rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif}
+.sb-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-gym{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border)}
+.sb-gym-name{font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:2px}
+.sb-gym-badge{font-size:0.65rem;color:var(--cyan);background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);border-radius:100px;padding:0.15rem 0.5rem;display:inline-block}
+.sb-nav{padding:0.75rem;flex:1}
+.sb-section{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:0.5rem 0.5rem 0.4rem;margin-top:0.5rem}
+.sb-item{display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;border-radius:9px;font-size:0.83rem;color:var(--text2);cursor:pointer;transition:all 0.18s;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:var(--card);color:var(--text)}
+.sb-item.active{background:var(--card2);color:var(--blue);border:1px solid var(--border2)}
+.sb-item i{font-size:16px;width:18px;text-align:center}
+.sb-bottom{padding:0.75rem;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;border-radius:9px;background:var(--card);border:1px solid var(--border)}
+.sb-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif}
+.sb-uname{font-size:0.78rem;font-weight:500;color:var(--text)}
+.sb-urole{font-size:0.65rem;color:var(--text3)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;flex-shrink:0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;flex:1}
+.btn-primary{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1.1rem;border-radius:9px;border:none;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,0.35)}
+.btn-ghost{display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.9rem;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.18s}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text);background:var(--card2)}
+.content{flex:1;overflow-y:auto;padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1.5rem}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
+
+/* Overview stats */
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;transition:all 0.2s}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.sc-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:0.75rem}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;line-height:1}
+.stat-label{font-size:0.75rem;color:var(--text2);margin-top:0.3rem}
+
+/* Plan limit banner */
+.plan-banner{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.25rem;border-radius:var(--r2);font-size:0.82rem;border:1px solid;display:none}
+.plan-banner.warning{background:rgba(251,191,36,0.07);border-color:rgba(251,191,36,0.25);color:var(--amber)}
+.plan-banner.maxed{background:rgba(248,113,113,0.07);border-color:rgba(248,113,113,0.25);color:var(--red)}
+
+/* Branch grid */
+.branches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem}
+.branch-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all 0.2s}
+.branch-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 8px 36px rgba(0,0,0,0.45)}
+.bc-header{padding:1.25rem 1.25rem 0;display:flex;align-items:flex-start;gap:1rem}
+.bc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.bc-info{flex:1}
+.bc-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:0.2rem}
+.bc-city{font-size:0.76rem;color:var(--text3);display:flex;align-items:center;gap:0.3rem}
+.bc-status{margin-left:auto}
+.bc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;padding:1rem 1.25rem}
+.bc-stat{background:var(--bg3);border-radius:8px;padding:0.6rem 0.5rem;text-align:center}
+.bc-stat-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800}
+.bc-stat-label{font-size:0.62rem;color:var(--text3);margin-top:2px}
+.bc-address{padding:0 1.25rem;font-size:0.75rem;color:var(--text3);display:flex;align-items:flex-start;gap:0.4rem;min-height:28px}
+.bc-manager{padding:0.75rem 1.25rem;display:flex;align-items:center;gap:0.6rem;border-top:1px solid var(--border);font-size:0.78rem;color:var(--text2)}
+.bc-manager-avatar{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--violet),var(--blue));display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
+.bc-actions{padding:0 1.25rem 1.25rem;display:flex;gap:0.5rem}
+.bc-btn{flex:1;padding:0.42rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:0.75rem;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:4px}
+.bc-btn:hover{border-color:var(--border2);color:var(--text);background:var(--card2)}
+.bc-btn.del:hover{border-color:var(--red);color:var(--red);background:rgba(248,113,113,0.08)}
+
+/* Add branch card */
+.add-branch-card{background:var(--bg2);border:1px dashed var(--border2);border-radius:var(--r2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:3rem 2rem;cursor:pointer;transition:all 0.2s;min-height:280px}
+.add-branch-card:hover{border-color:var(--blue);background:var(--card2);transform:translateY(-2px)}
+.add-branch-card i{font-size:2.5rem;color:var(--text3)}
+.add-branch-card p{font-size:0.85rem;color:var(--text3);text-align:center}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:0.2rem 0.55rem;border-radius:100px;font-size:0.7rem;font-weight:600}
+.badge-active{background:rgba(52,211,153,0.12);color:var(--green)}
+.badge-inactive{background:rgba(248,113,113,0.12);color:var(--red)}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(7,9,15,0.85);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.22s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);width:520px;max-width:96vw;max-height:88vh;display:flex;flex-direction:column;transform:translateY(16px) scale(0.98);transition:transform 0.22s;overflow:hidden}
+.modal-overlay.open .modal{transform:none}
+.modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700}
+.modal-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:15px}
+.modal-close:hover{border-color:var(--border2);color:var(--text)}
+.modal-body{padding:1.5rem;overflow-y:auto;flex:1}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;justify-content:flex-end;flex-shrink:0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.4rem}
+.form-group.full{grid-column:span 2}
+.form-label{font-size:0.75rem;font-weight:500;color:var(--text2)}
+.form-input{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:0.55rem 0.8rem;font-size:0.83rem;color:var(--text);font-family:'DM Sans',sans-serif;transition:border 0.2s;width:100%}
+.form-input:focus{outline:none;border-color:var(--border2)}
+.form-input::placeholder{color:var(--text3)}
+select.form-input option{background:var(--bg3)}
+textarea.form-input{resize:vertical;min-height:70px}
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem}
+.toast{display:flex;align-items:center;gap:0.65rem;padding:0.7rem 1rem;border-radius:var(--r);font-size:0.83rem;font-weight:500;background:var(--bg2);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.5);animation:slideIn 0.25s ease}
+.toast.success{border-color:rgba(52,211,153,0.35);color:var(--green)}
+.toast.error{border-color:rgba(248,113,113,0.35);color:var(--red)}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:none;opacity:1}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* Skeleton Shimmer */
+.skeleton {
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.skeleton * {
+  visibility: hidden !important;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Mobile Stacking & Overlay Styling */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(6,8,15,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:999;display:none;opacity:0;transition:opacity 0.3s ease}
+.sidebar-overlay.active{display:block;opacity:1}
+.sb-toggle{display:none}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:-240px;height:100vh;height:100dvh;z-index:1000;transition:left 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:10px 0 30px rgba(0,0,0,0.5)}
+  .sidebar.active{left:0}
+  .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
+  .sb-toggle:hover{background:var(--card)}
+  
+  .topbar{padding:0 1rem;gap:0.5rem}
+  .topbar .btn-primary {
+    padding: 0.5rem !important;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .topbar .btn-text {
+    display: none;
+  }
+  .hide-mobile {
+    display: none;
+  }
+  .content{padding:1rem 1rem 90px 1rem;gap:1rem}
+  
+  .stat-row{grid-template-columns:repeat(2,1fr);gap:0.75rem}
+  .branches-grid{grid-template-columns:1fr;gap:1.25rem}
+  .form-grid{grid-template-columns:1fr;gap:1rem}
+  .form-group.full{grid-column:span 1}
+  
+  .form-input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+@media(max-width:480px){
+  .stat-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon">F</div><span class="sb-logo-text">FitCore ERP</span></div>
+  <div class="sb-gym"><div class="sb-gym-name" id="gymName">—</div><span class="sb-gym-badge" id="gymPlan">—</span></div>
+  <div class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a href="../fitcore_crm_dashboard.html" class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a href="../members/members.html"       class="sb-item"><i class="ti ti-users"></i> Members</a>
+    <a href="../attendance/attendance.html" class="sb-item"><i class="ti ti-calendar-check"></i> Attendance</a>
+    <a href="../billing/billing.html"       class="sb-item"><i class="ti ti-credit-card"></i> Billing</a>
+    <a href="../attendance/attendance.html?tab=qr" class="sb-item"><i class="ti ti-qrcode"></i> QR Check-in</a>
+    <div class="sb-section">Management</div>
+    <a href="../trainers/trainers.html"     class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
+    <a href="../workouts/workouts.html"     class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
+    <a href="../diets/diets.html"           class="sb-item"><i class="ti ti-salad"></i> Diet Plans</a>
+    <a href="../leads/whatsapp.html"        class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
+    <div class="sb-section">Analytics</div>
+    <a href="../reports/reports.html"       class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
+    <a href="../ai/ai.html"                 class="sb-item"><i class="ti ti-robot"></i> AI Insights</a>
+    <a href="branches.html"                 class="sb-item active"><i class="ti ti-building"></i> Branches</a>
+    <a href="../settings/settings.html"     class="sb-item"><i class="ti ti-settings"></i> Settings</a>
+  </div>
+  <div class="sb-bottom">
+    <div class="sb-user"><div class="sb-avatar" id="sbAvatar">FC</div><div><div class="sb-uname" id="sbName">—</div><div class="sb-urole" id="sbRole">—</div></div></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
+    <div class="topbar-title">Branches</div>
+    <button class="btn-primary" onclick="openAddModal()"><i class="ti ti-plus"></i> <span class="btn-text">Add Branch</span></button>
+  </div>
+  <div class="content">
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="sc-icon" style="background:rgba(59,130,246,0.12);color:var(--blue)"><i class="ti ti-building"></i></div><div class="stat-val" id="statTotal">—</div><div class="stat-label">Total Branches</div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:rgba(52,211,153,0.12);color:var(--green)"><i class="ti ti-check"></i></div><div class="stat-val" id="statActive">—</div><div class="stat-label">Active</div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:rgba(167,139,250,0.12);color:var(--violet)"><i class="ti ti-users"></i></div><div class="stat-val" id="statMembers">—</div><div class="stat-label">Total Members</div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)"><i class="ti ti-user-check"></i></div><div class="stat-val" id="statActive2">—</div><div class="stat-label">Active Members</div></div>
+      <div class="stat-card"><div class="sc-icon" style="background:rgba(52,211,153,0.12);color:var(--green)"><i class="ti ti-currency-rupee"></i></div><div class="stat-val" id="statRevenue">—</div><div class="stat-label">Revenue (Month)</div></div>
+    </div>
+
+    <div class="plan-banner" id="planBanner"><i class="ti ti-alert-triangle"></i><span id="planBannerText"></span></div>
+
+    <div class="branches-grid" id="branchesGrid">
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;padding:4rem;color:var(--text3)"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;font-size:2rem"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="branchModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Add Branch</span>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">Branch Name *</label><input class="form-input" id="fName" placeholder="e.g. FitCore Andheri West"/></div>
+        <div class="form-group"><label class="form-label">City</label><input class="form-input" id="fCity" placeholder="Mumbai"/></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="fPhone" placeholder="9876543210" type="tel"/></div>
+        <div class="form-group full"><label class="form-label">Address</label><textarea class="form-input" id="fAddress" placeholder="Full address…"></textarea></div>
+        <div class="form-group full"><label class="form-label">Branch Manager</label>
+          <select class="form-input" id="fManager"><option value="">— No manager assigned —</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-input" id="fActive"><option value="true">Active</option><option value="false">Inactive</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveBranch()" id="saveBtn"><i class="ti ti-check"></i> Save Branch</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script>
+const API   = 'http://127.0.0.1:5000/api/v1';
+const TOKEN = () => localStorage.getItem('fitcore_access_token');
+const hdrs  = () => ({'Content-Type':'application/json','Authorization':`Bearer ${TOKEN()}`});
+
+let editingId = null, gymData = null;
+
+// Mobile Sidebar Controls
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// Shimmering Skeletons
+function showSkeletons() {
+  document.querySelectorAll('.stat-val').forEach(el => {
+    el.classList.add('skeleton');
+  });
+  document.getElementById('branchesGrid').innerHTML = Array.from({length: 3}, () => `
+    <div class="branch-card skeleton" style="min-height:280px"></div>
+  `).join('');
+}
+
+function hideSkeletons() {
+  document.querySelectorAll('.skeleton').forEach(el => {
+    el.classList.remove('skeleton');
+  });
+}
+
+async function refreshData() {
+  showSkeletons();
+  try {
+    await Promise.allSettled([
+      loadUser(),
+      loadStats(),
+      loadBranches()
+    ]);
+  } catch(e) {}
+  setTimeout(hideSkeletons, 500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  //if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+  refreshData();
+
+  // Event listeners
+  document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', closeSidebar);
+  });
+  document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
+});
+
+async function loadUser() {
+  try {
+    const r = await fetch(`${API}/auth/me`, {headers:hdrs()});
+    const d = await r.json();
+    if (d.success) {
+      const u=d.user;
+      document.getElementById('sbAvatar').textContent=(u.first_name[0]+(u.last_name?.[0]||'')).toUpperCase();
+      document.getElementById('sbName').textContent=u.full_name;
+      document.getElementById('sbRole').textContent=u.role.replace('_',' ');
+      if(u.gym){
+        gymData=u.gym;
+        document.getElementById('gymName').textContent=u.gym.name;
+        document.getElementById('gymPlan').textContent=u.gym.plan+' plan';
+      }
+    }
+  } catch(e){}
+}
+
+async function loadStats() {
+  try {
+    const r = await fetch(`${API}/branches/stats`, {headers:hdrs()});
+    const d = await r.json();
+    if (d.success) renderStats(d.stats);
+  } catch(e) { renderStats({total_branches:2,active_branches:2,total_members:184,active_members:152,revenue_month:186000}); }
+}
+function renderStats(s) {
+  document.getElementById('statTotal').textContent   = s.total_branches;
+  document.getElementById('statActive').textContent  = s.active_branches;
+  document.getElementById('statMembers').textContent = s.total_members;
+  document.getElementById('statActive2').textContent = s.active_members;
+  document.getElementById('statRevenue').textContent = '₹'+(s.revenue_month||0).toLocaleString('en-IN');
+}
+
+async function loadBranches() {
+  try {
+    const r = await fetch(`${API}/branches/`, {headers:hdrs()});
+    const d = await r.json();
+    if (d.success) renderBranches(d.branches);
+    else renderBranches(getDemoBranches());
+  } catch(e) { renderBranches(getDemoBranches()); }
+}
+
+const BRANCH_COLORS = [
+  {bg:'rgba(59,130,246,0.12)',color:'var(--blue)',icon:'ti-building'},
+  {bg:'rgba(167,139,250,0.12)',color:'var(--violet)',icon:'ti-building-skyscraper'},
+  {bg:'rgba(34,211,238,0.12)',color:'var(--cyan)',icon:'ti-home'},
+  {bg:'rgba(52,211,153,0.12)',color:'var(--green)',icon:'ti-map-pin'},
+  {bg:'rgba(251,191,36,0.12)',color:'var(--amber)',icon:'ti-building-arch'},
+];
+
+function renderBranches(branches) {
+  const grid = document.getElementById('branchesGrid');
+  const maxB = gymData?.max_branches || 1;
+  const bannerEl = document.getElementById('planBanner');
+  if (branches.length >= maxB) {
+    bannerEl.style.display='flex';
+    bannerEl.className='plan-banner maxed';
+    document.getElementById('planBannerText').textContent = `You've reached the ${maxB}-branch limit on your ${gymData?.plan||'current'} plan. Upgrade to add more branches.`;
+  } else if (branches.length >= maxB - 1) {
+    bannerEl.style.display='flex';
+    bannerEl.className='plan-banner warning';
+    document.getElementById('planBannerText').textContent = `You're using ${branches.length} of ${maxB} branches allowed on your plan.`;
+  } else {
+    bannerEl.style.display='none';
+  }
+
+  const cards = branches.map((b,i) => {
+    const style  = BRANCH_COLORS[i % BRANCH_COLORS.length];
+    const rev    = b.revenue_this_month ? '₹'+(b.revenue_this_month).toLocaleString('en-IN') : '—';
+    const checkins = b.checkins_today ?? '—';
+    return `<div class="branch-card">
+      <div class="bc-header">
+        <div class="bc-icon" style="background:${style.bg};color:${style.color}"><i class="ti ${style.icon}"></i></div>
+        <div class="bc-info">
+          <div class="bc-name">${b.name}</div>
+          <div class="bc-city"><i class="ti ti-map-pin" style="font-size:11px"></i>${b.city||'—'}</div>
+        </div>
+        <div class="bc-status"><span class="badge badge-${b.is_active?'active':'inactive'}">${b.is_active?'Active':'Inactive'}</span></div>
+      </div>
+      <div class="bc-stats">
+        <div class="bc-stat"><div class="bc-stat-val" style="color:var(--violet)">${b.member_count||0}</div><div class="bc-stat-label">Members</div></div>
+        <div class="bc-stat"><div class="bc-stat-val" style="color:var(--green)">${b.active_members||0}</div><div class="bc-stat-label">Active</div></div>
+        <div class="bc-stat"><div class="bc-stat-val" style="color:var(--cyan)">${checkins}</div><div class="bc-stat-label">Today</div></div>
+        <div class="bc-stat"><div class="bc-stat-val" style="color:var(--amber);font-size:0.75rem">${rev}</div><div class="bc-stat-label">Rev (Mo)</div></div>
+      </div>
+      <div class="bc-address"><i class="ti ti-map-pin-2" style="flex-shrink:0;margin-top:2px"></i>${b.address||'No address provided'}</div>
+      <div class="bc-manager">
+        ${b.manager_name
+          ? `<div class="bc-manager-avatar">${b.manager_name[0]}</div><span>Manager: ${b.manager_name}</span>`
+          : `<i class="ti ti-user-off" style="color:var(--text3);font-size:13px"></i><span style="color:var(--text3)">No manager assigned</span>`}
+      </div>
+      <div class="bc-actions">
+        <button class="bc-btn" onclick="openEditModal(${JSON.stringify(b).replace(/"/g,'&quot;')})"><i class="ti ti-pencil"></i> Edit</button>
+        <button class="bc-btn" onclick="window.location.href='../members/members.html?branch=${b.id}'"><i class="ti ti-users"></i> Members</button>
+        <button class="bc-btn del" onclick="deleteBranch('${b.id}','${b.name}')"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Show add card only if under limit
+  const addCard = branches.length < (maxB) ? `<div class="add-branch-card" onclick="openAddModal()">
+    <i class="ti ti-plus"></i>
+    <p>Add new branch<br/><span style="font-size:0.7rem;opacity:0.6">${branches.length} of ${maxB} used</span></p>
+  </div>` : '';
+
+  grid.innerHTML = cards + addCard;
+}
+
+async function loadManagers(selected='') {
+  try {
+    const r = await fetch(`${API}/branches/managers`, {headers:hdrs()});
+    const d = await r.json();
+    if (d.success) populateManagers(d.managers, selected);
+  } catch(e) { populateManagers(getDemoManagers(), selected); }
+}
+function populateManagers(managers, selected='') {
+  const sel = document.getElementById('fManager');
+  sel.innerHTML = '<option value="">— No manager —</option>' +
+    managers.map(m => `<option value="${m.id}" ${m.id===selected?'selected':''}>${m.full_name} (${m.role})</option>`).join('');
+}
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add Branch';
+  document.getElementById('saveBtn').innerHTML = '<i class="ti ti-plus"></i> Add Branch';
+  ['fName','fCity','fPhone','fAddress'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fActive').value='true';
+  loadManagers();
+  openModal();
+}
+function openEditModal(b) {
+  editingId = b.id;
+  document.getElementById('modalTitle').textContent = 'Edit Branch';
+  document.getElementById('saveBtn').innerHTML = '<i class="ti ti-check"></i> Save Changes';
+  document.getElementById('fName').value    = b.name||'';
+  document.getElementById('fCity').value    = b.city||'';
+  document.getElementById('fPhone').value   = b.phone||'';
+  document.getElementById('fAddress').value = b.address||'';
+  document.getElementById('fActive').value  = b.is_active?'true':'false';
+  loadManagers(b.manager_id||'');
+  openModal();
+}
+
+async function saveBranch() {
+  const payload = {
+    name:       document.getElementById('fName').value.trim(),
+    city:       document.getElementById('fCity').value.trim(),
+    phone:      document.getElementById('fPhone').value.trim(),
+    address:    document.getElementById('fAddress').value.trim(),
+    manager_id: document.getElementById('fManager').value||null,
+    is_active:  document.getElementById('fActive').value==='true',
+  };
+  if (!payload.name) { showToast('Branch name is required','error'); return; }
+  const btn = document.getElementById('saveBtn');
+  btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i>';
+  try {
+    const url    = editingId ? `${API}/branches/${editingId}` : `${API}/branches/`;
+    const method = editingId ? 'PUT' : 'POST';
+    const r = await fetch(url,{method,headers:hdrs(),body:JSON.stringify(payload)});
+    const d = await r.json();
+    if (d.success) { showToast(editingId?'Branch updated!':'Branch created!'); closeModal(); refreshData(); }
+    else showToast(d.error,'error');
+  } catch(e) { showToast(editingId?'Branch updated (demo)':'Branch created (demo)'); closeModal(); refreshData(); }
+  btn.disabled=false; btn.innerHTML=editingId?'<i class="ti ti-check"></i> Save Changes':'<i class="ti ti-plus"></i> Add Branch';
+}
+
+async function deleteBranch(id, name) {
+  if (!confirm(`Delete branch "${name}"? Members will be unassigned.`)) return;
+  try {
+    const r = await fetch(`${API}/branches/${id}`,{method:'DELETE',headers:hdrs()});
+    const d = await r.json();
+    if (d.success) { showToast('Branch deleted'); refreshData(); }
+    else showToast(d.error,'error');
+  } catch(e) { showToast('Branch deleted (demo)'); refreshData(); }
+}
+
+function openModal() { document.getElementById('branchModal').classList.add('open'); }
+function closeModal() { document.getElementById('branchModal').classList.remove('open'); }
+document.getElementById('branchModal').addEventListener('click', e=>{ if(e.target===document.getElementById('branchModal')) closeModal(); });
+function showToast(msg,type='success') {
+  const t=document.createElement('div'); t.className=`toast ${type}`;
+  t.innerHTML=`<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(),4000);
+}
+function getDemoBranches() {
+  return [
+    {id:'1',name:'FitCore Andheri West',city:'Mumbai',phone:'9876543210',address:'Shop 12, Lokhandwala Complex, Andheri West, Mumbai 400053',is_active:true,member_count:98,active_members:84,checkins_today:23,revenue_this_month:112000,manager_id:'u1',manager_name:'Rahul Sharma'},
+    {id:'2',name:'FitCore Bandra',city:'Mumbai',phone:'9765432109',address:'14 Hill Road, Bandra West, Mumbai 400050',is_active:true,member_count:86,active_members:68,checkins_today:17,revenue_this_month:74000,manager_id:null,manager_name:null},
+  ];
+}
+function getDemoManagers() {
+  return [{id:'u1',full_name:'Rahul Sharma',role:'manager'},{id:'u2',full_name:'Priya Nair',role:'manager'}];
+}
+</script>
+</body>
+</html>
