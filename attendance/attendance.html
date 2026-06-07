@@ -790,8 +790,21 @@ async function loadStats() {
       document.getElementById('st-month').textContent  = d.month_total;
       document.getElementById('st-avg').textContent    = d.avg_daily;
       document.getElementById('liveNum').textContent   = d.currently_in;
+    } else {
+      renderDemoStats();
     }
-  } catch(e){}
+  } catch(e){
+    renderDemoStats();
+  }
+}
+
+function renderDemoStats() {
+  document.getElementById('st-today').textContent  = '42';
+  document.getElementById('st-inside').textContent = '15';
+  document.getElementById('st-week').textContent   = '284';
+  document.getElementById('st-month').textContent  = '1,190';
+  document.getElementById('st-avg').textContent    = '38';
+  document.getElementById('liveNum').textContent   = '15';
 }
 
 /* ── TODAY'S LIVE LOG ─────────────────────────────── */
@@ -799,10 +812,15 @@ async function loadToday() {
   try {
     const r = await fetch(`${API}/attendance/today`, { headers: hdrs() });
     const d = await r.json();
-    if (!d.success) return;
+    if (!d.success) {
+      renderLiveLog(getDemoTodayLogs());
+      return;
+    }
     document.getElementById('liveNum').textContent = d.currently_in;
     renderLiveLog(d.logs);
-  } catch(e){}
+  } catch(e){
+    renderLiveLog(getDemoTodayLogs());
+  }
 }
 
 function renderLiveLog(logs) {
@@ -1163,11 +1181,16 @@ async function loadLogs() {
   try {
     const r = await fetch(`${API}/attendance/logs?${params}`, { headers: hdrs() });
     const d = await r.json();
-    if (!d.success) return;
+    if (!d.success) {
+      handleDemoLogsFilter(date, method);
+      return;
+    }
     document.getElementById('logCount').textContent = `${d.total} records`;
     renderLogsTable(d.logs);
     renderLogsPagination(d.total, d.page, d.pages);
-  } catch(e){}
+  } catch(e){
+    handleDemoLogsFilter(date, method);
+  }
 }
 
 function renderLogsTable(logs) {
@@ -1511,6 +1534,53 @@ function generateDemoHeatmap() {
     hour: i+6,
     count: [0,1,3,5,8,12,18,22,20,15,10,8,12,20,18,10,5][i] || 0
   }));
+}
+
+function getDemoTodayLogs() {
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  return [
+    {member_id: 'm1', member_name: 'Rahul Sharma', member_code: 'MEM092', check_in: `${todayStr}T09:15:00Z`, check_out: null, duration_minutes: null, method: 'qr'},
+    {member_id: 'm2', member_name: 'Amit Patel', member_code: 'MEM120', check_in: `${todayStr}T08:00:00Z`, check_out: `${todayStr}T09:00:00Z`, duration_minutes: 60, method: 'manual'},
+    {member_id: 'm3', member_name: 'Priya Nair', member_code: 'MEM045', check_in: `${todayStr}T10:30:00Z`, check_out: null, duration_minutes: null, method: 'app'},
+    {member_id: 'm4', member_name: 'Vikram Singh', member_code: 'MEM101', check_in: `${todayStr}T06:00:00Z`, check_out: `${todayStr}T07:30:00Z`, duration_minutes: 90, method: 'qr'},
+    {member_id: 'm5', member_name: 'Neha Gupta', member_code: 'MEM088', check_in: `${todayStr}T11:00:00Z`, check_out: null, duration_minutes: null, method: 'qr'},
+  ];
+}
+
+function getDemoLogs() {
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  const yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
+  const yestStr = yesterday.toISOString().split('T')[0];
+  const dayBefore = new Date(now); dayBefore.setDate(dayBefore.getDate() - 2);
+  const dbStr = dayBefore.toISOString().split('T')[0];
+  
+  return [
+    {member_id: 'm1', member_name: 'Rahul Sharma', member_code: 'MEM092', check_in: `${todayStr}T09:15:00Z`, check_out: null, duration_minutes: null, method: 'qr'},
+    {member_id: 'm2', member_name: 'Amit Patel', member_code: 'MEM120', check_in: `${todayStr}T08:00:00Z`, check_out: `${todayStr}T09:00:00Z`, duration_minutes: 60, method: 'manual'},
+    {member_id: 'm3', member_name: 'Priya Nair', member_code: 'MEM045', check_in: `${todayStr}T10:30:00Z`, check_out: null, duration_minutes: null, method: 'app'},
+    {member_id: 'm4', member_name: 'Vikram Singh', member_code: 'MEM101', check_in: `${todayStr}T06:00:00Z`, check_out: `${todayStr}T07:30:00Z`, duration_minutes: 90, method: 'qr'},
+    {member_id: 'm5', member_name: 'Neha Gupta', member_code: 'MEM088', check_in: `${todayStr}T11:00:00Z`, check_out: null, duration_minutes: null, method: 'qr'},
+    {member_id: 'm6', member_name: 'Suresh Kumar', member_code: 'MEM132', check_in: `${yestStr}T18:00:00Z`, check_out: `${yestStr}T19:45:00Z`, duration_minutes: 105, method: 'manual'},
+    {member_id: 'm7', member_name: 'Anjali Desai', member_code: 'MEM022', check_in: `${yestStr}T07:15:00Z`, check_out: `${yestStr}T08:30:00Z`, duration_minutes: 75, method: 'qr'},
+    {member_id: 'm8', member_name: 'Rohan Mehta', member_code: 'MEM104', check_in: `${dbStr}T17:30:00Z`, check_out: `${dbStr}T19:00:00Z`, duration_minutes: 90, method: 'app'},
+    {member_id: 'm9', member_name: 'Karan Malhotra', member_code: 'MEM077', check_in: `${dbStr}T08:00:00Z`, check_out: `${dbStr}T09:15:00Z`, duration_minutes: 75, method: 'qr'},
+    {member_id: 'm10', member_name: 'Sneha Rao', member_code: 'MEM059', check_in: `${dbStr}T06:30:00Z`, check_out: `${dbStr}T08:00:00Z`, duration_minutes: 90, method: 'manual'},
+  ];
+}
+
+function handleDemoLogsFilter(date, method) {
+  let logs = getDemoLogs();
+  if (date) {
+    logs = logs.filter(l => l.check_in.startsWith(date));
+  }
+  if (method) {
+    logs = logs.filter(l => l.method === method);
+  }
+  document.getElementById('logCount').textContent = `${logs.length} records`;
+  renderLogsTable(logs);
+  renderLogsPagination(logs.length, 1, 1);
 }
 
 // Toast
