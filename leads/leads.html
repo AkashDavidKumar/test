@@ -531,7 +531,7 @@ async function refreshData() {
 
 // ── BOOT ───────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+  // if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
   refreshData();
 
   // Event listeners
