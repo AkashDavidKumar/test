@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Attendance — FitCore ERP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f;--bg2:#0e1118;--bg3:#151b28;--bg4:#1c2333;
+  --blue:#3b82f6;--cyan:#22d3ee;--violet:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;
+  --text:#e8edf8;--text2:#8494b0;--text3:#3d4f6a;
+  --border:rgba(255,255,255,0.065);--border2:rgba(59,130,246,0.22);
+  --card:rgba(255,255,255,0.025);--card2:rgba(59,130,246,0.07);
+  --r:12px;--r2:18px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:230px;height:100vh;height:100dvh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.sidebar::-webkit-scrollbar{display:none}
+.sb-logo{padding:1.25rem 1.25rem 1rem;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid var(--border)}
+.sb-logo-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:0.95rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif}
+.sb-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-gym{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border)}
+.sb-gym-name{font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:2px}
+.sb-gym-badge{font-size:0.65rem;color:var(--cyan);background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);border-radius:100px;padding:0.15rem 0.5rem;display:inline-block}
+.sb-nav{padding:0.75rem;flex:1}
+.sb-section{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:0.5rem 0.5rem 0.4rem;margin-top:0.5rem}
+.sb-item{display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;border-radius:9px;font-size:0.83rem;color:var(--text2);cursor:pointer;transition:all 0.18s;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:var(--card);color:var(--text)}
+.sb-item.active{background:var(--card2);color:var(--blue);border:1px solid var(--border2)}
+.sb-item i{font-size:16px;width:18px;text-align:center}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:0.6rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:100px}
+.sb-bottom{padding:0.75rem;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;border-radius:9px;background:var(--card);border:1px solid var(--border);cursor:pointer}
+.sb-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif}
+.sb-uname{font-size:0.78rem;font-weight:500;color:var(--text)}
+.sb-urole{font-size:0.65rem;color:var(--text3)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;flex-shrink:0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);flex:1}
+.content{flex:1;overflow-y:auto;padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-track{background:transparent}
+.content::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1.1rem;border-radius:9px;border:none;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,0.35)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 0.9rem;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.18s}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text);background:var(--card2)}
+.btn-danger{display:inline-flex;align-items:center;gap:0.5rem;padding:0.45rem 0.85rem;border-radius:9px;border:1px solid rgba(248,113,113,0.25);background:rgba(248,113,113,0.07);color:var(--red);font-family:'DM Sans',sans-serif;font-size:0.8rem;cursor:pointer;transition:all 0.18s}
+.btn-danger:hover{background:rgba(248,113,113,0.12);border-color:rgba(248,113,113,0.4)}
+
+/* ── STAT CARDS ── */
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;transition:all 0.2s;position:relative;overflow:hidden}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.sc-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:0.65rem}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;line-height:1}
+.stat-label{font-size:0.75rem;color:var(--text2);margin-top:0.3rem}
+.stat-sub{font-size:0.68rem;color:var(--text3);margin-top:0.2rem}
+
+/* ── GRID LAYOUT ── */
+.two-col{display:grid;grid-template-columns:380px 1fr;gap:1.25rem;align-items:start}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700}
+.card-body{padding:1.25rem}
+
+/* ── CHECK-IN PANEL ── */
+.checkin-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.checkin-tabs{display:flex;background:var(--bg3);border-bottom:1px solid var(--border)}
+.ctab{flex:1;padding:0.75rem;border:none;background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;border-bottom:2px solid transparent}
+.ctab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--card2)}
+.ctab i{font-size:15px;margin-right:0.4rem}
+.checkin-body{padding:1.25rem}
+
+/* Manual check-in */
+.search-member-wrap{position:relative;margin-bottom:1rem}
+.search-member-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
+  padding:0.75rem 1rem 0.75rem 2.5rem;
+  font-size:0.875rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;
+  transition:border 0.2s;
+}
+.search-member-input:focus{border-color:var(--border2);box-shadow:0 0 0 3px rgba(59,130,246,0.08)}
+.search-member-input::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);color:var(--text3);font-size:16px;pointer-events:none}
+.search-results{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:50;
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
+  max-height:220px;overflow-y:auto;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+.search-results.show{display:block}
+.sr-item{
+  display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.875rem;
+  cursor:pointer;transition:background 0.15s;
+}
+.sr-item:hover{background:var(--card2)}
+.sr-avatar{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif;overflow:hidden;
+}
+.sr-avatar img{width:100%;height:100%;object-fit:cover}
+.sr-name{font-size:0.82rem;font-weight:500;color:var(--text)}
+.sr-info{font-size:0.7rem;color:var(--text3)}
+.sr-status{margin-left:auto}
+
+/* Selected member card */
+.selected-member{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
+  padding:0.875rem;margin-bottom:1rem;display:none;
+}
+.selected-member.show{display:flex;align-items:center;gap:0.875rem}
+.sm-avatar{
+  width:44px;height:44px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif;overflow:hidden;
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+}
+.sm-avatar img{width:100%;height:100%;object-fit:cover}
+.sm-name{font-size:0.88rem;font-weight:600;color:var(--text)}
+.sm-code{font-size:0.72rem;color:var(--text3);margin-top:2px}
+.sm-plan{font-size:0.72rem;color:var(--cyan);margin-top:2px}
+.sm-clear{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0.25rem;transition:color 0.15s}
+.sm-clear:hover{color:var(--red)}
+
+/* Warning banner */
+.warn-banner{
+  background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);
+  border-radius:var(--r);padding:0.6rem 0.875rem;
+  font-size:0.78rem;color:var(--amber);
+  display:none;align-items:center;gap:0.5rem;margin-bottom:1rem;
+}
+.warn-banner.show{display:flex}
+.err-banner{
+  background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);
+  border-radius:var(--r);padding:0.6rem 0.875rem;
+  font-size:0.78rem;color:var(--red);
+  display:none;align-items:center;gap:0.5rem;margin-bottom:1rem;
+}
+.err-banner.show{display:flex}
+.succ-banner{
+  background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);
+  border-radius:var(--r);padding:0.75rem;
+  display:none;flex-direction:column;align-items:center;margin-bottom:1rem;
+  text-align:center;
+}
+.succ-banner.show{display:flex}
+.succ-name{font-size:1rem;font-weight:700;font-family:'Syne',sans-serif;color:var(--green)}
+.succ-time{font-size:0.78rem;color:var(--text3);margin-top:3px}
+
+.checkin-action-row{display:flex;gap:0.75rem}
+.checkin-action-row .btn-primary{flex:1;justify-content:center;padding:0.75rem}
+.checkin-action-row .btn-danger{flex:1;justify-content:center;padding:0.75rem}
+
+/* ── QR PANEL ── */
+.qr-container{
+  display:flex;flex-direction:column;align-items:center;gap:1rem;padding:0.5rem 0;
+}
+.qr-frame{
+  width:220px;height:220px;border-radius:var(--r2);overflow:hidden;
+  background:var(--bg3);border:2px solid var(--border2);position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.qr-frame video{width:100%;height:100%;object-fit:cover}
+.qr-corner{position:absolute;width:24px;height:24px;border-color:var(--blue);border-style:solid}
+.qr-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px}
+.qr-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+.qr-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}
+.qr-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+.qr-scan-line{
+  position:absolute;left:8px;right:8px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:scan 2s ease-in-out infinite;top:50%;
+}
+@keyframes scan{0%,100%{top:15%}50%{top:85%}}
+.qr-idle{display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:var(--text3)}
+.qr-idle i{font-size:3rem}
+.qr-idle p{font-size:0.8rem}
+
+.qr-manual-row{display:flex;gap:0.5rem;width:100%}
+.qr-manual-input{
+  flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
+  padding:0.65rem 0.875rem;font-size:0.85rem;color:var(--text);
+  font-family:'DM Sans',sans-serif;outline:none;transition:border 0.2s;
+  text-transform:uppercase;letter-spacing:0.05em;
+}
+.qr-manual-input:focus{border-color:var(--border2)}
+.qr-manual-input::placeholder{color:var(--text3);text-transform:none;letter-spacing:normal}
+
+/* QR result card */
+.qr-result{
+  width:100%;background:var(--bg3);border-radius:var(--r);
+  border:1px solid var(--border);padding:0.875rem;
+  display:none;
+}
+.qr-result.show{display:block}
+.qr-result-inner{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.875rem}
+.qr-actions{display:flex;gap:0.5rem}
+.qr-actions button{flex:1;justify-content:center}
+
+/* ── LIVE LOG ── */
+.live-log-list{display:flex;flex-direction:column;gap:0;max-height:420px;overflow-y:auto}
+.live-log-list::-webkit-scrollbar{width:3px}
+.live-log-list::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+.log-item{
+  display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.25rem;
+  border-bottom:1px solid var(--border);transition:background 0.15s;cursor:default;
+}
+.log-item:last-child{border:none}
+.log-item:hover{background:var(--card)}
+.log-avatar{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif;overflow:hidden;
+}
+.log-avatar img{width:100%;height:100%;object-fit:cover}
+.log-name{font-size:0.82rem;font-weight:500;color:var(--text)}
+.log-meta{font-size:0.7rem;color:var(--text3);margin-top:1px}
+.log-time{margin-left:auto;text-align:right;flex-shrink:0}
+.log-time-in{font-size:0.78rem;color:var(--text);font-weight:500}
+.log-time-out{font-size:0.7rem;color:var(--text3);margin-top:1px}
+.log-dur{font-size:0.68rem;color:var(--cyan);margin-top:2px}
+.method-pill{
+  font-size:0.65rem;font-weight:600;padding:0.15rem 0.45rem;border-radius:100px;
+  margin-left:auto;flex-shrink:0;
+}
+.method-qr{background:rgba(34,211,238,0.1);color:var(--cyan)}
+.method-manual{background:rgba(59,130,246,0.1);color:var(--blue)}
+.method-app{background:rgba(167,139,250,0.1);color:var(--violet)}
+
+.checkout-btn-inline{
+  width:26px;height:26px;border-radius:7px;border:1px solid var(--border);
+  background:transparent;color:var(--text3);font-size:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all 0.15s;margin-left:0.5rem;
+}
+.checkout-btn-inline:hover{border-color:rgba(52,211,153,0.4);color:var(--green);background:rgba(52,211,153,0.07)}
+
+/* ── CHART ── */
+.chart-wrap{position:relative;height:180px}
+
+/* ── HEATMAP ── */
+.heatmap-grid{display:grid;grid-template-columns:repeat(17,1fr);gap:3px;padding:0.25rem 0}
+.hm-cell{
+  aspect-ratio:1;border-radius:4px;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.55rem;color:var(--text3);
+  cursor:default;transition:all 0.15s;position:relative;
+}
+.hm-cell:hover::after{
+  content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);
+  background:var(--bg4);border:1px solid var(--border);border-radius:6px;
+  padding:0.25rem 0.5rem;font-size:0.68rem;color:var(--text);white-space:nowrap;z-index:10;
+}
+.hm-label{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text3);padding:0 2px;margin-bottom:3px}
+.hm-legend{display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;color:var(--text3);margin-top:0.5rem;justify-content:flex-end}
+.hm-legend-box{width:10px;height:10px;border-radius:2px}
+
+/* ── DATE FILTER BAR ── */
+.date-bar{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.date-input{
+  background:var(--bg3);border:1px solid var(--border);border-radius:9px;
+  padding:0.45rem 0.8rem;font-size:0.82rem;color:var(--text2);
+  font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;transition:border 0.2s;
+}
+.date-input:focus{border-color:var(--border2)}
+.quick-btns{display:flex;gap:0.4rem}
+.qbtn{
+  padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--border);
+  background:transparent;color:var(--text3);font-size:0.75rem;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all 0.15s;
+}
+.qbtn:hover,.qbtn.active{background:var(--card2);border-color:var(--border2);color:var(--blue)}
+
+/* ── TABLE ── */
+.att-table{width:100%;border-collapse:collapse}
+.att-table thead th{
+  padding:0.6rem 1rem;text-align:left;font-size:0.7rem;font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);
+  background:var(--bg3);border-bottom:1px solid var(--border);white-space:nowrap;
+}
+.att-table tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s}
+.att-table tbody tr:last-child{border:none}
+.att-table tbody tr:hover{background:var(--card)}
+.att-table tbody td{padding:0.7rem 1rem;font-size:0.82rem;color:var(--text2);vertical-align:middle}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.25rem;border-top:1px solid var(--border)}
+.page-info{font-size:0.78rem;color:var(--text3)}
+.page-btns{display:flex;gap:0.4rem}
+.page-btn{min-width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;font-family:'DM Sans',sans-serif;padding:0 0.5rem}
+.page-btn:hover{border-color:var(--border2);color:var(--text);background:var(--card2)}
+.page-btn.active{background:var(--card2);color:var(--blue);border-color:var(--border2)}
+.page-btn:disabled{opacity:0.3;cursor:not-allowed}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:0.2rem 0.55rem;border-radius:100px;font-size:0.7rem;font-weight:600}
+.badge-active{background:rgba(52,211,153,0.12);color:var(--green)}
+.badge-expired{background:rgba(248,113,113,0.12);color:var(--red)}
+.badge-in{background:rgba(52,211,153,0.12);color:var(--green)}
+.badge-out{background:rgba(59,130,246,0.12);color:var(--blue)}
+
+/* ── CURRENTLY IN COUNTER ── */
+.live-counter{
+  display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1.25rem;
+  background:rgba(52,211,153,0.05);border-bottom:1px solid rgba(52,211,153,0.1);
+}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(52,211,153,0.2);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(52,211,153,0.2)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0.1)}}
+.live-label{font-size:0.82rem;color:var(--text2)}
+.live-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--green);margin-left:auto}
+
+/* ── TOAST ── */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem}
+.toast{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--text);display:flex;align-items:center;gap:0.65rem;min-width:260px;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:slide-in 0.3s ease}
+.toast.success{border-color:rgba(52,211,153,0.3)}
+.toast.error{border-color:rgba(248,113,113,0.3)}
+@keyframes slide-in{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Skeleton */
+.skeleton {
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.skeleton * {
+  visibility: hidden !important;
+}
+.chart-placeholder {
+  display: block;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Live refresh indicator */
+.refresh-badge{font-size:0.68rem;color:var(--text3);display:flex;align-items:center;gap:0.35rem}
+.refresh-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 3s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* Mobile Stacking & Overlay Styling */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(6,8,15,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:999;display:none;opacity:0;transition:opacity 0.3s ease}
+.sidebar-overlay.active{display:block;opacity:1}
+.sb-toggle{display:none}
+
+.chart-heatmap-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:-240px;height:100vh;height:100dvh;z-index:1000;transition:left 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:10px 0 30px rgba(0,0,0,0.5)}
+  .sidebar.active{left:0}
+  .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
+  .sb-toggle:hover{background:var(--card)}
+  
+  .topbar{padding:0 1rem;gap:0.5rem}
+  .content{padding:1rem 1rem 90px 1rem;gap:1rem}
+  
+  .stat-row{grid-template-columns:repeat(2,1fr);gap:0.75rem}
+  .two-col{grid-template-columns:1fr;gap:1rem}
+  .three-col{grid-template-columns:1fr;gap:1rem}
+  .chart-heatmap-row{grid-template-columns:1fr;gap:1rem}
+}
+@media(max-width:480px){
+  .stat-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">F</div>
+    <span class="sb-logo-text">FitCore ERP</span>
+  </div>
+  <div class="sb-gym">
+    <div class="sb-gym-name" id="gymName">IronZone Fitness</div>
+    <span class="sb-gym-badge" id="gymPlan">Growth Plan</span>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a href="../fitcore_crm_dashboard.html" class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a href="../members/members.html"       class="sb-item"><i class="ti ti-users"></i> Members</a>
+    <a href="attendance.html"               class="sb-item active"><i class="ti ti-calendar-check"></i> Attendance</a>
+    <a href="../billing/billing.html"       class="sb-item"><i class="ti ti-credit-card"></i> Payments</a>
+    <a href="attendance.html?tab=qr"        class="sb-item"><i class="ti ti-qrcode"></i> QR Check-in</a>
+    <div class="sb-section">Management</div>
+    <a href="../trainers/trainers.html"     class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
+    <a href="../workouts/workouts.html"     class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
+    <a href="../diets/diets.html"           class="sb-item"><i class="ti ti-salad"></i> Diet Plans</a>
+    <a href="../leads/whatsapp.html"        class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
+    <div class="sb-section">Analytics</div>
+    <a href="../reports/reports.html"       class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
+    <a href="../ai/ai.html"                 class="sb-item"><i class="ti ti-robot"></i> AI Insights</a>
+    <a href="../branches/branches.html"     class="sb-item"><i class="ti ti-building"></i> Branches</a>
+    <a href="../settings/settings.html"     class="sb-item"><i class="ti ti-settings"></i> Settings</a>
+  </div>
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="sb-avatar" id="sbAvatar">RK</div>
+      <div><div class="sb-uname" id="sbName">—</div><div class="sb-urole" id="sbRole">—</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
+    <div class="topbar-title">Attendance</div>
+    <div class="refresh-badge"><div class="refresh-dot"></div> Live · auto-refreshes every 30s</div>
+    <button class="btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i> Export</button>
+  </div>
+
+  <div class="content">
+
+    <!-- STAT ROW -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="sc-icon" style="background:rgba(52,211,153,0.1);color:var(--green)"><i class="ti ti-door-enter"></i></div>
+        <div class="stat-val" id="st-today">—</div>
+        <div class="stat-label">Today's Check-ins</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon" style="background:rgba(59,130,246,0.1);color:var(--blue)"><i class="ti ti-activity"></i></div>
+        <div class="stat-val" id="st-inside" style="color:var(--green)">—</div>
+        <div class="stat-label">Currently Inside</div>
+        <div class="stat-sub">as of now</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon" style="background:rgba(34,211,238,0.1);color:var(--cyan)"><i class="ti ti-calendar-week"></i></div>
+        <div class="stat-val" id="st-week">—</div>
+        <div class="stat-label">This Week</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon" style="background:rgba(167,139,250,0.1);color:var(--violet)"><i class="ti ti-calendar-month"></i></div>
+        <div class="stat-val" id="st-month">—</div>
+        <div class="stat-label">This Month</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon" style="background:rgba(251,191,36,0.1);color:var(--amber)"><i class="ti ti-trending-up"></i></div>
+        <div class="stat-val" id="st-avg">—</div>
+        <div class="stat-label">Daily Average</div>
+        <div class="stat-sub">this month</div>
+      </div>
+    </div>
+
+    <!-- ROW 2: CHECK-IN PANEL + LIVE LOG -->
+    <div class="two-col">
+
+      <!-- ── CHECK-IN PANEL ── -->
+      <div class="checkin-panel">
+        <div class="checkin-tabs">
+          <button class="ctab active" id="tab-manual" onclick="switchTab('manual')"><i class="ti ti-hand-finger"></i>Manual Check-in</button>
+          <button class="ctab" id="tab-qr" onclick="switchTab('qr')"><i class="ti ti-qrcode"></i>QR Scanner</button>
+        </div>
+
+        <!-- MANUAL TAB -->
+        <div class="checkin-body" id="panel-manual">
+          <div class="warn-banner" id="warnBanner"><i class="ti ti-alert-triangle"></i><span id="warnMsg"></span></div>
+          <div class="err-banner"  id="errBanner"><i class="ti ti-alert-circle"></i><span id="errMsg"></span></div>
+          <div class="succ-banner" id="succBanner">
+            <div style="font-size:2rem">✅</div>
+            <div class="succ-name" id="succName">—</div>
+            <div class="succ-time" id="succTime">Checked in at —</div>
+            <div id="succDays" style="font-size:0.75rem;color:var(--text3);margin-top:3px"></div>
+          </div>
+
+          <div class="search-member-wrap">
+            <i class="ti ti-search search-icon"></i>
+            <input type="text" class="search-member-input" id="memberSearch"
+              placeholder="Search by name, phone or code…"
+              oninput="searchMembers()" autocomplete="off"/>
+            <div class="search-results" id="searchResults"></div>
+          </div>
+
+          <div class="selected-member" id="selectedMember">
+            <div class="sm-avatar" id="smAvatar">?</div>
+            <div>
+              <div class="sm-name" id="smName">—</div>
+              <div class="sm-code" id="smCode">—</div>
+              <div class="sm-plan" id="smPlan">—</div>
+            </div>
+            <button class="sm-clear" onclick="clearSelection()" title="Clear"><i class="ti ti-x"></i></button>
+          </div>
+
+          <div class="checkin-action-row">
+            <button class="btn-primary" id="checkInBtn" onclick="doCheckIn()" disabled>
+              <i class="ti ti-door-enter"></i> Check In
+            </button>
+            <button class="btn-danger" id="checkOutBtn" onclick="doCheckOut()" disabled>
+              <i class="ti ti-door-exit"></i> Check Out
+            </button>
+          </div>
+
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+            <div style="font-size:0.72rem;color:var(--text3);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.06em;font-weight:600">Method</div>
+            <div style="display:flex;gap:0.5rem">
+              <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;font-size:0.8rem;color:var(--text2)">
+                <input type="radio" name="method" value="manual" checked style="accent-color:var(--blue)"/> Manual
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;font-size:0.8rem;color:var(--text2)">
+                <input type="radio" name="method" value="app" style="accent-color:var(--blue)"/> App
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR TAB -->
+        <div class="checkin-body" id="panel-qr" style="display:none">
+          <div class="qr-container">
+            <div class="qr-frame" id="qrFrame">
+              <div class="qr-corner tl"></div>
+              <div class="qr-corner tr"></div>
+              <div class="qr-corner bl"></div>
+              <div class="qr-corner br"></div>
+              <div class="qr-idle" id="qrIdle">
+                <i class="ti ti-qrcode"></i>
+                <p>Camera not started</p>
+              </div>
+              <video id="qrVideo" style="display:none" playsinline></video>
+              <div class="qr-scan-line" id="scanLine" style="display:none"></div>
+            </div>
+
+            <button class="btn-primary" id="startCamBtn" onclick="toggleCamera()">
+              <i class="ti ti-camera"></i> Start Camera
+            </button>
+
+            <div style="width:100%;display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--text3)">
+              <div style="flex:1;height:1px;background:var(--border)"></div>or enter code manually<div style="flex:1;height:1px;background:var(--border)"></div>
+            </div>
+
+            <div class="qr-manual-row">
+              <input type="text" class="qr-manual-input" id="qrCodeInput"
+                placeholder="e.g. FC-0042"
+                onkeydown="if(event.key==='Enter')lookupQR()"/>
+              <button class="btn-primary" onclick="lookupQR()"><i class="ti ti-search"></i></button>
+            </div>
+
+            <div class="qr-result" id="qrResult">
+              <div class="qr-result-inner">
+                <div class="sm-avatar" id="qrAvatar" style="width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--violet))">?</div>
+                <div>
+                  <div class="sm-name" id="qrName">—</div>
+                  <div class="sm-code" id="qrCode2">—</div>
+                  <div id="qrDays" style="font-size:0.72rem;color:var(--text3);margin-top:2px"></div>
+                </div>
+                <div style="margin-left:auto"><span class="badge" id="qrStatus"></span></div>
+              </div>
+              <div class="qr-actions">
+                <button class="btn-primary" id="qrCheckInBtn" onclick="qrDoAction('checkin')">
+                  <i class="ti ti-door-enter"></i> Check In
+                </button>
+                <button class="btn-danger" id="qrCheckOutBtn" onclick="qrDoAction('checkout')">
+                  <i class="ti ti-door-exit"></i> Check Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LIVE LOG ── -->
+      <div class="card" style="display:flex;flex-direction:column">
+        <div class="card-header">
+          <div class="card-title">Today's Log</div>
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <span class="refresh-badge"><div class="refresh-dot"></div> Live</span>
+            <button class="btn-ghost" style="font-size:0.75rem;padding:0.3rem 0.6rem" onclick="refreshData()"><i class="ti ti-refresh"></i></button>
+          </div>
+        </div>
+        <div class="live-counter">
+          <div class="live-dot"></div>
+          <span class="live-label">Members currently inside</span>
+          <span class="live-num" id="liveNum">—</span>
+        </div>
+        <div class="live-log-list" id="liveLog">
+          <div style="padding:2rem;text-align:center;color:var(--text3);font-size:0.82rem">Loading…</div>
+        </div>
+      </div>
+
+    </div><!-- /two-col -->
+
+    <!-- ROW 3: TREND CHART + HEATMAP -->
+    <div class="chart-heatmap-row">
+
+      <!-- TREND CHART -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">30-Day Attendance Trend</div>
+          <select id="chartDays" class="date-input" style="padding:0.3rem 0.6rem;font-size:0.75rem" onchange="loadChart()">
+            <option value="30">Last 30 days</option>
+            <option value="14">Last 14 days</option>
+            <option value="7">Last 7 days</option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- HOURLY HEATMAP -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Today's Busy Hours</div>
+        </div>
+        <div class="card-body">
+          <div class="hm-label">
+            <span>6 AM</span><span>12 PM</span><span>10 PM</span>
+          </div>
+          <div class="heatmap-grid" id="heatmapGrid"></div>
+          <div class="hm-legend">
+            <span>Less</span>
+            <div class="hm-legend-box" style="background:var(--bg3)"></div>
+            <div class="hm-legend-box" style="background:rgba(59,130,246,0.2)"></div>
+            <div class="hm-legend-box" style="background:rgba(59,130,246,0.5)"></div>
+            <div class="hm-legend-box" style="background:var(--blue)"></div>
+            <div class="hm-legend-box" style="background:var(--cyan)"></div>
+            <span>More</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 4: FULL LOG WITH FILTERS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Attendance Logs</div>
+        <button class="btn-ghost" style="font-size:0.75rem" onclick="refreshData()"><i class="ti ti-refresh"></i></button>
+      </div>
+      <div style="padding:0.875rem 1.25rem;border-bottom:1px solid var(--border)">
+        <div class="date-bar">
+          <input type="date" class="date-input" id="filterDate" onchange="loadLogs()"/>
+          <div class="quick-btns">
+            <button class="qbtn active" onclick="setQuickDate('today', this)">Today</button>
+            <button class="qbtn" onclick="setQuickDate('yesterday', this)">Yesterday</button>
+            <button class="qbtn" onclick="setQuickDate('week', this)">This Week</button>
+            <button class="qbtn" onclick="setQuickDate('', this)">All</button>
+          </div>
+          <select class="date-input" id="filterMethod" onchange="loadLogs()">
+            <option value="">All Methods</option>
+            <option value="manual">Manual</option>
+            <option value="qr">QR</option>
+            <option value="app">App</option>
+          </select>
+          <div style="margin-left:auto;font-size:0.78rem;color:var(--text3)" id="logCount">—</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="att-table">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Check In</th>
+              <th>Check Out</th>
+              <th>Duration</th>
+              <th>Method</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="logsTbody">
+            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3)">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="page-info" id="logsPageInfo">—</span>
+        <div class="page-btns" id="logsPageBtns"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   FitCore ERP — Attendance Page
+══════════════════════════════════════════════════════ */
+const API   = 'http://127.0.0.1:5000/api/v1';
+const TOKEN = () => localStorage.getItem('fitcore_access_token');
+const hdrs  = () => ({ 'Content-Type':'application/json', 'Authorization':`Bearer ${TOKEN()}` });
+
+let state = {
+  selectedMemberId: null,
+  selectedMemberName: '',
+  qrMemberId: null,
+  qrCheckedIn: false,
+  qrCheckInId: null,
+  logsPage: 1,
+  logsTotal: 0,
+  logsPages: 1,
+  trendChart: null,
+  cameraStream: null,
+  autoRefreshTimer: null,
+};
+
+/* ── BOOT ─────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  //if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+  loadUser();
+  loadStats();
+  loadToday();
+  loadChart();
+  loadHeatmap();
+  loadLogs();
+  // Set today as default date filter
+  document.getElementById('filterDate').value = todayISO();
+  // Auto-refresh every 30s
+  state.autoRefreshTimer = setInterval(() => {
+    loadStats();
+    loadToday();
+    loadHeatmap();
+  }, 30000);
+});
+
+/* ── USER ─────────────────────────────────────────── */
+async function loadUser() {
+  try {
+    const r = await fetch(`${API}/auth/me`, { headers: hdrs() });
+    const d = await r.json();
+    if (d.success) {
+      const u = d.user;
+      document.getElementById('sbAvatar').textContent = (u.first_name[0] + (u.last_name?.[0]||'')).toUpperCase();
+      document.getElementById('sbName').textContent   = u.full_name;
+      document.getElementById('sbRole').textContent   = u.role.replace('_',' ');
+      if (u.gym) {
+        document.getElementById('gymName').textContent = u.gym.name;
+        document.getElementById('gymPlan').textContent = u.gym.plan + ' plan';
+      }
+    }
+  } catch(e){}
+}
+
+/* ── STATS ────────────────────────────────────────── */
+async function loadStats() {
+  try {
+    const r = await fetch(`${API}/attendance/stats`, { headers: hdrs() });
+    const d = await r.json();
+    if (d.success) {
+      document.getElementById('st-today').textContent  = d.today_total;
+      document.getElementById('st-inside').textContent = d.currently_in;
+      document.getElementById('st-week').textContent   = d.week_total;
+      document.getElementById('st-month').textContent  = d.month_total;
+      document.getElementById('st-avg').textContent    = d.avg_daily;
+      document.getElementById('liveNum').textContent   = d.currently_in;
+    }
+  } catch(e){}
+}
+
+/* ── TODAY'S LIVE LOG ─────────────────────────────── */
+async function loadToday() {
+  try {
+    const r = await fetch(`${API}/attendance/today`, { headers: hdrs() });
+    const d = await r.json();
+    if (!d.success) return;
+    document.getElementById('liveNum').textContent = d.currently_in;
+    renderLiveLog(d.logs);
+  } catch(e){}
+}
+
+function renderLiveLog(logs) {
+  const el = document.getElementById('liveLog');
+  if (!logs.length) {
+    el.innerHTML = `<div style="padding:2.5rem;text-align:center;color:var(--text3);font-size:0.82rem">
+      <i class="ti ti-calendar-off" style="font-size:2rem;display:block;margin-bottom:0.5rem;opacity:0.3"></i>
+      No check-ins today yet</div>`;
+    return;
+  }
+  el.innerHTML = logs.map(l => {
+    const initials = (l.member_name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const avatarBg = avatarGradient(l.member_id);
+    const avatarHTML = l.photo_url
+      ? `<img src="${l.photo_url}" alt="${l.member_name}"/>`
+      : initials;
+    const timeIn  = l.check_in  ? formatTime(l.check_in)  : '—';
+    const timeOut = l.check_out ? formatTime(l.check_out) : null;
+    const durText = l.duration_minutes ? `${l.duration_minutes} min` : '';
+    const methodCls = `method-${l.method||'manual'}`;
+    const isStillIn = !l.check_out;
+    return `
+      <div class="log-item">
+        <div class="log-avatar" style="background:${avatarBg}">${avatarHTML}</div>
+        <div style="flex:1;min-width:0">
+          <div class="log-name">${l.member_name||'—'}</div>
+          <div class="log-meta">${l.member_code||''}</div>
+        </div>
+        <span class="method-pill ${methodCls}">${l.method||'manual'}</span>
+        <div class="log-time">
+          <div class="log-time-in">${timeIn}</div>
+          <div class="log-time-out">${timeOut ? '→ '+timeOut : '<span style="color:var(--green);font-size:0.68rem">● Inside</span>'}</div>
+          ${durText ? `<div class="log-dur">${durText}</div>` : ''}
+        </div>
+        ${isStillIn ? `<button class="checkout-btn-inline" onclick="quickCheckOut('${l.member_id}')" title="Check out"><i class="ti ti-door-exit"></i></button>` : ''}
+      </div>`;
+  }).join('');
+}
+
+/* ── MEMBER SEARCH ────────────────────────────────── */
+let searchTimer;
+function searchMembers() {
+  clearTimeout(searchTimer);
+  const q = document.getElementById('memberSearch').value.trim();
+  if (q.length < 2) {
+    document.getElementById('searchResults').classList.remove('show');
+    return;
+  }
+  searchTimer = setTimeout(async () => {
+    try {
+      const r = await fetch(`${API}/members/?q=${encodeURIComponent(q)}&per_page=8`, { headers: hdrs() });
+      const d = await r.json();
+      if (d.success) renderSearchResults(d.members || []);
+    } catch(e){}
+  }, 300);
+}
+
+function renderSearchResults(members) {
+  const el = document.getElementById('searchResults');
+  if (!members.length) {
+    el.innerHTML = `<div style="padding:0.875rem;text-align:center;color:var(--text3);font-size:0.8rem">No members found</div>`;
+    el.classList.add('show');
+    return;
+  }
+  el.innerHTML = members.map(m => {
+    const initials  = (m.first_name[0]+(m.last_name?.[0]||'')).toUpperCase();
+    const avatarBg  = avatarGradient(m.id);
+    const avatarHTML= m.photo_url ? `<img src="${m.photo_url}" alt="${m.full_name}"/>` : initials;
+    const days = m.days_remaining;
+    const statusColor = m.status==='active' ? 'var(--green)' : 'var(--red)';
+    return `
+      <div class="sr-item" onclick="selectMember('${m.id}','${m.full_name}','${m.member_code}','${m.active_membership?.plan_name||'No plan'}','${m.photo_url||''}','${m.status}')">
+        <div class="sr-avatar" style="background:${avatarBg}">${avatarHTML}</div>
+        <div style="flex:1;min-width:0">
+          <div class="sr-name">${m.full_name}</div>
+          <div class="sr-info">${m.member_code} · ${m.phone||'—'}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:0.68rem;font-weight:600;color:${statusColor}">${m.status}</div>
+          ${days!==null ? `<div style="font-size:0.65rem;color:var(--text3)">${days}d left</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+  el.classList.add('show');
+}
+
+function selectMember(id, name, code, plan, photo, status) {
+  state.selectedMemberId   = id;
+  state.selectedMemberName = name;
+
+  document.getElementById('searchResults').classList.remove('show');
+  document.getElementById('memberSearch').value = '';
+
+  const avatar = document.getElementById('smAvatar');
+  if (photo) {
+    avatar.innerHTML = `<img src="${photo}" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:11px"/>`;
+  } else {
+    avatar.style.background = avatarGradient(id);
+    avatar.textContent = (name[0]+(name.split(' ')[1]?.[0]||'')).toUpperCase();
+  }
+  document.getElementById('smName').textContent = name;
+  document.getElementById('smCode').textContent = code;
+  document.getElementById('smPlan').textContent = plan;
+  document.getElementById('selectedMember').classList.add('show');
+
+  document.getElementById('checkInBtn').disabled  = (status !== 'active' && status !== 'trial');
+  document.getElementById('checkOutBtn').disabled = false;
+
+  hideBanners();
+}
+
+function clearSelection() {
+  state.selectedMemberId = null;
+  document.getElementById('selectedMember').classList.remove('show');
+  document.getElementById('checkInBtn').disabled  = true;
+  document.getElementById('checkOutBtn').disabled = true;
+  hideBanners();
+}
+
+function hideBanners() {
+  ['warnBanner','errBanner','succBanner'].forEach(id =>
+    document.getElementById(id).classList.remove('show'));
+}
+
+/* ── CHECK IN / OUT ───────────────────────────────── */
+async function doCheckIn() {
+  if (!state.selectedMemberId) return;
+  const method = document.querySelector('input[name="method"]:checked').value;
+  const btn    = document.getElementById('checkInBtn');
+  const orig   = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+  hideBanners();
+  try {
+    const r = await fetch(`${API}/attendance/checkin`, {
+      method: 'POST', headers: hdrs(),
+      body: JSON.stringify({ member_id: state.selectedMemberId, method }),
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    showSuccess(state.selectedMemberName, d.check_in, d.days_remaining, d.warning);
+    clearSelection();
+    loadStats();
+    loadToday();
+  } catch(e) {
+    showErrBanner(e.message);
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+
+async function doCheckOut() {
+  if (!state.selectedMemberId) return;
+  const btn  = document.getElementById('checkOutBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+  hideBanners();
+  try {
+    const r = await fetch(`${API}/attendance/checkout/member/${state.selectedMemberId}`, {
+      method: 'POST', headers: hdrs(),
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    showToast(`${state.selectedMemberName} checked out · ${d.duration_minutes} min`, 'success');
+    clearSelection();
+    loadStats();
+    loadToday();
+  } catch(e) {
+    showErrBanner(e.message);
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+
+async function quickCheckOut(memberId) {
+  try {
+    const r = await fetch(`${API}/attendance/checkout/member/${memberId}`, {
+      method:'POST', headers:hdrs()
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    showToast(`Checked out · ${d.duration_minutes} min`, 'success');
+    loadStats();
+    loadToday();
+  } catch(e) {
+    showToast(e.message, 'error');
+  }
+}
+
+function showSuccess(name, checkInTime, daysLeft, warning) {
+  document.getElementById('succBanner').classList.add('show');
+  document.getElementById('succName').textContent = `✅ ${name} checked in!`;
+  document.getElementById('succTime').textContent = `at ${checkInTime ? formatTime(checkInTime) : new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`;
+  const daysEl = document.getElementById('succDays');
+  if (warning) {
+    daysEl.style.color = 'var(--amber)';
+    daysEl.textContent = `⚠️ ${warning}`;
+  } else if (daysLeft !== null) {
+    daysEl.style.color = 'var(--text3)';
+    daysEl.textContent = `${daysLeft} days remaining`;
+  }
+  if (warning) document.getElementById('warnBanner').classList.add('show'), document.getElementById('warnMsg').textContent = warning;
+  setTimeout(() => document.getElementById('succBanner').classList.remove('show'), 5000);
+}
+function showErrBanner(msg) {
+  document.getElementById('errBanner').classList.add('show');
+  document.getElementById('errMsg').textContent = msg;
+}
+
+/* ── QR SCANNER ───────────────────────────────────── */
+function switchTab(tab) {
+  document.getElementById('panel-manual').style.display = tab==='manual' ? 'block' : 'none';
+  document.getElementById('panel-qr').style.display     = tab==='qr'     ? 'block' : 'none';
+  document.getElementById('tab-manual').classList.toggle('active', tab==='manual');
+  document.getElementById('tab-qr').classList.toggle('active', tab==='qr');
+  if (tab !== 'qr' && state.cameraStream) stopCamera();
+}
+
+async function toggleCamera() {
+  if (state.cameraStream) { stopCamera(); return; }
+  const btn = document.getElementById('startCamBtn');
+  btn.innerHTML = '<div class="spinner"></div> Starting…';
+  try {
+    state.cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = document.getElementById('qrVideo');
+    video.srcObject = state.cameraStream;
+    video.style.display = 'block';
+    await video.play();
+    document.getElementById('qrIdle').style.display = 'none';
+    document.getElementById('scanLine').style.display = 'block';
+    btn.innerHTML = '<i class="ti ti-camera-off"></i> Stop Camera';
+    startQRDetection();
+  } catch(e) {
+    btn.innerHTML = '<i class="ti ti-camera"></i> Start Camera';
+    showToast('Camera access denied. Use manual code entry.', 'error');
+  }
+}
+
+function stopCamera() {
+  if (state.cameraStream) {
+    state.cameraStream.getTracks().forEach(t => t.stop());
+    state.cameraStream = null;
+  }
+  document.getElementById('qrVideo').style.display = 'none';
+  document.getElementById('qrIdle').style.display  = 'flex';
+  document.getElementById('scanLine').style.display = 'none';
+  document.getElementById('startCamBtn').innerHTML  = '<i class="ti ti-camera"></i> Start Camera';
+}
+
+function startQRDetection() {
+  // Uses BarcodeDetector API if available, otherwise falls back to manual entry
+  if (!('BarcodeDetector' in window)) return;
+  const detector = new BarcodeDetector({ formats: ['qr_code'] });
+  const video    = document.getElementById('qrVideo');
+  const scan = async () => {
+    if (!state.cameraStream) return;
+    try {
+      const codes = await detector.detect(video);
+      if (codes.length) {
+        const raw = codes[0].rawValue.trim().toUpperCase();
+        document.getElementById('qrCodeInput').value = raw;
+        lookupQR();
+        return; // stop scanning after a hit
+      }
+    } catch(e){}
+    requestAnimationFrame(scan);
+  };
+  requestAnimationFrame(scan);
+}
+
+async function lookupQR() {
+  const code = document.getElementById('qrCodeInput').value.trim().toUpperCase();
+  if (!code) return;
+  try {
+    const r = await fetch(`${API}/attendance/qr`, {
+      method:'POST', headers:hdrs(),
+      body: JSON.stringify({ member_code: code, action: 'lookup' }),
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+
+    const m = d.member;
+    state.qrMemberId  = m.id;
+    state.qrCheckedIn = d.is_checked_in;
+    state.qrCheckInId = d.check_in_id;
+
+    // Populate result card
+    const initials = (m.full_name[0]+(m.full_name.split(' ')[1]?.[0]||'')).toUpperCase();
+    const av = document.getElementById('qrAvatar');
+    if (m.photo_url) {
+      av.innerHTML = `<img src="${m.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:11px"/>`;
+    } else {
+      av.style.background = avatarGradient(m.id);
+      av.textContent = initials;
+    }
+    document.getElementById('qrName').textContent  = m.full_name;
+    document.getElementById('qrCode2').textContent = m.member_code;
+    const dl = d.days_remaining;
+    document.getElementById('qrDays').textContent  = dl !== null ? `${dl} days remaining` : '';
+    const statusEl = document.getElementById('qrStatus');
+    statusEl.textContent  = m.status;
+    statusEl.className    = `badge badge-${m.status}`;
+
+    document.getElementById('qrCheckInBtn').disabled  = d.is_checked_in;
+    document.getElementById('qrCheckOutBtn').disabled = !d.is_checked_in;
+    document.getElementById('qrResult').classList.add('show');
+
+    if (d.is_checked_in) {
+      document.getElementById('qrCheckInBtn').style.opacity  = '0.4';
+      document.getElementById('qrCheckOutBtn').style.opacity = '1';
+    } else {
+      document.getElementById('qrCheckInBtn').style.opacity  = '1';
+      document.getElementById('qrCheckOutBtn').style.opacity = '0.4';
+    }
+  } catch(e) {
+    showToast(e.message, 'error');
+  }
+}
+
+async function qrDoAction(action) {
+  const code = document.getElementById('qrCodeInput').value.trim().toUpperCase();
+  if (!code) return;
+  const btn = action==='checkin' ? document.getElementById('qrCheckInBtn') : document.getElementById('qrCheckOutBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+  try {
+    const r = await fetch(`${API}/attendance/qr`, {
+      method:'POST', headers:hdrs(),
+      body: JSON.stringify({ member_code: code, action }),
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    showToast(`${d.member?.full_name||'Member'} ${action==='checkin'?'checked in':'checked out'}!`, 'success');
+    document.getElementById('qrCodeInput').value = '';
+    document.getElementById('qrResult').classList.remove('show');
+    loadStats();
+    loadToday();
+    if (action==='checkin' && state.cameraStream) startQRDetection();
+  } catch(e) {
+    showToast(e.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+
+/* ── LOGS TABLE ───────────────────────────────────── */
+let logsPage = 1;
+async function loadLogs() {
+  const date   = document.getElementById('filterDate').value;
+  const method = document.getElementById('filterMethod').value;
+  const params = new URLSearchParams({
+    page: logsPage, per_page: 20,
+    ...(date   && { date }),
+    ...(method && { method }),
+  });
+  try {
+    const r = await fetch(`${API}/attendance/logs?${params}`, { headers: hdrs() });
+    const d = await r.json();
+    if (!d.success) return;
+    document.getElementById('logCount').textContent = `${d.total} records`;
+    renderLogsTable(d.logs);
+    renderLogsPagination(d.total, d.page, d.pages);
+  } catch(e){}
+}
+
+function renderLogsTable(logs) {
+  const tbody = document.getElementById('logsTbody');
+  if (!logs.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3)">No records found</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = logs.map(l => {
+    const initials = (l.member_name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const avatarBg = avatarGradient(l.member_id);
+    const avatarHTML = l.photo_url
+      ? `<img src="${l.photo_url}" alt="${l.member_name}" style="width:100%;height:100%;object-fit:cover;border-radius:7px"/>`
+      : initials;
+    const timeIn   = l.check_in  ? formatDateTime(l.check_in)  : '—';
+    const timeOut  = l.check_out ? formatDateTime(l.check_out) : `<span style="color:var(--green);font-size:0.72rem">● Still inside</span>`;
+    const dur      = l.duration_minutes ? `${l.duration_minutes} min` : '—';
+    const methodCls= `method-${l.method||'manual'}`;
+    const statusCls= l.check_out ? 'badge-out' : 'badge-in';
+    const statusTxt= l.check_out ? 'Completed' : 'Inside';
+    return `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:0.6rem">
+            <div class="log-avatar" style="background:${avatarBg};width:30px;height:30px;border-radius:7px;font-size:0.65rem">${avatarHTML}</div>
+            <div>
+              <div style="font-size:0.82rem;font-weight:500;color:var(--text)">${l.member_name||'—'}</div>
+              <div style="font-size:0.68rem;color:var(--text3)">${l.member_code||''}</div>
+            </div>
+          </div>
+        </td>
+        <td style="font-size:0.8rem">${timeIn}</td>
+        <td style="font-size:0.8rem">${timeOut}</td>
+        <td style="font-size:0.78rem;color:var(--cyan)">${dur}</td>
+        <td><span class="method-pill ${methodCls}">${l.method||'manual'}</span></td>
+        <td><span class="badge ${statusCls}">${statusTxt}</span></td>
+      </tr>`;
+  }).join('');
+}
+
+function renderLogsPagination(total, page, pages) {
+  document.getElementById('logsPageInfo').textContent = `${total} records · page ${page} of ${pages}`;
+  const btns = document.getElementById('logsPageBtns');
+  let html = `<button class="page-btn" ${page===1?'disabled':''} onclick="logsGoto(${page-1})"><i class="ti ti-chevron-left"></i></button>`;
+  const s = Math.max(1, page-2), e = Math.min(pages, page+2);
+  for (let i = s; i <= e; i++)
+    html += `<button class="page-btn ${i===page?'active':''}" onclick="logsGoto(${i})">${i}</button>`;
+  html += `<button class="page-btn" ${page===pages?'disabled':''} onclick="logsGoto(${page+1})"><i class="ti ti-chevron-right"></i></button>`;
+  btns.innerHTML = html;
+}
+
+function logsGoto(p) { logsPage = p; loadLogs(); }
+
+function setQuickDate(period, btn) {
+  document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const input = document.getElementById('filterDate');
+  const today = new Date();
+  if (period === 'today') {
+    input.value = todayISO();
+  } else if (period === 'yesterday') {
+    const y = new Date(today); y.setDate(y.getDate()-1);
+    input.value = y.toISOString().split('T')[0];
+  } else if (period === 'week') {
+    input.value = todayISO(); // server-side filtering for week needs different approach
+  } else {
+    input.value = '';
+  }
+  logsPage = 1;
+  loadLogs();
+}
+
+/* ── TREND CHART ─────────────────────────────────── */
+async function loadChart() {
+  const days = parseInt(document.getElementById('chartDays').value);
+  try {
+    const r = await fetch(`${API}/attendance/daily-report?days=${days}`, { headers: hdrs() });
+    const d = await r.json();
+    if (!d.success) return;
+    renderTrendChart(d.data);
+  } catch(e) {
+    renderTrendChart(generateDemoChartData(days));
+  }
+}
+
+function renderTrendChart(data) {
+  const labels = data.map(d => {
+    const dt = new Date(d.date);
+    return dt.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+  });
+  const counts = data.map(d => d.count);
+
+  if (state.trendChart) state.trendChart.destroy();
+  const ctx = document.getElementById('trendChart').getContext('2d');
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 180);
+  gradient.addColorStop(0, 'rgba(59,130,246,0.25)');
+  gradient.addColorStop(1, 'rgba(59,130,246,0)');
+
+  state.trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: counts,
+        borderColor: '#3b82f6',
+        backgroundColor: gradient,
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#3b82f6',
+        pointRadius: 3,
+        pointHoverRadius: 5,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        backgroundColor: '#1c2333',
+        borderColor: 'rgba(59,130,246,0.3)',
+        borderWidth: 1,
+        titleColor: '#e8edf8',
+        bodyColor: '#8494b0',
+        callbacks: {
+          label: ctx => ` ${ctx.raw} check-ins`,
+        }
+      }},
+      scales: {
+        x: { grid: { color:'rgba(255,255,255,0.04)' }, ticks: { color:'#3d4f6a', maxTicksLimit: 8, font:{size:10} } },
+        y: { grid: { color:'rgba(255,255,255,0.04)' }, ticks: { color:'#3d4f6a', font:{size:10} }, beginAtZero:true },
+      },
+    },
+  });
+}
+
+/* ── HEATMAP ─────────────────────────────────────── */
+async function loadHeatmap() {
+  try {
+    const r = await fetch(`${API}/attendance/hourly-heatmap`, { headers: hdrs() });
+    const d = await r.json();
+    if (d.success) renderHeatmap(d.data);
+  } catch(e) {
+    renderHeatmap(generateDemoHeatmap());
+  }
+}
+
+function renderHeatmap(data) {
+  const max = Math.max(...data.map(d => d.count), 1);
+  const grid = document.getElementById('heatmapGrid');
+  grid.innerHTML = data.map(d => {
+    const ratio     = d.count / max;
+    const intensity = Math.round(ratio * 4);
+    const colors    = ['var(--bg3)','rgba(59,130,246,0.15)','rgba(59,130,246,0.35)','rgba(59,130,246,0.65)','var(--cyan)'];
+    const label     = `${d.hour}:00 — ${d.count} check-ins`;
+    const hourLabel = d.hour < 12 ? `${d.hour}am` : d.hour===12 ? '12pm' : `${d.hour-12}pm`;
+    return `<div class="hm-cell" style="background:${colors[intensity]};${intensity>2?'box-shadow:0 0 6px rgba(59,130,246,0.2)':''}" data-tip="${label}" title="${label}">
+      <span style="font-size:0.5rem;color:${intensity>1?'rgba(255,255,255,0.5)':'var(--text3)'}">${hourLabel}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── EXPORT ──────────────────────────────────────── */
+async function exportCSV() {
+  const date   = document.getElementById('filterDate').value;
+  const method = document.getElementById('filterMethod').value;
+  const params = new URLSearchParams({ per_page: 500, ...(date&&{date}), ...(method&&{method}) });
+  try {
+    const r = await fetch(`${API}/attendance/logs?${params}`, { headers: hdrs() });
+    const d = await r.json();
+    if (!d.success || !d.logs.length) { showToast('No data to export', 'error'); return; }
+    const cols = ['member_name','member_code','check_in','check_out','duration_minutes','method'];
+    const rows = [cols.join(',')];
+    d.logs.forEach(l => rows.push(cols.map(c => `"${l[c]||''}"`).join(',')));
+    const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = `attendance_${date||'all'}_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  } catch(e) { showToast('Export failed', 'error'); }
+}
+
+// Mobile Sidebar Controls
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// Shimmering Skeletons
+function showSkeletons() {
+  document.querySelectorAll('.stat-val, .stat-sub, .log-name, .log-meta, .log-time-in, .log-time-out, .log-dur, .page-info, #logCount').forEach(el => {
+    el.classList.add('skeleton');
+  });
+  document.querySelectorAll('.chart-wrap canvas').forEach(canvas => {
+    canvas.style.opacity = '0';
+    if (canvas.parentElement.querySelector('.chart-placeholder')) return;
+    const placeholder = document.createElement('div');
+    placeholder.className = 'chart-placeholder skeleton';
+    placeholder.style.height = canvas.parentElement.style.height || '180px';
+    placeholder.style.width = '100%';
+    placeholder.style.borderRadius = '10px';
+    canvas.parentElement.appendChild(placeholder);
+  });
+}
+
+function hideSkeletons() {
+  document.querySelectorAll('.skeleton').forEach(el => {
+    if (el.classList.contains('chart-placeholder')) {
+      el.remove();
+    } else {
+      el.classList.remove('skeleton');
+    }
+  });
+  document.querySelectorAll('.chart-wrap canvas').forEach(canvas => {
+    canvas.style.opacity = '1';
+  });
+}
+
+async function refreshData() {
+  showSkeletons();
+  try {
+    await Promise.allSettled([
+      loadUser(),
+      loadStats(),
+      loadToday(),
+      loadChart(),
+      loadHeatmap(),
+      loadLogs()
+    ]);
+  } catch(e) {}
+  setTimeout(hideSkeletons, 500);
+}
+
+/* ── BOOT ─────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Set today as default date filter
+  document.getElementById('filterDate').value = todayISO();
+  
+  // Initial load
+  refreshData();
+  
+  // Check tab URL param
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('tab') === 'qr') {
+    switchTab('qr');
+  }
+  
+  // Auto-refresh every 30s
+  state.autoRefreshTimer = setInterval(() => {
+    loadStats();
+    loadToday();
+    loadHeatmap();
+  }, 30000);
+
+  // Event listeners
+  document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', closeSidebar);
+  });
+  document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
+});
+
+const aiQueries = {
+  default: "Analyzing your gym data... Based on current trends: revenue is up 12.4%, morning slots are near capacity, and 14 at-risk members need re-engagement. Your highest-value action this week is converting the 38 monthly members to annual plans before month-end.",
+  tuesday: "Tuesday attendance dips 18% below weekly average. Root cause: most corporate members skip Tuesday evenings. Recommendation — add a 7 PM HIIT class on Tuesdays and send a ₹200 Tuesday-special discount to lapsed members.",
+  churn: "14 members show churn signals: no check-in in 21+ days. Predicted revenue loss: ₹32,400/month. Recommended action: send a personalized WhatsApp with a free PT session offer. Historical win-back rate with this approach: 64%.",
+  revenue: "April revenue projection: ₹5,10,000 (+5.7% vs March). Key drivers: 3 bulk corporate memberships pending + 38 monthly renewals due. Risk: 8 memberships likely to lapse. Net expected: ₹4,95,000."
+};
+
+async function askAI() {
+  const input = document.getElementById('aiInput');
+  const responseEl = document.getElementById('aiResponse');
+  const q = input.value.trim();
+  if(!q) return;
+  responseEl.style.display='block';
+  responseEl.innerHTML='<div class="ai-typing"><span></span><span></span><span></span></div>';
+  input.value='';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:300,
+        messages:[{role:'user',content:`You are an AI assistant for FitCore ERP, a gym management platform. Gym context: 1,284 active members, ₹4,82,500 monthly revenue (↑12.4%), 47 renewals due, 143 attendance today, peak 9-10AM, 14 at-risk members (no check-in 21+ days). Answer this gym owner's question concisely in 2-3 sentences: ${q}`}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || "Unable to get response. Please try again.";
+    responseEl.textContent = text;
+  } catch(e) {
+    const lq = q.toLowerCase();
+    let ans = aiQueries.default;
+    if(lq.includes('tuesday')||lq.includes('tues')) ans = aiQueries.tuesday;
+    else if(lq.includes('churn')||lq.includes('leaving')||lq.includes('risk')) ans = aiQueries.churn;
+    else if(lq.includes('revenue')||lq.includes('money')||lq.includes('earn')) ans = aiQueries.revenue;
+    responseEl.textContent = ans;
+  }
+}
+/* ── HELPERS ─────────────────────────────────────── */
+function todayISO() { return new Date().toISOString().split('T')[0]; }
+
+function formatTime(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+
+function formatDateTime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('en-IN', {
+    day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'
+  });
+}
+
+function avatarGradient(id) {
+  const colors = [
+    'linear-gradient(135deg,#3b82f6,#a78bfa)',
+    'linear-gradient(135deg,#22d3ee,#3b82f6)',
+    'linear-gradient(135deg,#f59e0b,#ef4444)',
+    'linear-gradient(135deg,#34d399,#22d3ee)',
+    'linear-gradient(135deg,#a78bfa,#ec4899)',
+  ];
+  return colors[(id?.charCodeAt(0)||0) % colors.length];
+}
+
+function generateDemoChartData(days) {
+  return Array.from({length:days}, (_,i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (days-1-i));
+    return { date: d.toISOString().split('T')[0], count: Math.floor(Math.random()*30)+5 };
+  });
+}
+
+// Don't generate duplicate functions
+function generateDemoHeatmap() {
+  return Array.from({length:17}, (_,i) => ({
+    hour: i+6,
+    count: [0,1,3,5,8,12,18,22,20,15,10,8,12,20,18,10,5][i] || 0
+  }));
+}
+
+// Toast
+function showToast(msg, type='success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+// Close search on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-member-wrap'))
+    document.getElementById('searchResults').classList.remove('show');
+});
+
+const style = document.createElement('style');
+style.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
