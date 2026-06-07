@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Membership Plans — FitCore ERP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../auth/assets/tabler-icons/tabler-icons.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f;--bg2:#0e1118;--bg3:#151b28;--bg4:#1c2333;
+  --blue:#3b82f6;--cyan:#22d3ee;--violet:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;
+  --text:#e8edf8;--text2:#8494b0;--text3:#3d4f6a;
+  --border:rgba(255,255,255,0.065);--border2:rgba(59,130,246,0.22);
+  --card:rgba(255,255,255,0.025);--card2:rgba(59,130,246,0.07);
+  --r:12px;--r2:18px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;overflow:hidden}
+/* SIDEBAR */
+.sidebar{width:230px;height:100vh;height:100dvh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.sidebar::-webkit-scrollbar{display:none}
+.sb-logo{padding:1.25rem 1.25rem 1rem;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid var(--border)}
+.sb-logo-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:0.95rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif}
+.sb-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-gym{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border)}
+.sb-gym-name{font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:2px}
+.sb-gym-badge{font-size:0.65rem;color:var(--cyan);background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);border-radius:100px;padding:0.15rem 0.5rem;display:inline-block}
+.sb-nav{padding:0.75rem;flex:1}
+.sb-section{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:0.5rem 0.5rem 0.4rem;margin-top:0.5rem}
+.sb-item{display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;border-radius:9px;font-size:0.83rem;color:var(--text2);cursor:pointer;transition:all 0.18s;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:var(--card);color:var(--text)}
+.sb-item.active{background:var(--card2);color:var(--blue);border:1px solid var(--border2)}
+.sb-item i{font-size:16px;width:18px;text-align:center}
+.sb-bottom{padding:0.75rem;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;border-radius:9px;background:var(--card);border:1px solid var(--border)}
+.sb-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;font-family:'Syne',sans-serif}
+.sb-uname{font-size:0.78rem;font-weight:500;color:var(--text)}
+.sb-urole{font-size:0.65rem;color:var(--text3)}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;flex-shrink:0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;flex:1}
+.content{flex:1;overflow-y:auto;padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1.1rem;border-radius:9px;border:none;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,0.35)}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 0.9rem;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.18s}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text);background:var(--card2)}
+/* PLAN CARDS GRID */
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+/* PLAN CARD */
+.plan-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;transition:all 0.25s;position:relative;
+  display:flex;flex-direction:column;
+}
+.plan-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.35)}
+.plan-card.inactive{opacity:0.55}
+.plan-card-accent{height:4px;width:100%}
+.plan-card-body{padding:1.5rem;flex:1}
+.plan-badge{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.2rem 0.65rem;border-radius:100px;
+  font-size:0.68rem;font-weight:600;
+  margin-bottom:0.875rem;
+}
+.plan-name{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;margin-bottom:0.25rem}
+.plan-desc{font-size:0.78rem;color:var(--text3);margin-bottom:1rem;line-height:1.5;min-height:2.4em}
+.plan-price-row{display:flex;align-items:baseline;gap:0.35rem;margin-bottom:0.25rem}
+.plan-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1}
+.plan-currency{font-size:0.9rem;font-weight:600;color:var(--text2);margin-bottom:4px}
+.plan-period{font-size:0.75rem;color:var(--text3)}
+.plan-discount{font-size:0.72rem;color:var(--green);margin-bottom:0.875rem}
+.plan-duration{
+  display:flex;align-items:center;gap:0.4rem;
+  font-size:0.78rem;color:var(--text2);margin-bottom:1rem;
+  padding:0.45rem 0.75rem;background:var(--bg3);border-radius:8px;width:fit-content;
+}
+.plan-features{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.25rem}
+.plan-feature{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--text2)}
+.plan-feature i{font-size:14px;color:var(--green);flex-shrink:0}
+.plan-members{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.6rem 0.875rem;background:var(--bg3);border-radius:10px;
+  font-size:0.78rem;color:var(--text2);margin-bottom:1rem;
+}
+.plan-members strong{color:var(--text)}
+.plan-card-footer{
+  padding:0.875rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:0.5rem;justify-content:flex-end;
+}
+/* ADD PLAN CARD */
+.add-plan-card{
+  background:var(--bg2);border:2px dashed var(--border);border-radius:var(--r2);
+  min-height:280px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:0.75rem;cursor:pointer;transition:all 0.2s;
+  padding:2rem;text-align:center;
+}
+.add-plan-card:hover{border-color:var(--border2);background:var(--card2)}
+.add-plan-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+}
+.add-plan-title{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700}
+.add-plan-sub{font-size:0.78rem;color:var(--text3)}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);width:100%;max-width:560px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+.modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+.modal-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-body{padding:1.5rem;overflow-y:auto;flex:1}
+.modal-body::-webkit-scrollbar{width:4px}
+.modal-body::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;justify-content:flex-end;flex-shrink:0}
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:0.4rem}
+.form-label{font-size:0.78rem;font-weight:500;color:var(--text2)}
+.req{color:var(--red)}
+.form-control{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:0.65rem 0.875rem;font-size:0.85rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border 0.2s;width:100%}
+.form-control::placeholder{color:var(--text3)}
+.form-control:focus{border-color:var(--border2);box-shadow:0 0 0 3px rgba(59,130,246,0.08)}
+/* Color picker */
+.color-picker-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.4rem}
+.color-opt{width:28px;height:28px;border-radius:7px;cursor:pointer;transition:all 0.15s;border:2px solid transparent}
+.color-opt:hover{transform:scale(1.15)}
+.color-opt.selected{border-color:#fff;transform:scale(1.15)}
+/* Feature tags */
+.feature-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
+.feature-tag{
+  display:flex;align-items:center;gap:0.3rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:100px;
+  padding:0.2rem 0.6rem;font-size:0.75rem;color:var(--text2);
+}
+.feature-tag button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:0;line-height:1}
+.feature-tag button:hover{color:var(--red)}
+.feature-add-row{display:flex;gap:0.5rem;margin-top:0.5rem}
+.feature-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:0.55rem 0.75rem;font-size:0.82rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border 0.2s}
+.feature-input:focus{border-color:var(--border2)}
+/* Plan preview */
+.plan-preview-wrap{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);
+  padding:1.25rem;margin-top:1rem;
+}
+.preview-label{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:0.875rem}
+/* CONFIRM */
+.confirm-modal .modal{max-width:420px}
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem}
+.toast{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--text);display:flex;align-items:center;gap:0.65rem;min-width:260px;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:slide-in 0.3s ease}
+.toast.success{border-color:rgba(52,211,153,0.3)}
+.toast.error{border-color:rgba(248,113,113,0.3)}
+@keyframes slide-in{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;animation:spin 0.7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* EMPTY */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2)}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:0.3}
+.empty-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem}
+.empty-sub{font-size:0.85rem;color:var(--text3);margin-bottom:1.5rem}
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;gap:0.75rem}
+.toggle{position:relative;width:40px;height:22px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--bg4);border-radius:100px;transition:0.25s;border:1px solid var(--border)}
+.toggle input:checked+.toggle-slider{background:var(--blue)}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:50%;transform:translateY(-50%);border-radius:50%;background:#fff;transition:0.25s}
+.toggle input:checked+.toggle-slider::before{left:20px}
+.toggle-label{font-size:0.78rem;color:var(--text2)}
+
+/* Shimmering Skeleton Loader */
+.skeleton {
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.skeleton * {
+  visibility: hidden !important;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Mobile Stacking & Overlay Styling */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(6,8,15,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:999;display:none;opacity:0;transition:opacity 0.3s ease}
+.sidebar-overlay.active{display:block;opacity:1}
+.sb-toggle{display:none}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:-240px;height:100vh;height:100dvh;z-index:1000;transition:left 0.3s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:10px 0 30px rgba(0,0,0,0.5)}
+  .sidebar.active{left:0}
+  .sb-toggle{display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;margin-right:0.5rem;width:32px;height:32px;border-radius:6px;transition:background 0.2s}
+  .sb-toggle:hover{background:var(--card)}
+  
+  .topbar{padding:0 1rem;gap:0.5rem}
+  .content{padding:1rem 1rem 90px 1rem;gap:1rem}
+  
+  .plans-grid{grid-template-columns:1fr;gap:1rem}
+  .form-grid{grid-template-columns:1fr;gap:1rem}
+  
+  .form-control, .feature-input, select {
+    font-size: 16px !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-icon">F</div><span class="sb-logo-text">FitCore ERP</span></div>
+  <div class="sb-gym"><div class="sb-gym-name" id="gymName">—</div><span class="sb-gym-badge" id="gymPlan">—</span></div>
+  <div class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a href="../fitcore_crm_dashboard.html" class="sb-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a href="../members/members.html"       class="sb-item"><i class="ti ti-users"></i> Members</a>
+    <a href="../attendance/attendance.html" class="sb-item"><i class="ti ti-calendar-check"></i> Attendance</a>
+    <a href="billing.html"                   class="sb-item"><i class="ti ti-credit-card"></i> Billing</a>
+    <a href="../attendance/attendance.html?tab=qr" class="sb-item"><i class="ti ti-qrcode"></i> QR Check-in</a>
+    <div class="sb-section">Management</div>
+    <a href="../trainers/trainers.html"     class="sb-item"><i class="ti ti-barbell"></i> Trainers</a>
+    <a href="../workouts/workouts.html"     class="sb-item"><i class="ti ti-clipboard-list"></i> Workout Plans</a>
+    <a href="../diets/diets.html"           class="sb-item"><i class="ti ti-salad"></i> Diet Plans</a>
+    <a href="../leads/whatsapp.html"        class="sb-item"><i class="ti ti-target"></i> Lead CRM</a>
+    <div class="sb-section">Analytics</div>
+    <a href="../reports/reports.html"       class="sb-item"><i class="ti ti-chart-bar"></i> Reports</a>
+    <a href="../ai/ai.html"                 class="sb-item"><i class="ti ti-robot"></i> AI Insights</a>
+    <a href="../branches/branches.html"     class="sb-item"><i class="ti ti-building"></i> Branches</a>
+    <a href="../settings/settings.html"     class="sb-item"><i class="ti ti-settings"></i> Settings</a>
+  </div>
+  <div class="sb-bottom">
+    <div class="sb-user"><div class="sb-avatar" id="sbAvatar">FC</div><div><div class="sb-uname" id="sbName">—</div><div class="sb-urole" id="sbRole">—</div></div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <button class="sb-toggle" id="sbToggle" aria-label="Toggle Navigation"><i class="ti ti-menu-2"></i></button>
+    <div class="topbar-title">Membership Plans</div>
+    <div class="toggle-wrap">
+      <label class="toggle"><input type="checkbox" id="showInactive" onchange="loadPlans()"/><span class="toggle-slider"></span></label>
+      <span class="toggle-label">Show inactive</span>
+    </div>
+    <button class="btn-primary" onclick="openAddModal()"><i class="ti ti-plus"></i> New Plan</button>
+  </div>
+
+  <div class="content">
+    <div class="plans-grid" id="plansGrid">
+      <!-- populated by JS -->
+      <div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--text3)">Loading plans…</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="overlay" id="planModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Create New Plan</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label class="form-label">Plan Name <span class="req">*</span></label>
+          <input type="text" id="f_name" class="form-control" placeholder="e.g. Monthly Premium"/>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Description</label>
+          <input type="text" id="f_description" class="form-control" placeholder="Short description for members…"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price (₹) <span class="req">*</span></label>
+          <input type="number" id="f_price" class="form-control" placeholder="1499" min="0" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Discount (₹)</label>
+          <input type="number" id="f_discount" class="form-control" placeholder="0" min="0" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration (days) <span class="req">*</span></label>
+          <input type="number" id="f_duration_days" class="form-control" placeholder="30" min="1" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="f_is_active" class="form-control">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Accent Color</label>
+          <div class="color-picker-row" id="colorPicker"></div>
+          <input type="hidden" id="f_color" value="#3b82f6"/>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Features / Inclusions</label>
+          <div class="feature-tags" id="featureTags"></div>
+          <div class="feature-add-row">
+            <input type="text" class="feature-input" id="featureInput" placeholder="e.g. Unlimited classes, Sauna access…" onkeydown="if(event.key==='Enter'){event.preventDefault();addFeature()}"/>
+            <button class="btn-ghost" onclick="addFeature()" style="padding:0.5rem 0.875rem"><i class="ti ti-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live preview -->
+      <div class="plan-preview-wrap" id="previewWrap">
+        <div class="preview-label">Preview</div>
+        <div id="previewCard"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" id="saveBtn" onclick="savePlan()"><i class="ti ti-check"></i> Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="overlay confirm-modal" id="confirmModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Delete Plan</div>
+      <button class="modal-close" onclick="closeConfirm()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:2rem">
+      <div style="font-size:2.5rem;margin-bottom:1rem">⚠️</div>
+      <div style="font-size:0.9rem;font-weight:500;color:var(--text);margin-bottom:0.5rem" id="confirmPlanName">Plan Name</div>
+      <div style="font-size:0.82rem;color:var(--text2)">If this plan has active members, it will be <strong style="color:var(--amber)">deactivated</strong> instead of deleted to preserve billing history.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-primary" id="confirmDeleteBtn" style="background:linear-gradient(135deg,#ef4444,#f87171)" onclick="confirmDelete()">Delete Plan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API   = 'http://127.0.0.1:5000/api/v1';
+const TOKEN = () => localStorage.getItem('fitcore_access_token');
+const hdrs  = () => ({'Content-Type':'application/json','Authorization':`Bearer ${TOKEN()}`});
+
+const COLORS = ['#3b82f6','#22d3ee','#a78bfa','#34d399','#f59e0b','#f87171','#ec4899','#6366f1','#14b8a6','#f97316'];
+const PRESET_FEATURES = ['Unlimited classes','Personal trainer','Nutrition plan','Sauna access','Swimming pool','Group classes','Locker access','Parking','Diet consultation','Body assessment'];
+
+let state = { plans:[], editingId:null, deletingId:null, features:[], selectedColor:'#3b82f6' };
+
+// Mobile Sidebar Controls
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// Shimmering Skeletons
+function showSkeletons() {
+  document.getElementById('plansGrid').innerHTML = Array.from({length: 3}, () => `
+    <div class="plan-card skeleton" style="min-height:280px"></div>
+  `).join('');
+}
+
+async function refreshData() {
+  showSkeletons();
+  try {
+    await Promise.allSettled([
+      loadUser(),
+      loadPlans()
+    ]);
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  //if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
+  refreshData();
+  buildColorPicker();
+
+  // Event listeners
+  document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', closeSidebar);
+  });
+  document.getElementById('sbToggle')?.addEventListener('click', toggleSidebar);
+});
+
+async function loadUser() {
+  try {
+    const r = await fetch(`${API}/auth/me`, {headers:hdrs()});
+    const d = await r.json();
+    if (d.success) {
+      const u = d.user;
+      document.getElementById('sbAvatar').textContent = (u.first_name[0]+(u.last_name?.[0]||'')).toUpperCase();
+      document.getElementById('sbName').textContent   = u.full_name;
+      document.getElementById('sbRole').textContent   = u.role.replace('_',' ');
+      if (u.gym) {
+        document.getElementById('gymName').textContent = u.gym.name;
+        document.getElementById('gymPlan').textContent = u.gym.plan+' plan';
+      }
+    }
+  } catch(e){}
+}
+
+async function loadPlans() {
+  const showInactive = document.getElementById('showInactive').checked;
+  try {
+    const r = await fetch(`${API}/plans/?include_inactive=${showInactive}`, {headers:hdrs()});
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    state.plans = d.plans;
+  } catch(e) {
+    // Demo data when backend not running
+    state.plans = getDemoPlans();
+  }
+  setTimeout(renderPlans, 500);
+}
+
+function getDemoPlans() {
+  return [
+    {id:'demo-1',name:'Monthly',description:'Perfect for short-term commitment',duration_days:30,price:999,discount:0,features:['Unlimited gym access','Locker access','Body assessment'],is_active:true,color:'#3b82f6',member_count:42},
+    {id:'demo-2',name:'Quarterly',description:'Best value for regular members',duration_days:90,price:2499,discount:200,features:['Unlimited gym access','Group classes','Personal trainer (2/month)','Sauna access'],is_active:true,color:'#22d3ee',member_count:87},
+    {id:'demo-3',name:'Annual',description:'Maximum savings for committed members',duration_days:365,price:7999,discount:1000,features:['Unlimited gym access','Unlimited group classes','Personal trainer (4/month)','Sauna & pool access','Diet consultation','Priority booking'],is_active:true,color:'#a78bfa',member_count:34},
+    {id:'demo-4',name:'Student',description:'Discounted plan for students with valid ID',duration_days:30,price:599,discount:0,features:['Gym access (7am-5pm)','Locker access'],is_active:true,color:'#34d399',member_count:18},
+  ];
+}
+
+function renderPlans() {
+  const grid = document.getElementById('plansGrid');
+  const html = state.plans.map(p => buildPlanCard(p)).join('');
+  grid.innerHTML = html + `
+    <div class="add-plan-card" onclick="openAddModal()">
+      <div class="add-plan-icon"><i class="ti ti-plus" style="color:var(--blue)"></i></div>
+      <div class="add-plan-title">Create New Plan</div>
+      <div class="add-plan-sub">Add monthly, quarterly, annual or custom plans</div>
+    </div>`;
+}
+
+function buildPlanCard(p) {
+  const effectivePrice = p.price - (p.discount||0);
+  const durationLabel  = p.duration_days === 30 ? 'Monthly' : p.duration_days === 90 ? 'Quarterly' : p.duration_days === 365 ? 'Annual' : `${p.duration_days} days`;
+  const featuresHtml   = (p.features||[]).map(f =>
+    `<div class="plan-feature"><i class="ti ti-check"></i>${f}</div>`
+  ).join('');
+  const discountHtml   = p.discount > 0
+    ? `<div class="plan-discount"><i class="ti ti-tag" style="font-size:11px"></i> Save ₹${Number(p.discount).toLocaleString()}</div>` : '';
+  return `
+    <div class="plan-card ${p.is_active?'':'inactive'}">
+      <div class="plan-card-accent" style="background:linear-gradient(90deg,${p.color},${p.color}88)"></div>
+      <div class="plan-card-body">
+        <div class="plan-badge" style="background:${p.color}18;color:${p.color}">
+          <i class="ti ti-clock" style="font-size:11px"></i> ${durationLabel}
+        </div>
+        <div class="plan-name">${p.name}</div>
+        <div class="plan-desc">${p.description||'—'}</div>
+        <div class="plan-price-row">
+          <span class="plan-currency">₹</span>
+          <span class="plan-price" style="color:${p.color}">${Number(effectivePrice).toLocaleString()}</span>
+          ${p.discount > 0 ? `<span style="font-size:0.78rem;color:var(--text3);text-decoration:line-through;margin-left:4px">₹${Number(p.price).toLocaleString()}</span>` : ''}
+        </div>
+        <div class="plan-period" style="margin-bottom:0.75rem">per ${p.duration_days} days</div>
+        ${discountHtml}
+        <div class="plan-duration"><i class="ti ti-calendar" style="font-size:14px;color:${p.color}"></i>${p.duration_days} days validity</div>
+        ${featuresHtml ? `<div class="plan-features">${featuresHtml}</div>` : ''}
+        <div class="plan-members">
+          <i class="ti ti-users" style="font-size:14px;color:var(--blue)"></i>
+          <span><strong>${p.member_count||0}</strong> active members</span>
+          ${!p.is_active ? '<span style="margin-left:auto;font-size:0.68rem;color:var(--red);font-weight:600">INACTIVE</span>' : ''}
+        </div>
+      </div>
+      <div class="plan-card-footer">
+        <button class="btn-ghost" style="font-size:0.78rem" onclick="openEditModal('${p.id}')"><i class="ti ti-pencil"></i> Edit</button>
+        <button class="btn-ghost" style="font-size:0.78rem;border-color:rgba(248,113,113,0.2);color:var(--red)" onclick="openConfirm('${p.id}','${p.name}')"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function buildColorPicker() {
+  document.getElementById('colorPicker').innerHTML = COLORS.map(c =>
+    `<div class="color-opt ${c===state.selectedColor?'selected':''}"
+      style="background:${c}" onclick="selectColor('${c}')" title="${c}"></div>`
+  ).join('');
+}
+
+function selectColor(c) {
+  state.selectedColor = c;
+  document.getElementById('f_color').value = c;
+  document.querySelectorAll('.color-opt').forEach(el => {
+    el.classList.toggle('selected', el.style.background === c || el.style.backgroundColor === c);
+  });
+  updatePreview();
+}
+
+function openAddModal() {
+  state.editingId = null;
+  state.features  = [];
+  state.selectedColor = '#3b82f6';
+  document.getElementById('modalTitle').textContent = 'Create New Plan';
+  document.getElementById('saveBtn').innerHTML = '<i class="ti ti-check"></i> Save Plan';
+  resetForm();
+  buildColorPicker();
+  document.getElementById('planModal').classList.add('open');
+  updatePreview();
+}
+
+function openEditModal(planId) {
+  const p = state.plans.find(x => x.id === planId);
+  if (!p) return;
+  state.editingId     = planId;
+  state.features      = [...(p.features||[])];
+  state.selectedColor = p.color || '#3b82f6';
+  document.getElementById('modalTitle').textContent = 'Edit Plan';
+  document.getElementById('saveBtn').innerHTML = '<i class="ti ti-check"></i> Update Plan';
+  resetForm();
+  document.getElementById('f_name').value          = p.name;
+  document.getElementById('f_description').value   = p.description||'';
+  document.getElementById('f_price').value          = p.price;
+  document.getElementById('f_discount').value       = p.discount||0;
+  document.getElementById('f_duration_days').value  = p.duration_days;
+  document.getElementById('f_is_active').value      = String(p.is_active);
+  document.getElementById('f_color').value          = p.color||'#3b82f6';
+  buildColorPicker();
+  renderFeatureTags();
+  document.getElementById('planModal').classList.add('open');
+  updatePreview();
+}
+
+function closeModal() { document.getElementById('planModal').classList.remove('open'); }
+
+function resetForm() {
+  ['f_name','f_description','f_price','f_discount','f_duration_days'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('f_is_active').value = 'true';
+  document.getElementById('f_color').value      = '#3b82f6';
+  state.features = [];
+  renderFeatureTags();
+}
+
+// Feature tags
+function addFeature() {
+  const input = document.getElementById('featureInput');
+  const val   = input.value.trim();
+  if (!val || state.features.includes(val)) return;
+  state.features.push(val);
+  input.value = '';
+  renderFeatureTags();
+  updatePreview();
+}
+function removeFeature(i) {
+  state.features.splice(i, 1);
+  renderFeatureTags();
+  updatePreview();
+}
+function renderFeatureTags() {
+  const el = document.getElementById('featureTags');
+  el.innerHTML = state.features.map((f,i) =>
+    `<div class="feature-tag">${f}<button onclick="removeFeature(${i})"><i class="ti ti-x"></i></button></div>`
+  ).join('');
+}
+
+// Live preview
+function updatePreview() {
+  const name     = document.getElementById('f_name').value || 'Plan Name';
+  const price    = parseFloat(document.getElementById('f_price').value) || 0;
+  const discount = parseFloat(document.getElementById('f_discount').value) || 0;
+  const days     = parseInt(document.getElementById('f_duration_days').value) || 30;
+  const desc     = document.getElementById('f_description').value || '';
+  const color    = document.getElementById('f_color').value || state.selectedColor;
+  const effective= price - discount;
+  const featHtml = state.features.map(f =>
+    `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)"><i class="ti ti-check" style="font-size:13px;color:var(--green)"></i>${f}</div>`
+  ).join('');
+  document.getElementById('previewCard').innerHTML = `
+    <div style="background:var(--bg4);border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)">
+      <div style="height:3px;background:linear-gradient(90deg,${color},${color}66)"></div>
+      <div style="padding:1rem">
+        <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:0.25rem">${name}</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-bottom:0.75rem">${desc}</div>
+        <div style="display:flex;align-items:baseline;gap:0.25rem;margin-bottom:0.25rem">
+          <span style="font-size:0.8rem;color:var(--text2)">₹</span>
+          <span style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:${color}">${Number(effective).toLocaleString()}</span>
+          ${discount>0?`<span style="font-size:0.72rem;color:var(--text3);text-decoration:line-through">₹${Number(price).toLocaleString()}</span>`:''}
+        </div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-bottom:0.75rem">per ${days} days</div>
+        ${featHtml ? `<div style="display:flex;flex-direction:column;gap:0.3rem">${featHtml}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+async function savePlan() {
+  const name  = document.getElementById('f_name').value.trim();
+  const price = document.getElementById('f_price').value;
+  const days  = document.getElementById('f_duration_days').value;
+  if (!name || !price || !days) { showToast('Name, price and duration are required.','error'); return; }
+
+  const payload = {
+    name,
+    description:   document.getElementById('f_description').value.trim(),
+    price:         parseFloat(price),
+    discount:      parseFloat(document.getElementById('f_discount').value)||0,
+    duration_days: parseInt(days),
+    is_active:     document.getElementById('f_is_active').value === 'true',
+    color:         document.getElementById('f_color').value||state.selectedColor,
+    features:      [...state.features],
+  };
+
+  const btn  = document.getElementById('saveBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Saving…';
+
+  try {
+    const url    = state.editingId ? `${API}/plans/${state.editingId}` : `${API}/plans/`;
+    const method = state.editingId ? 'PUT' : 'POST';
+    const r = await fetch(url, {method, headers:hdrs(), body:JSON.stringify(payload)});
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error);
+    closeModal();
+    showToast(state.editingId ? 'Plan updated!' : 'Plan created!', 'success');
+    loadPlans();
+  } catch(e) {
+    // Demo mode — update local state
+    if (state.editingId) {
+      const idx = state.plans.findIndex(x => x.id === state.editingId);
+      if (idx > -1) state.plans[idx] = {...state.plans[idx], ...payload};
+    } else {
+      state.plans.push({id:'demo-'+Date.now(), ...payload, member_count:0});
+    }
+    closeModal();
+    showToast(state.editingId ? 'Plan updated!' : 'Plan created!', 'success');
+    renderPlans();
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+
+// Delete
+function openConfirm(id, name) {
+  state.deletingId = id;
+  document.getElementById('confirmPlanName').textContent = name;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeConfirm() { document.getElementById('confirmModal').classList.remove('open'); }
+async function confirmDelete() {
+  const btn = document.getElementById('confirmDeleteBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+  try {
+    const r = await fetch(`${API}/plans/${state.deletingId}`, {method:'DELETE', headers:hdrs()});
+    const d = await r.json();
+    closeConfirm();
+    showToast(d.message || 'Plan removed.', 'success');
+    loadPlans();
+  } catch(e) {
+    state.plans = state.plans.filter(p => p.id !== state.deletingId);
+    closeConfirm();
+    showToast('Plan removed.','success');
+    renderPlans();
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Delete Plan';
+  }
+}
+
+function showToast(msg, type='success') {
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+// Input listeners for preview
+['f_name','f_description','f_price','f_discount','f_duration_days'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updatePreview);
+});
+</script>
+</body>
+</html>
