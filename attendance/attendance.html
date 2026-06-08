@@ -677,10 +677,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
         <div class="date-bar">
           <input type="date" class="date-input" id="filterDate" onchange="loadLogs()"/>
           <div class="quick-btns">
-            <button class="qbtn active" onclick="setQuickDate('today', this)">Today</button>
+            <button class="qbtn" onclick="setQuickDate('today', this)">Today</button>
             <button class="qbtn" onclick="setQuickDate('yesterday', this)">Yesterday</button>
             <button class="qbtn" onclick="setQuickDate('week', this)">This Week</button>
-            <button class="qbtn" onclick="setQuickDate('', this)">All</button>
+            <button class="qbtn active" onclick="setQuickDate('', this)">All</button>
           </div>
           <select class="date-input" id="filterMethod" onchange="loadLogs()">
             <option value="">All Methods</option>
@@ -1413,8 +1413,8 @@ async function refreshData() {
 
 /* ── BOOT ─────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Set today as default date filter
-  document.getElementById('filterDate').value = todayISO();
+  // Set default date filter to empty (All)
+  document.getElementById('filterDate').value = '';
   
   // Initial load
   refreshData();
