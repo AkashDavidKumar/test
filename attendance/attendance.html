@@ -741,24 +741,7 @@ let state = {
   autoRefreshTimer: null,
 };
 
-/* ── BOOT ─────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  //if (!TOKEN()) { window.location.href = '../auth/login.html'; return; }
-  loadUser();
-  loadStats();
-  loadToday();
-  loadChart();
-  loadHeatmap();
-  loadLogs();
-  // Set today as default date filter
-  document.getElementById('filterDate').value = todayISO();
-  // Auto-refresh every 30s
-  state.autoRefreshTimer = setInterval(() => {
-    loadStats();
-    loadToday();
-    loadHeatmap();
-  }, 30000);
-});
+
 
 /* ── USER ─────────────────────────────────────────── */
 async function loadUser() {
