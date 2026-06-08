@@ -1178,40 +1178,44 @@ async function loadLogs() {
 
 function renderLogsTable(logs) {
   const tbody = document.getElementById('logsTbody');
-  if (!logs.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3)">No records found</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = logs.map(l => {
-    const initials = (l.member_name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-    const avatarBg = avatarGradient(l.member_id);
-    const avatarHTML = l.photo_url
-      ? `<img src="${l.photo_url}" alt="${l.member_name}" style="width:100%;height:100%;object-fit:cover;border-radius:7px"/>`
-      : initials;
-    const timeIn   = l.check_in  ? formatDateTime(l.check_in)  : '—';
-    const timeOut  = l.check_out ? formatDateTime(l.check_out) : `<span style="color:var(--green);font-size:0.72rem">● Still inside</span>`;
-    const dur      = l.duration_minutes ? `${l.duration_minutes} min` : '—';
-    const methodCls= `method-${l.method||'manual'}`;
-    const statusCls= l.check_out ? 'badge-out' : 'badge-in';
-    const statusTxt= l.check_out ? 'Completed' : 'Inside';
-    return `
-      <tr>
-        <td>
-          <div style="display:flex;align-items:center;gap:0.6rem">
-            <div class="log-avatar" style="background:${avatarBg};width:30px;height:30px;border-radius:7px;font-size:0.65rem">${avatarHTML}</div>
-            <div>
-              <div style="font-size:0.82rem;font-weight:500;color:var(--text)">${l.member_name||'—'}</div>
-              <div style="font-size:0.68rem;color:var(--text3)">${l.member_code||''}</div>
+  try {
+    if (!logs || !logs.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3)">No records found</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = logs.map(l => {
+      const initials = (l.member_name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+      const avatarBg = avatarGradient(l.member_id);
+      const avatarHTML = l.photo_url
+        ? `<img src="${l.photo_url}" alt="${l.member_name}" style="width:100%;height:100%;object-fit:cover;border-radius:7px"/>`
+        : initials;
+      const timeIn   = l.check_in  ? formatDateTime(l.check_in)  : '—';
+      const timeOut  = l.check_out ? formatDateTime(l.check_out) : `<span style="color:var(--green);font-size:0.72rem">● Still inside</span>`;
+      const dur      = l.duration_minutes ? `${l.duration_minutes} min` : '—';
+      const methodCls= `method-${l.method||'manual'}`;
+      const statusCls= l.check_out ? 'badge-out' : 'badge-in';
+      const statusTxt= l.check_out ? 'Completed' : 'Inside';
+      return `
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.6rem">
+              <div class="log-avatar" style="background:${avatarBg};width:30px;height:30px;border-radius:7px;font-size:0.65rem">${avatarHTML}</div>
+              <div>
+                <div style="font-size:0.82rem;font-weight:500;color:var(--text)">${l.member_name||'—'}</div>
+                <div style="font-size:0.68rem;color:var(--text3)">${l.member_code||''}</div>
+              </div>
             </div>
-          </div>
-        </td>
-        <td style="font-size:0.8rem">${timeIn}</td>
-        <td style="font-size:0.8rem">${timeOut}</td>
-        <td style="font-size:0.78rem;color:var(--cyan)">${dur}</td>
-        <td><span class="method-pill ${methodCls}">${l.method||'manual'}</span></td>
-        <td><span class="badge ${statusCls}">${statusTxt}</span></td>
-      </tr>`;
-  }).join('');
+          </td>
+          <td style="font-size:0.8rem">${timeIn}</td>
+          <td style="font-size:0.8rem">${timeOut}</td>
+          <td style="font-size:0.78rem;color:var(--cyan)">${dur}</td>
+          <td><span class="method-pill ${methodCls}">${l.method||'manual'}</span></td>
+          <td><span class="badge ${statusCls}">${statusTxt}</span></td>
+        </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Error: ${err.message}</td></tr>`;
+  }
 }
 
 function renderLogsPagination(total, page, pages) {
@@ -1481,15 +1485,32 @@ function todayISO() { return new Date().toISOString().split('T')[0]; }
 
 function formatTime(iso) {
   if (!iso) return '—';
-  return new Date(iso).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  const d = new Date(iso);
+  try {
+    return d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  } catch (e) {
+    try {
+      return d.toLocaleTimeString();
+    } catch (err) {
+      return d.toTimeString().slice(0, 5);
+    }
+  }
 }
 
 function formatDateTime(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
-  return d.toLocaleString('en-IN', {
-    day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'
-  });
+  try {
+    return d.toLocaleString('en-IN', {
+      day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'
+    });
+  } catch (e) {
+    try {
+      return d.toLocaleString();
+    } catch (err) {
+      return d.toString().slice(0, 21);
+    }
+  }
 }
 
 function avatarGradient(id) {
